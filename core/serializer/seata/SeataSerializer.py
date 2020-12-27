@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+from core.ByteBuffer import ByteBuffer
 from core.protocol.MessageType import MessageType
 from core.protocol.MessageTypeAware import MessageTypeAware
 from core.serializer.seata.MessageCodecFactory import MessageCodecFactory
@@ -17,10 +18,29 @@ class SeataSerializer(object):
             raise ValueError("message isn't available.")
         type_code = t.get_type_code()
         msg_codec = MessageCodecFactory.get_message_codec(type_code)
+        bb = ByteBuffer()
+        msg_codec.encode(t, bb)
 
+        content_bb = ByteBuffer()
+        content_bb.put_int16(type_code)
+        content_bb.put(bb.array())
 
+        return content_bb.array()
 
-        return None
+    def deserialize(self, byte_array):
+        if byte_array is None or len(byte_array) == 0:
+            raise ValueError("Nothing to decode.")
+        if len(byte_array) < 2:
+            raise ValueError("byte array isn't available for decode.")
+        bb = ByteBuffer()
+        bb.put(byte_array)
+        type_code = bb.get_int16()
+        body = bytearray(bb.readable_bytes())
+        bb.get(body)
 
-    def deserialize(self, v):
+        new_bb = ByteBuffer()
+        new_bb.put(body)
+        message = MessageCodecFactory.get_message(type_code)
+        message_codec = MessageCodecFactory.get_message_codec(type_code)
+        message_codec.decode(message, new_bb)
         return None
