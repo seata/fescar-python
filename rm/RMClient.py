@@ -2,7 +2,6 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-
 from twisted.internet import reactor
 import threading
 import time
@@ -23,10 +22,11 @@ def do_heart(factory):  # 每隔 5秒 向服务器发送消息
             time.sleep(5)
 
 
-class TMClient(object):
+class RMClient(object):
 
-    def __init__(self):
-        pass
+    def __init__(self, application_id, transaction_service_group):
+        self.appliction_id = application_id
+        self.transaction_service_group = transaction_service_group
 
     def init_client(self, host="localhost", port=8091):
         # 程序启动
@@ -43,4 +43,4 @@ class TMClient(object):
         if factory.protocol and factory.protocol.connected:
             factory.protocol.encode(msg)
         else:
-            print("tm client connection lost...")
+            print("rm client connection lost...")

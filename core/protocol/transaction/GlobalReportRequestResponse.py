@@ -22,6 +22,7 @@ class GlobalReportResponse(MessageTypeAware):
     def __init__(self):
         self.global_status = None
 
+        self.transaction_exception_code = None
         self.result_code = None
         self.msg = None
 

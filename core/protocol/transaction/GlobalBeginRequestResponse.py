@@ -22,6 +22,7 @@ class GlobalBeginResponse(MessageTypeAware):
         self.xid = None
         self.extra_data = None
 
+        self.transaction_exception_code = None
         self.result_code = None
         self.msg = None
 

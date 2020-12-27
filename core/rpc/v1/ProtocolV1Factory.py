@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+import time
 from twisted.internet.protocol import ClientFactory, Protocol
 
 from core.compressor.CompressorFactory import CompressorFactory
@@ -17,6 +18,7 @@ class V1(Protocol):
     # 初始无连接
     def __init__(self):
         self.connected = False
+        self.req_id_map = dict()
 
     # 连接时调用 - 状态变化
     def connectionMade(self):
@@ -30,7 +32,8 @@ class V1(Protocol):
     def dataReceived(self, data):
         bb = ByteBuffer()
         bb.put(bytearray(data))
-        self.decode(bb)
+        response = self.decode(bb)
+        self.req_id_map[response.id] = response
 
     def decode(self, bb):
         magic = bytearray(len(ProtocolConstants.MAGIC_CODE_BYTES))
@@ -54,7 +57,6 @@ class V1(Protocol):
         head_map_length = head_length - ProtocolConstants.V1_HEAD_LENGTH
         if head_map_length > 0:
             if bb.readable_bytes() > 0:
-                head_map = dict()
                 head_bytearray = bytearray(head_map_length)
                 bb.get(head_bytearray)
                 head_bytebuffer = ByteBuffer(head_bytearray)
@@ -113,6 +115,16 @@ class V1(Protocol):
         result.put_int32(rpc_message.id)
         result.put(bb.array())
         self.transport.write(result.array())
+        self.req_id_map[rpc_message.id] = None
+        timeout = 0
+        while self.req_id_map[rpc_message.id] is None and timeout <= 30:
+            timeout += 1
+            time.sleep(1)
+        response = self.req_id_map[rpc_message.id]
+        if response is None and timeout > 30:
+            raise TimeoutError()
+        self.req_id_map.pop(rpc_message, None)
+        return response
 
 
 class ProtocolV1Factory(ClientFactory):

@@ -26,6 +26,7 @@ class BranchReportResponse(MessageTypeAware):
     def __init__(self):
         self.branch_id = 0
 
+        self.transaction_exception_code = None
         self.result_code = None
         self.msg = None
 

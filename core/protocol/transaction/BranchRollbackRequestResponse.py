@@ -27,6 +27,7 @@ class BranchRollbackResponse(MessageTypeAware):
         self.branch_id = 0
         self.branch_status = None
 
+        self.transaction_exception_code = None
         self.result_code = None
         self.msg = None
 

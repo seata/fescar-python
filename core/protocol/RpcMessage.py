@@ -2,9 +2,10 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-
+import threading
 
 atom = 0
+lock = threading.RLock()
 
 
 class RpcMessage(object):
@@ -23,7 +24,8 @@ class RpcMessage(object):
 
     @staticmethod
     def get_id():
-        global atom
-        atom = (atom + 1) & 0x7FFFFFFF
+        global atom, lock
+        with lock:
+            atom = (atom + 1) & 0x7FFFFFFF
         return atom
 

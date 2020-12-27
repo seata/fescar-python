@@ -25,6 +25,7 @@ class GlobalLockQueryResponse(MessageTypeAware):
     def __init__(self):
         self.lockable = False
 
+        self.transaction_exception_code = None
         self.result_code = None
         self.msg = None
 
