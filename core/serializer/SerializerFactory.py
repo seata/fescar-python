@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-from core.serializer import SeataSerializer
+from core.serializer.seata import SeataSerializer
 from exception.NotSupportYetException import NotSupportYetException
 
 
