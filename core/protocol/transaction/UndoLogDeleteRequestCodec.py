@@ -40,7 +40,7 @@ class UndoLogDeleteRequestCodec(object):
             return
         resource_id_ba = bytearray(resource_id_len)
         in_buffer.get(resource_id_ba)
-        t.resource_id = str(resource_id_ba)
+        t.resource_id = resource_id_ba.decode(encoding="utf-8")
         if in_buffer.readable_bytes() < 2:
             return
         t.save_days = in_buffer.get_int16()

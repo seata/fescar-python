@@ -9,9 +9,9 @@ class ResultCode(Enum):
     """
     Failed result code.
     """
-    Failed = 1
+    Failed = 0
     """
     Success result code.
     """
-    Success = 2
+    Success = 1
 

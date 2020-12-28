@@ -22,4 +22,4 @@ class AbstractTransactionResponseCodec(object):
         if not isinstance(in_buffer, ByteBuffer):
             raise TypeError("in_buffer is not ByteBuffer class")
         AbstractResultMessageCodec.decode(t, in_buffer)
-        t.transaction_exception_code = TransactionExceptionCode[in_buffer.get_int8()]
+        t.transaction_exception_code = TransactionExceptionCode(in_buffer.get_int8())

@@ -11,17 +11,29 @@ from core.protocol.HeartbeatMessage import HeartbeatMessage
 from core.protocol.RegisterTMRequestResponse import RegisterTMRequest
 from core.rpc.v1.ProtocolV1Factory import ProtocolV1Factory
 
-bStop = False
 factory = None
 
 
 def do_heart(factory):  # 每隔 5秒 向服务器发送消息
-    while not bStop:
-        # 判断连接状态（factory.protocol.connected），决定是否向服务器发送消息
-        if factory.protocol and factory.protocol.connected:
-            hb = HeartbeatMessage(True)
-            factory.protocol.encode(hb)
+    while True:
+        try:
+            # 判断连接状态（factory.protocol.connected），决定是否向服务器发送消息
+            if factory.protocol and factory.protocol.connected:
+                hb = HeartbeatMessage(True)
+                factory.protocol.encode(hb)
             time.sleep(5)
+        except Exception as e:
+            pass
+
+
+def wait_connected(seconds=1):
+    while not (factory.protocol and factory.protocol.connected):
+        print("wait connected...")
+        time.sleep(seconds)
+
+def do_init(client):
+    wait_connected()
+    client.reg()
 
 
 class TMClient(object):
@@ -36,10 +48,9 @@ class TMClient(object):
         factory = ProtocolV1Factory()  # 实例化通信类
         reactor.connectTCP(host, port, factory)  # 指定需要连接的服务器地址和端口
         threading.Thread(target=do_heart, args=(factory,)).start()
-        threading.Thread(target=reactor.run, args=(False,)).start()
-        self.reg()
-        global bStop
-        bStop = True
+        threading.Thread(target=do_init, args=(self,)).start()
+        threading.Thread(target=reactor.run, args=()).start()
+
 
     def reg(self):
         request = RegisterTMRequest(self.application_id, self.transaction_service_group)
@@ -47,7 +58,9 @@ class TMClient(object):
 
     @staticmethod
     def send_request(msg):
+        wait_connected()
         if factory.protocol and factory.protocol.connected:
-            factory.protocol.encode(msg)
+            return factory.protocol.encode(msg)
         else:
-            print("tm client connection lost...")
+            print("tm client not connected...")
+            return None

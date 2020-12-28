@@ -3,7 +3,8 @@
 # @author jsbxyyx
 # @since 1.0
 from core.ByteBuffer import ByteBuffer
-from core.protocol.transaction.AbstractBranchEndRequestResponseCodec import AbstractBranchEndRequestCodec
+from core.protocol.transaction.AbstractBranchEndRequestResponseCodec import AbstractBranchEndRequestCodec, \
+    AbstractBranchEndResponseCodec
 
 
 class BranchCommitRequestCodec(object):
@@ -28,8 +29,7 @@ class BranchCommitResponseCodec(object):
         pass
 
     def encode(self, t, out_buffer):
-
-        pass
+        AbstractBranchEndResponseCodec.encode(t, out_buffer)
 
     def decode(self, t, in_buffer):
-        pass
+        AbstractBranchEndResponseCodec.decode(t, in_buffer)

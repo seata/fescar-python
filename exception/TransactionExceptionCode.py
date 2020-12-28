@@ -7,58 +7,58 @@ from enum import Enum
 
 class TransactionExceptionCode(Enum):
     # Unknown transaction exception code.
-    Unknown = 1
+    Unknown = 0
 
     # BeginFailed
-    BeginFailed = 2
+    BeginFailed = 1
 
     # Lock key conflict transaction exception code.
-    LockKeyConflict = 3
+    LockKeyConflict = 2
 
     # Io transaction exception code.
-    IO = 4
+    IO = 3
 
     # Branch rollback failed retriable transaction exception code.
-    BranchRollbackFailed_Retriable = 5
+    BranchRollbackFailed_Retriable = 4
 
     # Branch rollback failed unretriable transaction exception code.
-    BranchRollbackFailed_Unretriable = 6
+    BranchRollbackFailed_Unretriable = 5
 
     # Branch register failed transaction exception code.
-    BranchRegisterFailed = 7
+    BranchRegisterFailed = 6
 
     # Branch report failed transaction exception code.
-    BranchReportFailed = 8
+    BranchReportFailed = 7
 
     # Lockable check failed transaction exception code.
-    LockableCheckFailed = 9
+    LockableCheckFailed = 8
 
     # Branch transaction not exist transaction exception code.
-    BranchTransactionNotExist = 10
+    BranchTransactionNotExist = 9
 
     # Global transaction not exist transaction exception code.
-    GlobalTransactionNotExist = 11
+    GlobalTransactionNotExist = 10
 
     # Global transaction not active transaction exception code.
-    GlobalTransactionNotActive = 12
+    GlobalTransactionNotActive = 11
 
     # Global transaction status invalid transaction exception code.
-    GlobalTransactionStatusInvalid = 13
+    GlobalTransactionStatusInvalid = 12
 
     # Failed to send branch commit request transaction exception code.
-    FailedToSendBranchCommitRequest = 14
+    FailedToSendBranchCommitRequest = 13
 
     # Failed to send branch rollback request transaction exception code.
-    FailedToSendBranchRollbackRequest = 15
+    FailedToSendBranchRollbackRequest = 14
 
     # Failed to add branch transaction exception code.
-    FailedToAddBranch = 16
+    FailedToAddBranch = 15
 
     # Failed to lock global transaction exception code.
-    FailedLockGlobalTranscation = 17
+    FailedLockGlobalTranscation = 16
 
     # FailedWriteSession
-    FailedWriteSession = 18
+    FailedWriteSession = 17
 
     # Failed to store exception code
-    FailedStore = 19
+    FailedStore = 18

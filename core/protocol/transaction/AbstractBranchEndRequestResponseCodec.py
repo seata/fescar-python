@@ -59,7 +59,7 @@ class AbstractBranchEndRequestCodec(object):
             return
         xid_ba = bytearray(xid_len)
         in_buffer.get(xid_ba)
-        t.xid = str(xid_ba)
+        t.xid = xid_ba.decode(encoding="utf-8")
 
         if in_buffer.readable_bytes() < 8:
             return
@@ -79,7 +79,7 @@ class AbstractBranchEndRequestCodec(object):
             return
         resource_id_ba = bytearray(resource_id_len)
         in_buffer.get(resource_id_ba)
-        t.resource_id = str(resource_id_ba)
+        t.resource_id = resource_id_ba.decode(encoding="utf-8")
 
         application_data_len = 0
         if in_buffer.readable_bytes() < 4:
@@ -90,7 +90,7 @@ class AbstractBranchEndRequestCodec(object):
                 return
             application_data_da = bytearray(application_data_len)
             in_buffer.get(application_data_da)
-            t.application_data = str(application_data_da)
+            t.application_data = application_data_da.decode(encoding="utf-8")
 
 
 class AbstractBranchEndResponseCodec(object):
@@ -123,6 +123,6 @@ class AbstractBranchEndResponseCodec(object):
         if xid_len > 0:
             xid_ba = bytearray(xid_len)
             in_buffer.get(xid_ba)
-            t.xid = str(xid_ba)
+            t.xid = xid_ba.decode(encoding="utf-8")
         t.branch_id = in_buffer.get_int64()
         t.branch_status = BranchStatus(in_buffer.get_int8())

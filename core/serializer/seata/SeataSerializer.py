@@ -42,4 +42,4 @@ class SeataSerializer(object):
         message = MessageCodecFactory.get_message(type_code)
         message_codec = MessageCodecFactory.get_message_codec(type_code)
         message_codec.decode(message, new_bb)
-        return None
+        return message

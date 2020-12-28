@@ -70,9 +70,9 @@ class GlobalBeginResponseCodec(object):
         if xid_len > 0:
             xid_ba = bytearray(xid_len)
             in_buffer.get(xid_ba)
-            t.xid = str(xid_ba)
+            t.xid = xid_ba.decode(encoding="utf-8")
         extra_data_len = in_buffer.get_int16()
         if extra_data_len > 0:
             extra_data_ba = bytearray(extra_data_len)
             in_buffer.get(extra_data_ba)
-            t.extra_data = str(extra_data_ba)
+            t.extra_data = extra_data_ba.decode(encoding="utf-8")

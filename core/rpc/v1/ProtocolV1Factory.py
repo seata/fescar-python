@@ -41,15 +41,15 @@ class V1(Protocol):
         if magic != ProtocolConstants.MAGIC_CODE_BYTES:
             print("magic not 0xdada", magic)
             return
-        version = bb.get_int8()
-        print("version:{}".format(version))
+        # get version
+        bb.get_int8()
         full_length = bb.get_int32()
         head_length = bb.get_int16()
         message_type = bb.get_int8()
-        print("message_type:{}".format(message_type))
         codec_type = bb.get_int8()
         compressor_type = bb.get_int8()
         request_id = bb.get_int32()
+        print("message_type:{}, request_id={}".format(message_type, request_id))
 
         rpc_message = RpcMessage()
         rpc_message.codec = codec_type
@@ -126,11 +126,11 @@ class V1(Protocol):
         timeout = 0
         while self.req_id_map[rpc_message.id] is None and timeout <= 30:
             timeout += 1
-            time.sleep(1000)
+            time.sleep(1)
         response = self.req_id_map[rpc_message.id]
         if response is None and timeout > 30:
             raise TimeoutError()
-        self.req_id_map.pop(rpc_message, None)
+        self.req_id_map.pop(rpc_message.id, None)
         return response
 
 
