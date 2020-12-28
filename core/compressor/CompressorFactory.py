@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
-from core.compressor import DefaultCompressor
+from core.compressor.DefaultCompressor import DefaultCompressor
 from exception.NotSupportYetException import NotSupportYetException
 
 

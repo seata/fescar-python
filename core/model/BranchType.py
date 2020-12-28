@@ -6,8 +6,8 @@ from enum import Enum
 
 
 class BranchType(Enum):
-    AT = "AT"
-    TCC = "TCC"
-    SAGA = "SAGA"
-    XA = "XA"
+    AT = 0
+    TCC = 1
+    SAGA = 2
+    XA = 3
 

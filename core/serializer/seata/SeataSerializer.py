@@ -3,7 +3,6 @@
 # @author jsbxyyx
 # @since 1.0
 from core.ByteBuffer import ByteBuffer
-from core.protocol.MessageType import MessageType
 from core.protocol.MessageTypeAware import MessageTypeAware
 from core.serializer.seata.MessageCodecFactory import MessageCodecFactory
 

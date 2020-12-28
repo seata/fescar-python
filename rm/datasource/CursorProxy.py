@@ -31,9 +31,9 @@ class CursorProxy(object):
 
     # override Cursor close
     def close(self):
-        pass
+        return self.target_cursor.close()
 
-    # override Cursor execute
+    # override Cursor exec
     def execute(self, operation, parameters=None):
         pass
 

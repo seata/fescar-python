@@ -3,12 +3,17 @@
 # @author jsbxyyx
 # @since 1.0
 from core.protocol.MergeResultMessage import MergeResultMessage
+from core.protocol.MergeResultMessageCodec import MergeResultMessageCodec
 from core.protocol.MergedWarpMessage import MergedWarpMessage
+from core.protocol.MergedWarpMessageCodec import MergedWarpMessageCodec
 from core.protocol.MessageType import MessageType
 from core.protocol.RegisterRMRequestResponse import RegisterRMRequest, RegisterRMResponse
+from core.protocol.RegisterRMRequestResponseCodec import RegisterRMRequestCodec, RegisterRMResponseCodec
 from core.protocol.RegisterTMRequestResponse import RegisterTMResponse, RegisterTMRequest
+from core.protocol.RegisterTMRequestResponseCodec import RegisterTMRequestCodec, RegisterTMResponseCodec
 from core.protocol.transaction.BranchCommitRequestResponse import BranchCommitResponse, BranchCommitRequest
-from core.protocol.transaction.BranchCommitRequestResponseCodec import BranchCommitResponseCodec
+from core.protocol.transaction.BranchCommitRequestResponseCodec import BranchCommitResponseCodec, \
+    BranchCommitRequestCodec
 from core.protocol.transaction.BranchRegisterRequestResponseCodec import BranchRegisterRequestCodec, \
     BranchRegisterResponseCodec
 from core.protocol.transaction.BranchRegisterRequestResponse import BranchRegisterResponse, BranchRegisterRequest
@@ -16,7 +21,8 @@ from core.protocol.transaction.BranchReportRequestResponseCodec import BranchRep
     BranchReportResponseCodec
 from core.protocol.transaction.BranchReportRequestResponse import BranchReportResponse, BranchReportRequest
 from core.protocol.transaction.BranchRollbackRequestResponse import BranchRollbackResponse, BranchRollbackRequest
-from core.protocol.transaction.BranchRollbackRequestResponseCodec import BranchRollbackResponseCodec
+from core.protocol.transaction.BranchRollbackRequestResponseCodec import BranchRollbackResponseCodec, \
+    BranchRollbackRequestCodec
 from core.protocol.transaction.GlobalBeginRequestResponseCodec import GlobalBeginRequestCodec, GlobalBeginResponseCodec
 from core.protocol.transaction.GlobalBeginRequestResponse import GlobalBeginResponse, GlobalBeginRequest
 from core.protocol.transaction.GlobalCommitRequestResponseCodec import GlobalCommitRequestCodec, \
@@ -43,23 +49,23 @@ class MessageCodecFactory(object):
     def get_message_codec(type_code):
         msg_codec = None
         if type_code == MessageType.TYPE_SEATA_MERGE:
-            pass
+            msg_codec = MergedWarpMessageCodec()
         elif type_code == MessageType.TYPE_SEATA_MERGE_RESULT:
-            pass
+            msg_codec = MergeResultMessageCodec()
         elif type_code == MessageType.TYPE_REG_CLT:
-            pass
+            msg_codec = RegisterTMRequestCodec()
         elif type_code == MessageType.TYPE_REG_CLT_RESULT:
-            pass
+            msg_codec = RegisterTMResponseCodec()
         elif type_code == MessageType.TYPE_REG_RM:
-            pass
+            msg_codec = RegisterRMRequestCodec()
         elif type_code == MessageType.TYPE_REG_RM_RESULT:
-            pass
+            msg_codec = RegisterRMResponseCodec()
         elif type_code == MessageType.TYPE_BRANCH_COMMIT:
-            pass
+            msg_codec = BranchCommitRequestCodec()
         elif type_code == MessageType.TYPE_BRANCH_ROLLBACK:
-            pass
+            msg_codec = BranchRollbackRequestCodec()
         elif type_code == MessageType.TYPE_GLOBAL_REPORT:
-            pass
+            msg_codec = GlobalReportRequestCodec()
 
         if msg_codec is not None:
             return msg_codec

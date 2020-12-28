@@ -7,6 +7,7 @@ import threading
 import time
 
 from core.protocol.HeartbeatMessage import HeartbeatMessage
+from core.protocol.RegisterRMRequestResponse import RegisterRMRequest
 from core.rpc.v1.ProtocolV1Factory import ProtocolV1Factory
 
 bStop = False
@@ -34,13 +35,21 @@ class RMClient(object):
         factory = ProtocolV1Factory()  # 实例化通信类
         reactor.connectTCP(host, port, factory)  # 指定需要连接的服务器地址和端口
         threading.Thread(target=do_heart, args=(factory,)).start()
-        reactor.run()  # 挂起运行
+        threading.Thread(target=reactor.run, args=(False,)).start()
         global bStop
         bStop = True
+        self.reg()
+
+    def reg(self):
+        request = RegisterRMRequest(self.appliction_id, self.transaction_service_group)
+        response = RMClient.send_request(request)
+        print(response)
+        print("rm register...")
 
     @staticmethod
     def send_request(msg):
         if factory.protocol and factory.protocol.connected:
-            factory.protocol.encode(msg)
+            return factory.protocol.encode(msg)
         else:
             print("rm client connection lost...")
+            return None

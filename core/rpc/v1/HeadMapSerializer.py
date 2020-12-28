@@ -37,7 +37,7 @@ class HeadMapSerializer(object):
             return 2
         else:
             v_len = len(v)
-            v_bb = bytearray(v)
+            v_bb = bytearray(v, encoding="utf-8")
             bytebuffer.put_int16(v_len)
             bytebuffer.put(v_bb)
             return 2 + len(v_bb)
@@ -51,6 +51,6 @@ class HeadMapSerializer(object):
         else:
             value = bytearray(length)
             bytebuffer.get(value)
-            return str(value)
+            return value.decode(encoding="utf-8")
 
 

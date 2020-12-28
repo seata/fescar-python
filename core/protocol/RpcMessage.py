@@ -4,6 +4,8 @@
 # @since 1.0
 import threading
 
+from core.protocol.ProtocolConstants import ProtocolConstants
+
 atom = 0
 lock = threading.RLock()
 
@@ -28,4 +30,14 @@ class RpcMessage(object):
         with lock:
             atom = (atom + 1) & 0x7FFFFFFF
         return atom
+
+    @staticmethod
+    def build_request_message(msg, message_type):
+        rpc_message = RpcMessage()
+        rpc_message.id = RpcMessage.get_id()
+        rpc_message.message_type = message_type
+        rpc_message.codec = 0x1
+        rpc_message.compressor = 0x0
+        rpc_message.body = msg
+        return rpc_message
 

@@ -23,12 +23,3 @@ class HeartbeatMessage(MessageTypeAware):
     def get_type_code(self):
         return MessageType.TYPE_HEARTBEAT_MSG
 
-    def convert_data(self):
-        rm = RpcMessage()
-        rm.id = RpcMessage.get_id()
-        rm.message_type = ProtocolConstants.MSGTYPE_HEARTBEAT_REQUEST
-        rm.codec = 1
-        rm.compressor = 0
-        rm.body = self
-        return rm
-

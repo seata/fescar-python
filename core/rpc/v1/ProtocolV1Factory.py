@@ -41,9 +41,12 @@ class V1(Protocol):
         if magic != ProtocolConstants.MAGIC_CODE_BYTES:
             print("magic not 0xdada", magic)
             return
+        version = bb.get_int8()
+        print("version:{}".format(version))
         full_length = bb.get_int32()
         head_length = bb.get_int16()
         message_type = bb.get_int8()
+        print("message_type:{}".format(message_type))
         codec_type = bb.get_int8()
         compressor_type = bb.get_int8()
         request_id = bb.get_int32()
@@ -59,7 +62,8 @@ class V1(Protocol):
             if bb.readable_bytes() > 0:
                 head_bytearray = bytearray(head_map_length)
                 bb.get(head_bytearray)
-                head_bytebuffer = ByteBuffer(head_bytearray)
+                head_bytebuffer = ByteBuffer()
+                head_bytebuffer.put(head_bytearray)
 
                 head_map_serializer = HeadMapSerializer()
                 head_map = head_map_serializer.decode(head_bytebuffer, head_map_length)
@@ -73,9 +77,8 @@ class V1(Protocol):
             if body_length > 0:
                 body_bytearray = bytearray(body_length)
                 bb.get(body_bytearray)
-                body_bytearray = CompressorFactory.get(compressor_type).decompress(body_bytearray, compressor_type)
-                body_bytebuffer = ByteBuffer(body_bytearray)
-                body = SerializerFactory.get(codec_type).deserialize(body_bytebuffer, codec_type)
+                body_bytearray = CompressorFactory.get(compressor_type).decompress(body_bytearray)
+                body = SerializerFactory.get(codec_type).deserialize(body_bytearray)
                 rpc_message.body = body
         return rpc_message
 
@@ -85,14 +88,18 @@ class V1(Protocol):
         bb = ByteBuffer()
 
         if isinstance(message, HeartbeatMessage):
-            rpc_message = message.convert_data()
-            message_type = message.get_type_code()
+            rpc_message = RpcMessage.build_request_message(message, ProtocolConstants.MSGTYPE_HEARTBEAT_REQUEST)
+        else:
+            rpc_message = RpcMessage.build_request_message(message, ProtocolConstants.MSGTYPE_RESQUEST_SYNC)
+        message_type = rpc_message.message_type
 
         if len(rpc_message.head_map) > 0:
             head_map_serializer = HeadMapSerializer()
             head_map_length = head_map_serializer.encode(rpc_message.head_map, bb)
-            head_length = head_map_length + head_map_length
+            head_length = head_length + head_map_length
             full_length = full_length + head_map_length
+
+        body_array = None
         if message_type is not ProtocolConstants.MSGTYPE_HEARTBEAT_REQUEST and \
                 message_type is not ProtocolConstants.MSGTYPE_HEARTBEAT_RESPONSE:
             body_array = SerializerFactory.get(rpc_message.codec).serialize(rpc_message.body)
@@ -119,7 +126,7 @@ class V1(Protocol):
         timeout = 0
         while self.req_id_map[rpc_message.id] is None and timeout <= 30:
             timeout += 1
-            time.sleep(1)
+            time.sleep(1000)
         response = self.req_id_map[rpc_message.id]
         if response is None and timeout > 30:
             raise TimeoutError()
