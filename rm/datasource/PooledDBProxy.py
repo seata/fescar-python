@@ -4,9 +4,6 @@
 # @since 1.0
 from dbutils.pooled_db import PooledDB
 
-from rm.ATResourceManager import ATResourceManager
-from rm.datasource.ConnectionProxy import ConnectionProxy
-
 
 class PooledDBProxy(object):
 
@@ -20,22 +17,27 @@ class PooledDBProxy(object):
         port = 3306
         if kwargs['port'] is not None:
             port = kwargs['port']
-        self.jdbc_url = "{}:{}/{}".format(kwargs['host'], port, kwargs['database'])
+        self.jdbc_url = "{}:{}:{}/{}".format(db_type, kwargs['host'], port, kwargs['database'])
         self.db_type = db_type
         self.username = kwargs['user']
+
+        from rm.ATResourceManager import ATResourceManager
         ATResourceManager.get().register_resource(self)
 
     def get_resource_id(self):
         return self.jdbc_url
 
     def connection(self):
-        return ConnectionProxy(self.pool.connection())
+        from rm.datasource.ConnectionProxy import ConnectionProxy
+        return ConnectionProxy(self, self.pool.connection())
 
     def steady_connection(self):
-        return ConnectionProxy(self.pool.steady_connection())
+        from rm.datasource.ConnectionProxy import ConnectionProxy
+        return ConnectionProxy(self, self.pool.steady_connection())
 
     def dedicated_connection(self):
-        return ConnectionProxy(self.pool.dedicated_connection())
+        from rm.datasource.ConnectionProxy import ConnectionProxy
+        return ConnectionProxy(self, self.pool.dedicated_connection())
 
     def unshare(self, con):
         self.pool.unshare(con)
@@ -51,3 +53,4 @@ class PooledDBProxy(object):
 
     def _wait_lock(self):
         self.pool._wait_lock()
+

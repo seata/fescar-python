@@ -14,7 +14,6 @@ from core.protocol.RpcMessage import RpcMessage
 from core.rpc.v1.ProtocolV1Factory import ProtocolV1Factory
 
 factory = None
-reg = False
 
 
 def do_heart():  # 每隔 5秒 向服务器发送消息
@@ -65,10 +64,11 @@ class TMClient(object):
         reactor.connectTCP(host, port, factory)  # 指定需要连接的服务器地址和端口
         threading.Thread(target=do_heart, args=()).start()
         threading.Thread(target=do_init, args=(self,)).start()
-        threading.Thread(target=reactor.run, args=(False,)).start()
+        if not reactor.running:
+            threading.Thread(target=reactor.run, args=(False,)).start()
 
     def reg(self):
-        request = RegisterTMRequest(self.application_id, self.transaction_service_group)
+        request = RegisterTMRequest(self.application_id, self.transaction_service_group, None)
         self.send_sync_request(request)
         print("tm register...")
 

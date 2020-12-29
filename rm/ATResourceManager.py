@@ -36,10 +36,10 @@ class ATResourceManager(object):
     def register_resource(self, pooled_db_proxy):
         if not isinstance(pooled_db_proxy, PooledDBProxy):
             raise TypeError("Register resource type error.")
-        self.pool_db_proxy_cache.put(pooled_db_proxy.get_resource_id(), pooled_db_proxy)
+        self.pool_db_proxy_cache[pooled_db_proxy.get_resource_id()] = pooled_db_proxy
         request = RegisterRMRequest()
         request.transaction_service_group = RMClient.get().transaction_service_group
-        request.application_id = RMClient.get().appliction_id
+        request.application_id = RMClient.get().application_id
         RMClient.get().send_sync_request(request)
 
     def lock_query(self, branch_type, resource_id, xid, lock_keys):

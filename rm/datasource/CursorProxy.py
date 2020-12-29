@@ -5,7 +5,9 @@
 
 class CursorProxy(object):
 
-    def __init__(self, target_cursor):
+    def __init__(self, connection_proxy, target_cursor, target_sql=None):
+        self.connection_proxy = connection_proxy
+        self.target_sql = target_sql
         self.target_cursor = target_cursor
 
     @property
@@ -35,27 +37,28 @@ class CursorProxy(object):
 
     # override Cursor exec
     def execute(self, operation, parameters=None):
-        pass
+        self.target_sql = operation
+        return self.target_cursor.execute(operation, parameters)
 
     # override Cursor executemany
     def executemany(self, operation, seq_of_parameters=None):
-        pass
+        return self.target_cursor.executemany(operation, seq_of_parameters)
 
     # override Cursor fetchone
     def fetchone(self):
-        pass
+        return self.target_cursor.fetchone()
 
     # override Cursor fetchmany
     def fetchmany(self, size=None):
-        pass
+        return self.target_cursor.fetchmany(size)
 
     # override Cursor fetchall
     def fetchall(self):
-        pass
+        return self.target_cursor.fetchall()
 
     # override Cursor nextset
     def nextset(self):
-        pass
+        return self.target_cursor.nextset()
 
     # override Cursor arraysize
     @property
@@ -69,3 +72,8 @@ class CursorProxy(object):
     # override Cursor setoutputsize
     def setoutputsize(self, size, column=None):
         return self.target_cursor.setinputsize(size, column)
+
+    # connection
+    @property
+    def connection(self):
+        return self.connection_proxy

@@ -13,7 +13,6 @@ from core.protocol.RpcMessage import RpcMessage
 from core.rpc.v1.ProtocolV1Factory import ProtocolV1Factory
 
 factory = None
-reg = False
 
 
 def do_heart(factory):  # 每隔 5秒 向服务器发送消息
@@ -71,7 +70,8 @@ class RMClient(object):
         reactor.connectTCP(host, port, factory)  # 指定需要连接的服务器地址和端口
         threading.Thread(target=do_heart, args=(factory,)).start()
         threading.Thread(target=do_init, args=(self, factory,)).start()
-        threading.Thread(target=reactor.run, args=(False,)).start()
+        if not reactor.running:
+            threading.Thread(target=reactor.run, args=(False,)).start()
 
     def reg(self):
         request = RegisterRMRequest(self.application_id, self.transaction_service_group)

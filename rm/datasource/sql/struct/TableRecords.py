@@ -20,3 +20,7 @@ class TableRecords(object):
             raise ShouldNeverHappenException("table meta is not null")
         self.table_meta = table_meta
         self.table_name = table_meta.table_name
+
+    @staticmethod
+    def empty(table_meta):
+        pass

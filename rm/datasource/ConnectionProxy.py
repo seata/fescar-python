@@ -25,7 +25,7 @@ class ConnectionProxy(object):
         self.context = ConnectionContext()
 
     def get_db_type(self):
-        self.target_connection
+        return self.pooled_db_proxy.db_type
 
     def bind(self, xid):
         self.context.bind(xid)
@@ -81,7 +81,7 @@ class ConnectionProxy(object):
     # override Connection cursor
     def cursor(self):
         cursor = self.target_connection.cursor()
-        return CursorProxy(cursor)
+        return CursorProxy(self, cursor, None)
 
     def autocommit(self, on):
         if (self.context.in_global_transaction() or self.context.is_global_lock_require) \
