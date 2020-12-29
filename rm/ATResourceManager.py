@@ -4,6 +4,7 @@
 # @since 1.0
 from core.context.RootContext import RootContext
 from core.model.BranchStatus import BranchStatus
+from core.protocol.RegisterRMRequestResponse import RegisterRMRequest
 from core.protocol.ResultCode import ResultCode
 from core.protocol.transaction.BranchRegisterRequestResponse import BranchRegisterRequest
 from core.protocol.transaction.BranchReportRequestResponse import BranchReportRequest
@@ -36,7 +37,10 @@ class ATResourceManager(object):
         if not isinstance(pooled_db_proxy, PooledDBProxy):
             raise TypeError("Register resource type error.")
         self.pool_db_proxy_cache.put(pooled_db_proxy.get_resource_id(), pooled_db_proxy)
-        RMClient.send_request()
+        request = RegisterRMRequest()
+        request.transaction_service_group = RMClient.get().transaction_service_group
+        request.application_id = RMClient.get().appliction_id
+        RMClient.get().send_sync_request(request)
 
     def lock_query(self, branch_type, resource_id, xid, lock_keys):
         try:
@@ -45,7 +49,7 @@ class ATResourceManager(object):
             request.lock_key = lock_keys
             request.resource_id = resource_id
             if RootContext.in_global_transaction() or RootContext.require_global_lock():
-                response = RMClient.send_request(request)
+                response = RMClient.get().send_sync_request(request)
             else:
                 raise RuntimeError("unknow situation!")
             if response.result_code == ResultCode.Failed:
@@ -64,7 +68,7 @@ class ATResourceManager(object):
             request.resource_id = resource_id
             request.lock_key = lock_keys
             request.application_data = application_data
-            response = RMClient.send_request(request)
+            response = RMClient.get().send_sync_request(request)
             if response.result_code == ResultCode.Failed:
                 raise RmTransactionException("response {} {}".format(response.transaction_exception_code, response.msg))
         except TimeoutError as e:
@@ -79,7 +83,7 @@ class ATResourceManager(object):
             request.branch_id = branch_id
             request.status = status
             request.application_data = application_data
-            response = RMClient.send_request(request)
+            response = RMClient.get().send_sync_request(request)
             if response.result_code == ResultCode.Failed:
                 raise RmTransactionException(response.transaction_exception_code, "response [{}]".format(response.msg))
         except TimeoutError as e:

@@ -82,15 +82,11 @@ class V1(Protocol):
                 rpc_message.body = body
         return rpc_message
 
-    def encode(self, message):
+    def encode(self, rpc_message):
         full_length = 16
         head_length = 16
         bb = ByteBuffer()
 
-        if isinstance(message, HeartbeatMessage):
-            rpc_message = RpcMessage.build_request_message(message, ProtocolConstants.MSGTYPE_HEARTBEAT_REQUEST)
-        else:
-            rpc_message = RpcMessage.build_request_message(message, ProtocolConstants.MSGTYPE_RESQUEST_SYNC)
         message_type = rpc_message.message_type
 
         if len(rpc_message.head_map) > 0:

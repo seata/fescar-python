@@ -7,11 +7,13 @@ from core.protocol.transaction.GlobalBeginRequestResponse import GlobalBeginRequ
 from rm.RMClient import RMClient
 
 if __name__ == '__main__':
-    client = RMClient(application_id="test", transaction_service_group="my_test_tx_group")
-    client.init_client(host="localhost", port=8091)
+    client = RMClient.get()
+    client.set_application_id("test")
+    client.set_transaction_service_group("my_test_tx_group")
+    client.init_client(host="192.168.1.9", port=8091)
 
     msg = GlobalBeginRequest()
     msg.transaction_name = "xxx"
     msg.timeout = 60000
-    response = RMClient.send_request(msg)
-    print(response)
+    rpc_message = client.send_sync_request(msg)
+    print(rpc_message.body)

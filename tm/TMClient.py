@@ -8,19 +8,21 @@ import threading
 import time
 
 from core.protocol.HeartbeatMessage import HeartbeatMessage
+from core.protocol.ProtocolConstants import ProtocolConstants
 from core.protocol.RegisterTMRequestResponse import RegisterTMRequest
+from core.protocol.RpcMessage import RpcMessage
 from core.rpc.v1.ProtocolV1Factory import ProtocolV1Factory
 
 factory = None
+reg = False
 
 
-def do_heart(factory):  # 每隔 5秒 向服务器发送消息
+def do_heart():  # 每隔 5秒 向服务器发送消息
     while True:
         try:
-            # 判断连接状态（factory.protocol.connected），决定是否向服务器发送消息
-            if factory.protocol and factory.protocol.connected:
-                hb = HeartbeatMessage(True)
-                factory.protocol.encode(hb)
+            wait_connected()
+            hb = HeartbeatMessage(True)
+            TMClient.get().send_sync_request(hb)
             time.sleep(5)
         except Exception as e:
             pass
@@ -31,12 +33,26 @@ def wait_connected(seconds=1):
         print("wait connected...")
         time.sleep(seconds)
 
+
 def do_init(client):
     wait_connected()
     client.reg()
 
 
+client = None
+lock = threading.RLock
+
+
 class TMClient(object):
+
+    @staticmethod
+    def get():
+        global client
+        if client is None:
+            with lock:
+                if client is None:
+                    client = TMClient()
+        return client
 
     def __init__(self, application_id=None, transaction_service_group=None):
         self.application_id = application_id
@@ -47,20 +63,23 @@ class TMClient(object):
         global factory
         factory = ProtocolV1Factory()  # 实例化通信类
         reactor.connectTCP(host, port, factory)  # 指定需要连接的服务器地址和端口
-        threading.Thread(target=do_heart, args=(factory,)).start()
+        threading.Thread(target=do_heart, args=()).start()
         threading.Thread(target=do_init, args=(self,)).start()
-        threading.Thread(target=reactor.run, args=()).start()
-
+        threading.Thread(target=reactor.run, args=(False,)).start()
 
     def reg(self):
         request = RegisterTMRequest(self.application_id, self.transaction_service_group)
-        TMClient.send_request(request)
+        self.send_sync_request(request)
+        print("tm register...")
 
-    @staticmethod
-    def send_request(msg):
+    def send_sync_request(self, msg):
         wait_connected()
         if factory.protocol and factory.protocol.connected:
-            return factory.protocol.encode(msg)
+            if isinstance(msg, HeartbeatMessage):
+                rpc_message = RpcMessage.build_request_message(msg, ProtocolConstants.MSGTYPE_HEARTBEAT_REQUEST)
+            else:
+                rpc_message = RpcMessage.build_request_message(msg, ProtocolConstants.MSGTYPE_RESQUEST_SYNC)
+            return factory.protocol.encode(rpc_message)
         else:
             print("tm client not connected...")
             return None
