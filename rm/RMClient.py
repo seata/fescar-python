@@ -40,18 +40,18 @@ def wait_connected(factory, seconds=1):
 
 
 client = None
-lock = threading.RLock
+lock = threading.RLock()
 
 
 class RMClient(object):
 
     @staticmethod
     def get():
-        global client
+        global client, lock
         if client is None:
             with lock:
                 if client is None:
-                    client = RMClient()
+                    client = RMClient(None, None)
         return client
 
     def __init__(self, application_id, transaction_service_group):
@@ -74,7 +74,7 @@ class RMClient(object):
         threading.Thread(target=reactor.run, args=(False,)).start()
 
     def reg(self):
-        request = RegisterRMRequest(self.appliction_id, self.transaction_service_group)
+        request = RegisterRMRequest(self.application_id, self.transaction_service_group)
         self.send_sync_request(request)
         print("rm register...")
 
@@ -89,3 +89,4 @@ class RMClient(object):
         else:
             print("rm client not connected...")
             return None
+

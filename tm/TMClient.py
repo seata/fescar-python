@@ -40,18 +40,18 @@ def do_init(client):
 
 
 client = None
-lock = threading.RLock
+lock = threading.RLock()
 
 
 class TMClient(object):
 
     @staticmethod
     def get():
-        global client
+        global client, lock
         if client is None:
             with lock:
                 if client is None:
-                    client = TMClient()
+                    client = TMClient(None, None)
         return client
 
     def __init__(self, application_id=None, transaction_service_group=None):
@@ -83,3 +83,4 @@ class TMClient(object):
         else:
             print("tm client not connected...")
             return None
+

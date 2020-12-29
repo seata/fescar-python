@@ -14,7 +14,7 @@ class RootContext(object):
     VALUE_GLOBAL_LOCK_FLAG = True
     DEFAULT_BRANCH_TYPE = None
 
-    CONTEXT_HOLDER = ContextCore.get()
+    CONTEXT_HOLDER = ContextCore.get_instance()
 
     @staticmethod
     def set_default_branch_type(default_branch_type):

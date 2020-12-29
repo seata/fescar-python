@@ -12,7 +12,7 @@ class ContextCore(object):
     threadLocal = threading.local()
 
     @staticmethod
-    def get():
+    def get_instance():
         global core, lock
         if core is None:
             with lock:
@@ -21,15 +21,15 @@ class ContextCore(object):
         return core
 
     def put(self, key, value):
-        ContextCore.threadLocal.__setattr__(key, value)
+        self.threadLocal.__setattr__(key, value)
 
     def get(self, key):
-        return ContextCore.threadLocal.__getattribute__(key)
+        return self.threadLocal.__getattribute__(key)
 
     def remove(self, key):
-        ContextCore.threadLocal.__delattr__(key, None)
+        self.threadLocal.__delattr__(key, None)
 
     def entries(self):
-        return ContextCore.threadLocal.__dict__
+        return self.threadLocal.__dict__
 
 
