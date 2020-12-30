@@ -5,6 +5,7 @@
 import mariadb
 from dbutils.pooled_db import PooledDB
 
+from Boostrap import Bootstrap
 from rm.RMClient import RMClient
 from rm.datasource.ConnectionProxy import ConnectionProxy
 from rm.datasource.PooledDBProxy import PooledDBProxy
@@ -25,6 +26,8 @@ if __name__ == '__main__':
     rm_client.application_id = tm_client.application_id
     rm_client.transaction_service_group = tm_client.transaction_service_group
     rm_client.init_client(host, port)
+
+    Bootstrap.start()
 
     pool = PooledDB(creator=mariadb, host="192.168.1.9", port=3306, user="root", password="mariadb", database="test")
 

@@ -3,6 +3,8 @@
 # @author jsbxyyx
 # @since 1.0
 import time
+
+from Boostrap import Bootstrap
 from core.protocol.transaction.GlobalBeginRequestResponse import GlobalBeginRequest
 from rm.RMClient import RMClient
 
@@ -11,6 +13,7 @@ if __name__ == '__main__':
     client.set_application_id("test")
     client.set_transaction_service_group("my_test_tx_group")
     client.init_client(host="192.168.1.9", port=8091)
+    Bootstrap.start()
 
     time.sleep(2)
     msg = GlobalBeginRequest()

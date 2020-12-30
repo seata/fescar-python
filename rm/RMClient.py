@@ -70,8 +70,6 @@ class RMClient(object):
         reactor.connectTCP(host, port, factory)  # 指定需要连接的服务器地址和端口
         threading.Thread(target=do_heart, args=(factory,)).start()
         threading.Thread(target=do_init, args=(self, factory,)).start()
-        if not reactor.running:
-            threading.Thread(target=reactor.run, args=(False,)).start()
 
     def reg(self):
         request = RegisterRMRequest(self.application_id, self.transaction_service_group)

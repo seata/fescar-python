@@ -64,8 +64,6 @@ class TMClient(object):
         reactor.connectTCP(host, port, factory)  # 指定需要连接的服务器地址和端口
         threading.Thread(target=do_heart, args=()).start()
         threading.Thread(target=do_init, args=(self,)).start()
-        if not reactor.running:
-            threading.Thread(target=reactor.run, args=(False,)).start()
 
     def reg(self):
         request = RegisterTMRequest(self.application_id, self.transaction_service_group, None)
