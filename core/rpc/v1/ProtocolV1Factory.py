@@ -30,8 +30,7 @@ class V1(Protocol):
 
     # 接收数据时调用
     def dataReceived(self, data):
-        bb = ByteBuffer()
-        bb.put(bytearray(data))
+        bb = ByteBuffer.wrap(bytearray(data))
         response = self.decode(bb)
         self.req_id_map[response.id] = response
 
@@ -62,8 +61,7 @@ class V1(Protocol):
             if bb.readable_bytes() > 0:
                 head_bytearray = bytearray(head_map_length)
                 bb.get(head_bytearray)
-                head_bytebuffer = ByteBuffer()
-                head_bytebuffer.put(head_bytearray)
+                head_bytebuffer = ByteBuffer.wrap(head_bytearray)
 
                 head_map_serializer = HeadMapSerializer()
                 head_map = head_map_serializer.decode(head_bytebuffer, head_map_length)

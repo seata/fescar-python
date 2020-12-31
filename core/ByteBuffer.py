@@ -2,13 +2,7 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-
-
 import struct
-
-
-class ArrayIndexOutOfBoundsException(RuntimeError):
-    pass
 
 
 class ByteBuffer(object):
@@ -18,6 +12,14 @@ class ByteBuffer(object):
         self._write_index = 0
         self._read_index = 0
 
+    @staticmethod
+    def wrap(array):
+        if not isinstance(array, bytearray):
+            raise TypeError('Can wrap only to bytearray')
+        bb = ByteBuffer()
+        bb.put(array)
+        return bb
+
     def put_int8(self, value):
         dst_offset = self._write_index
         self._write_index += 1
@@ -25,7 +27,7 @@ class ByteBuffer(object):
 
     def get_int8(self):
         if self._read_index > self._write_index - 1:
-            raise ArrayIndexOutOfBoundsException('Not enough data to get')
+            raise IndexError('Not enough data to get')
         src_offset = self._read_index
         self._read_index += 1
         return struct.unpack_from('!b', self._array, src_offset)[0]
@@ -37,7 +39,7 @@ class ByteBuffer(object):
 
     def get_int16(self):
         if self._read_index > self._write_index - 2:
-            raise ArrayIndexOutOfBoundsException('Not enough data to get')
+            raise IndexError('Not enough data to get')
         src_offset = self._read_index
         self._read_index += 2
         return struct.unpack_from('!h', self._array, src_offset)[0]
@@ -49,7 +51,7 @@ class ByteBuffer(object):
 
     def get_int32(self):
         if self._read_index > self._write_index - 4:
-            raise ArrayIndexOutOfBoundsException('Not enough data to get')
+            raise IndexError('Not enough data to get')
         src_offset = self._read_index
         self._read_index += 4
         return struct.unpack_from('!i', self._array, src_offset)[0]
@@ -61,7 +63,7 @@ class ByteBuffer(object):
 
     def get_int64(self):
         if self._read_index > self._write_index - 8:
-            raise ArrayIndexOutOfBoundsException('Not enough data to get')
+            raise IndexError('Not enough data to get')
 
         src_offset = self._read_index
         self._read_index += 8
@@ -74,7 +76,7 @@ class ByteBuffer(object):
 
     def get_float64(self):
         if self._read_index > self._write_index - 8:
-            raise ArrayIndexOutOfBoundsException('Not enough data to get')
+            raise IndexError('Not enough data to get')
 
         src_offset = self._read_index
         self._read_index += 8

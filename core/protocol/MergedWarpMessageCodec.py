@@ -39,8 +39,7 @@ class MergedWarpMessageCodec(object):
             return
         buffer_ba = bytearray(length)
         in_buffer.get(buffer_ba)
-        byte_buffer = ByteBuffer()
-        byte_buffer.put(buffer_ba)
+        byte_buffer = ByteBuffer.wrap(buffer_ba)
         self._do_decode(t, byte_buffer)
 
     def _do_decode(self, t, byte_buffer):

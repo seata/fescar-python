@@ -37,8 +37,7 @@ class MergeResultMessageCodec(object):
             return
         ba = bytearray(length)
         in_buffer.get(ba)
-        byte_buffer = ByteBuffer()
-        byte_buffer.put(ba)
+        byte_buffer = ByteBuffer.wrap(ba)
         self._do_decode(t, byte_buffer)
 
     def _do_decode(self, t, byte_buffer):

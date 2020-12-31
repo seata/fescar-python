@@ -31,14 +31,12 @@ class SeataSerializer(object):
             raise ValueError("Nothing to decode.")
         if len(byte_array) < 2:
             raise ValueError("byte array isn't available for decode.")
-        bb = ByteBuffer()
-        bb.put(byte_array)
+        bb = ByteBuffer.wrap(byte_array)
         type_code = bb.get_int16()
         body = bytearray(bb.readable_bytes())
         bb.get(body)
 
-        new_bb = ByteBuffer()
-        new_bb.put(body)
+        new_bb = ByteBuffer.wrap(body)
         message = MessageCodecFactory.get_message(type_code)
         message_codec = MessageCodecFactory.get_message_codec(type_code)
         message_codec.decode(message, new_bb)
