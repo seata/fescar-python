@@ -98,7 +98,7 @@ class SQLType(Enum):
     # Select found rows.
     SELECT_FOUND_ROWS = 44
 
-    # Insert ingore sql type.
-    INSERT_INGORE = 101
+    # Insert ignore sql type.
+    INSERT_IGNORE = 101
     # Insert on duplicate update sql type.
     INSERT_ON_DUPLICATE_UPDATE = 102

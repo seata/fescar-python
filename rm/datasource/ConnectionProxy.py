@@ -11,7 +11,7 @@ from rm.datasource.ConnectionContext import ConnectionContext
 from rm.datasource.CursorProxy import CursorProxy
 from rm.datasource.PooledDBProxy import PooledDBProxy
 from rm.datasource.undo.UndoLogManagerFactory import UndoLogManagerFactory
-from rm.datasource.exec.LockConflictException import LockConflictException
+from rm.datasource.executor.LockConflictException import LockConflictException
 
 
 class ConnectionProxy(object):

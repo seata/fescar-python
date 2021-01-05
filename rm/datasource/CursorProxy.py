@@ -35,7 +35,7 @@ class CursorProxy(object):
     def close(self):
         return self.target_cursor.close()
 
-    # override Cursor exec
+    # override Cursor executor
     def execute(self, operation, parameters=None):
         self.target_sql = operation
         return self.target_cursor.execute(operation, parameters)
