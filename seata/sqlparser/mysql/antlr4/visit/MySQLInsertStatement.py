@@ -4,7 +4,8 @@
 # @since 1.0
 from seata.sqlparser.mysql.antlr4.MySqlParser import MySqlParser
 from seata.sqlparser.mysql.antlr4.value.MySQLValue import DefaultValue, InsertNotSupportValue, FunctionNameValue, \
-    ParameterMarkerValue
+    ParameterMarkerValue, StringValue, NullValue, NumberValue, OtherValue, BoolValue
+from seata.sqlparser.mysql.antlr4.value.value import OtherLiteralValue
 
 
 class MySQLInsertStatement:
@@ -12,7 +13,7 @@ class MySQLInsertStatement:
     def __init__(self, ctx: MySqlParser.InsertStatementContext):
         self.table_name = None
         self.insert_columns = []
-        self.insert_rows = []
+        self.values_list = []
         self.__ctx = ctx
         self.parse()
 
@@ -53,7 +54,19 @@ class MySQLInsertStatement:
                         if isinstance(p, MySqlParser.ExpressionAtomPredicateContext):
                             ea = p.expressionAtom()
                             if isinstance(ea, MySqlParser.ConstantExpressionAtomContext):
-                                row.append(ea.getText())
+                                cst = ea.constant()
+                                if cst.nullLiteral() is not None:
+                                    row.append(NullValue())
+                                elif cst.stringLiteral() is not None:
+                                    row.append(StringValue(ea.getText()))
+                                elif cst.decimalLiteral() is not None:
+                                    row.append(NumberValue(cst.decimalLiteral().getText()))
+                                elif cst.hexadecimalLiteral() is not None:
+                                    row.append(OtherValue(cst.hexadecimalLiteral()))
+                                elif cst.booleanLiteral() is not None:
+                                    row.append(BoolValue(cst.booleanLiteral().getText()))
+                                else:
+                                    row.append(OtherLiteralValue(cst.getText()))
                             elif isinstance(ea, MySqlParser.FullColumnNameExpressionAtomContext):
                                 fcn = ea.fullColumnName()
                                 if fcn.uid() is not None:
@@ -96,4 +109,4 @@ class MySQLInsertStatement:
                         # MySqlParser.IsExpressionContext
                         row.append(InsertNotSupportValue())
             rows.append(row)
-        self.insert_rows = rows
+        self.values_list = rows
