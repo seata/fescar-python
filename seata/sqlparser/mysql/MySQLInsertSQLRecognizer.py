@@ -2,9 +2,12 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+from seata.sqlparser.SQLParsingException import SQLParsingException
 from seata.sqlparser.SQLDMLRecognizer import SQLInsertRecognizer
 from seata.sqlparser.SQLRecognizer import SQLRecognizer
 from seata.sqlparser.mysql.antlr4.MySqlParser import MySqlParser
+from seata.sqlparser.mysql.antlr4.value import MySQLValue
+from seata.sqlparser.mysql.antlr4.value.MySQLValue import NotPlaceholderValue
 from seata.sqlparser.mysql.antlr4.visit.MySQLInsertStatement import MySQLInsertStatement
 
 
@@ -33,7 +36,25 @@ class MySQLInsertSQLRecognizer(SQLInsertRecognizer):
         return self.insert_statement.insert_columns
 
     def get_insert_rows(self, pk_index: list):
-        return self.insert_statement.insert_rows
+        values_list = self.insert_statement.values_list
+        rows = []
+        for i in range(len(values_list)):
+            row = []
+            values = values_list[i]
+            for j in range(len(values)):
+                value = values[j]
+                if isinstance(value, MySQLValue.NullValue):
+                    row.append(value)
+                elif isinstance(value, MySQLValue.ValueExpr):
+                    row.append(value.get_value())
+                elif isinstance(value, MySQLValue.FunctionNameValue):
+                    row.append(value)
+                else:
+                    if j in pk_index:
+                        raise SQLParsingException("Unknown SQLExpr:" + str(value))
+                    row.append(NotPlaceholderValue())
+            rows.append(row)
+        return rows
 
     def insert_columns_is_empty(self):
         insert_columns = self.get_insert_columns()

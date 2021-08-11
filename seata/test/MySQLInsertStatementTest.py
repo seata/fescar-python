@@ -24,7 +24,7 @@ if __name__ == '__main__':
     assert mis.table_name == "test"
     assert mis.insert_columns == ["id", "name"]
 
-    rows = mis.insert_rows
+    rows = mis.values_list
     for i in range(len(rows)):
         row = rows[i]
         for j in range(len(row)):
