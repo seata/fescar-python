@@ -83,6 +83,7 @@ if __name__ == '__main__':
     insert into test value (null, 1);
     insert into test value (default, 1);
     insert into test value (now(6));
+    insert into test set name = 1 on duplicate key update;
     """
     sql2 = """
     delete from test where id = ?;

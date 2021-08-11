@@ -14,7 +14,7 @@ seata-python是一个seata分布式事务python版本的客户端，什么是sea
 
 ## 项目依赖
 ```
-twisted, DBUtils(PooledDB), sqlparse, sql-metadata, antlr4-python3-runtime
+twisted==21.7.0, DBUtils(PooledDB), antlr4-python3-runtime
 
 test:
 mariadb

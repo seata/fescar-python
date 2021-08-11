@@ -18,8 +18,9 @@ class InsertNotSupportValue:
 
 class FunctionNameValue:
 
-    def __init__(self, function_name, ):
-        pass
+    def __init__(self, function_name, args_):
+        self.function_name = function_name
+        self.args_ = args_
 
 
 class ParameterMarkerValue:

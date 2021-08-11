@@ -47,6 +47,8 @@ class SQLVisitorFactory(object):
                 sql_recognizer.sql_type = SQLType.INSERT
                 if dml_stmt.insertStatement().IGNORE() is not None:
                     sql_recognizer.sql_type = SQLType.INSERT_IGNORE
+                if dml_stmt.insertStatement().DUPLICATE() is not None:
+                    sql_recognizer.sql_type = SQLType.INSERT_ON_DUPLICATE_UPDATE
                 sql_recognizer.stmt = dml_stmt
                 sql_recognizer.original_sql = target_sql
                 sql_recognizers.append(sql_recognizer)

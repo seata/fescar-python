@@ -4,12 +4,12 @@
 # @since 1.0
 from seata.core.context.RootContext import RootContext
 from seata.core.model.BranchType import BranchType
-from seata.rm.datasource import PlainExecutor
-from seata.rm.datasource import SQLVisitorFactory
-from seata.rm.datasource import MySQLInsertExecutor
-from seata.rm.datasource import MySQLDeleteExecutor
-from seata.rm.datasource import MySQLUpdateExecutor
-from seata.rm.datasource import MySQLSelectForUpdateExecutor
+from seata.rm.datasource.executor.PlainExecutor import PlainExecutor
+from seata.rm.datasource.sql.SQLVisitorFactory import SQLVisitorFactory
+from seata.rm.datasource.executor.mysql.MySQLInsertExecutor import MySQLInsertExecutor
+from seata.rm.datasource.executor.mysql.MySQLDeleteExecutor import MySQLDeleteExecutor
+from seata.rm.datasource.executor.mysql.MySQLUpdateExecutor import MySQLUpdateExecutor
+from seata.rm.datasource.executor.mysql.MySQLSelectForUpdateExecutor import MySQLSelectForUpdateExecutor
 from seata.sqlparser.SQLType import SQLType
 
 
