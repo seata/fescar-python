@@ -38,7 +38,7 @@ class SQLVisitorFactory(object):
         kw = None
         for i in range(len(token_list)):
             token = token_list[i]
-            if token.is_keyword:
+            if token.ttype[1] == 'DML':
                 kw = token
                 break
 
