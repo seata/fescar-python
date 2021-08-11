@@ -59,10 +59,9 @@ def test2(sql):
     lexer = MySqlLexer(NoCaseStringStream(sql))
     stream = CommonTokenStream(lexer)
     parser = MySqlParser(stream)
-    stmt_ctx = parser.sqlStatements()
-    stmt_ctxs = stmt_ctx.sqlStatement()
-    for i in range(len(stmt_ctxs)):
-        stmt = stmt_ctxs[i]
+    stmts = parser.sqlStatements().sqlStatement()
+    for i in range(len(stmts)):
+        stmt = stmts[i]
         if stmt.dmlStatement().insertStatement() is not None:
             print("insert")
         elif stmt.dmlStatement().updateStatement() is not None:
@@ -75,8 +74,32 @@ def test2(sql):
 
 
 if __name__ == '__main__':
-    # sql = "SELECT * FROM test t WHERE id = ? FOR UPDATE"
-    sql = "insert into test (id, name) values (?, ?)"
-    # sql = "select a from tb_test where name = ?"
+    sql = """
+    insert ignore into test values(?,?);
+    insert into test (id, name) values (?,?);
+    insert into test value (?, ?);
+    insert into test values (1,1), (2,2);
+    insert into test value (1,1);
+    insert into test value (null, 1);
+    insert into test value (default, 1);
+    insert into test value (now(6));
+    """
+    sql2 = """
+    delete from test where id = ?;
+    delete from test where id = 1;
+    delete t from test t where t.id = ?;
+    delete t from test t where t.id = 1;
+    """
+    sql3 = """
+    update test set id = ?, name = ? where id = ?;
+    update test set id = 1, name = ? where id = 1;
+    update test set id = 1, name = '1' where id = 1;
+    update test t set id = ?, name = ? where t.id = ?;
+    """
+    sql4 = """
+    select * from test t where t.id = ?;
+    select id, name from test where id = ?;
+    select id, name from test where id = 1;
+    """
     # test1(sql)
     test2(sql)

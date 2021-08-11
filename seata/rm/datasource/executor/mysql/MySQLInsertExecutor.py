@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-from seata.rm.datasource import TableRecords
+from seata.rm.datasource.sql.struct.TableRecords import TableRecords
 
 
 class MySQLInsertExecutor(object):
@@ -22,5 +22,6 @@ class MySQLInsertExecutor(object):
         pass
 
     def get_table_meta(self):
+        # select * from information_schema.columns where table_name = 'table' and table_schema = 'schema'
         self.sql_recognizer.get_table_name()
         pass

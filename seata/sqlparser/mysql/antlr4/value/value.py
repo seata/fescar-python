@@ -4,20 +4,22 @@
 # @since 1.0
 from seata.sqlparser.util.SQLUtil import SQLUtil
 
+class ASTNode:
+    pass
 
-class ParameterMarkerValue:
+class ParameterMarkerValue(ASTNode):
 
     def __init__(self, value: int):
         self.value = value
 
 
-class StringLiteralValue:
+class StringLiteralValue(ASTNode):
 
     def __init__(self, value: str):
         self.value = value[1, -1]
 
 
-class NumberLiteralValue:
+class NumberLiteralValue(ASTNode):
 
     def __init__(self, value: str):
         try:
@@ -26,13 +28,13 @@ class NumberLiteralValue:
             self.value = float(value)
 
 
-class OtherLiteralValue:
+class OtherLiteralValue(ASTNode):
 
     def __init__(self, value: str):
         self.value = value
 
 
-class BooleanLiteralValue:
+class BooleanLiteralValue(ASTNode):
 
     def __init__(self, value: str):
         if value is None:
@@ -41,7 +43,7 @@ class BooleanLiteralValue:
             self.value = bool(value)
 
 
-class IdentifierValue:
+class IdentifierValue(ASTNode):
 
     def __init__(self, value: str):
         if value is None:

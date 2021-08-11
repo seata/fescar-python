@@ -21,6 +21,7 @@ class PooledDBProxy(object):
         self.jdbc_url = "{}:{}:{}/{}".format(db_type, kwargs['host'], port, kwargs['database'])
         self.db_type = db_type
         self.username = kwargs['user']
+        self.database = kwargs['database']
 
         from seata.rm.ATResourceManager import ATResourceManager
         ATResourceManager.get().register_resource(self)

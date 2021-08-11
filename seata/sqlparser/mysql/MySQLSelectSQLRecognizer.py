@@ -7,10 +7,10 @@ from seata.sqlparser.SQLRecognizer import SQLRecognizer
 
 class MySQLSelectSQLRecognizer(SQLRecognizer):
 
-    def __int__(self, original_sql=None, sql_type=None, tokens=None):
+    def __int__(self, original_sql=None, sql_type=None, stmt=None):
         self.original_sql = original_sql
         self.sql_type = sql_type
-        self.tokens = tokens
+        self.stmt = stmt
 
     def get_sql_type(self):
         return self.sql_type
