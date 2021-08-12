@@ -11,7 +11,7 @@ from seata.sqlparser.mysql.antlr4.value.MySQLValue import NotPlaceholderValue
 from seata.sqlparser.mysql.antlr4.visit.MySQLInsertStatement import MySQLInsertStatement
 
 
-class MySQLInsertSQLRecognizer(SQLInsertRecognizer):
+class MySQLInsertRecognizer(SQLInsertRecognizer):
 
     def __int__(self, original_sql=None, sql_type=None, stmt=None):
         self.original_sql = original_sql

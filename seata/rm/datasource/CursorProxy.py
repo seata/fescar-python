@@ -77,3 +77,10 @@ class CursorProxy(object):
     @property
     def connection(self):
         return self.connection_proxy
+
+    @property
+    def lastrowid(self):
+        return self.target_cursor.lastrowid
+
+    def get_connection(self):
+        return self.connection_proxy.target_connection

@@ -13,8 +13,13 @@ class TableMeta(object):
 
     def __init__(self):
         self.table_name = None
+        # key: column_name
         self.all_columns = OrderedDict()
+        # key: index_name
         self.all_indexs = OrderedDict()
+
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
 
     def get_column_meta(self, col_name):
         return self.all_columns.get(col_name)
@@ -45,7 +50,7 @@ class TableMeta(object):
         return name_list
 
     def get_escape_pk_name_list(self, db_type):
-        return ColumnUtils.add_escape_by_cols_dbtype(self.get_primary_key_only_name(), db_type)
+        return ColumnUtils.add_by_dbtype(self.get_primary_key_only_name(), db_type)
 
     def contains_pk(self, cols):
         if cols is None:
@@ -54,13 +59,12 @@ class TableMeta(object):
         if len(pk) == 0:
             return False
 
-
-    """
-    public boolean containsPK(List<String> cols) {
-        //at least contain one pk
-        if (cols.containsAll(pk)) {
-            return true;
-        } else {
-            return CollectionUtils.toUpperList(cols).containsAll(CollectionUtils.toUpperList(pk));
-        }
-    }"""
+        big = cols
+        small = pk
+        result = all(elem in big for elem in small)
+        if result:
+            return True
+        else:
+            big_a = [each.upper() for each in big]
+            small_a = [each.upper() for each in small]
+            return all(elem in big_a for elem in small_a)

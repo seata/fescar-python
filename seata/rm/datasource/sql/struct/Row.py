@@ -10,6 +10,9 @@ class Row(object):
     def __init__(self):
         self.fields = []
 
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
+
     def add(self, field):
         self.fields.append(field)
 

@@ -11,7 +11,8 @@ from seata.rm.datasource.PooledDBProxy import PooledDBProxy
 from seata.sqlparser.util.JdbcConstants import JdbcConstants
 from seata.tm.TMClient import TMClient
 
-if __name__ == '__main__':
+
+def bootstrap_init():
     host = "127.0.0.1"
     port = 8091
 
@@ -27,6 +28,10 @@ if __name__ == '__main__':
 
     Bootstrap.start()
 
+
+def test_insert():
+    bootstrap_init()
+
     pool = PooledDB(creator=mariadb, host="mariadb.dev", port=3306, user="root", password="root", database="test")
 
     pool_proxy = PooledDBProxy(pool, JdbcConstants.MYSQL)
@@ -37,3 +42,49 @@ if __name__ == '__main__':
     cursor.execute("insert into test(id, name) values(?, ?)", (None, "name1"))
     cp.commit()
     print("success")
+
+
+def test_get_table_meta():
+    pool = PooledDB(creator=mariadb, host="mariadb.dev", port=3306, user="root", password="root", database="test")
+    con = pool.connection()
+    cursor = con.cursor()
+    schema = con._pool._kwargs['database']
+    sql = 'select * from information_schema.columns where table_name = ? and table_schema = ?'
+    cursor.execute(sql, ('test', schema))
+    all = cursor.fetchall()
+    for i in range(len(all)):
+        r = all[i]
+        print(r)
+    pass
+
+
+def test_get_low_case():
+    pool = PooledDB(creator=mariadb, host="mariadb.dev", port=3306, user="root", password="root", database="test")
+    con = pool.connection()
+    cursor = con.cursor()
+    sql = "select * from information_schema.global_variables WHERE variable_name = 'LOWER_CASE_TABLE_NAMES'"
+    cursor.execute(sql)
+    one = cursor.fetchone()
+    print(one)
+    pass
+
+
+def test_insert_lastrowid():
+    pool = PooledDB(creator=mariadb, host="mariadb.dev", port=3306, user="root", password="root", database="test")
+    con = pool.connection()
+    cursor = con.cursor()
+    sql = "insert into test (id, name) values(null, 1), (null, 2)"
+    cursor.execute(sql)
+    con.commit()
+    print(cursor.lastrowid)
+    print(cursor.lastrowid)
+    print(cursor.rowcount)
+    print()
+
+
+if __name__ == '__main__':
+    # test_insert()
+    # test_get_table_meta()
+    # test_get_low_case()
+    test_insert_lastrowid()
+    print()

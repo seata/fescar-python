@@ -32,7 +32,7 @@ class ValueExpr:
 
 class StringValue(ValueExpr):
     def __init__(self, value: str):
-        self.value = value
+        self.value = value[1: -1]
 
     def get_value(self):
         return self.value
@@ -51,12 +51,17 @@ class BoolValue(ValueExpr):
         return self.value
 
 
-class NumberValue(ValueExpr):
+class IntValue(ValueExpr):
     def __init__(self, value: str):
-        try:
-            self.value = int(value)
-        except Exception as e:
-            self.value - float(value)
+        self.value = int(value)
+
+    def get_value(self):
+        return self.value
+
+
+class DoubleValue(ValueExpr):
+    def __init__(self, value: str):
+        self.value - float(value)
 
     def get_value(self):
         return self.value

@@ -22,5 +22,11 @@ class ColumnMeta(object):
         self.sql_datetime_sub = None
         self.char_octet_length = None
         self.ordinal_position = None
-        self.is_null_able = None
+        self.is_nullable = None
         self.is_autoincrement = None
+
+    def is_auto_increment(self):
+        return self.is_autoincrement == "YES"
+
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__

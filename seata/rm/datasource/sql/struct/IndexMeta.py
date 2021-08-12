@@ -15,3 +15,6 @@ class IndexMeta(object):
         self.asc_or_desc = None
         self.cardinality = 0
         self.ordinal_position = 0
+
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__

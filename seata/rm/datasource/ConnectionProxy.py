@@ -86,9 +86,16 @@ class ConnectionProxy(object):
 
     def autocommit(self, on):
         if (self.context.in_global_transaction() or self.context.is_global_lock_require) \
-                and on and not self.target_connection.autocommit:
+                and on and not self.get_autocommit():
             self.do_commit()
         self.target_connection.autocommit = on
+
+    def get_autocommit(self):
+        return self.target_connection.autocommit
+
+    def change_autocommit(self):
+        self.context.autocommit_changed = True
+        self.autocommit(False)
 
     def do_commit(self):
         if self.context.in_global_transaction():

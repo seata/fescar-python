@@ -7,7 +7,7 @@ from seata.exception import NotSupportYetException
 from seata.exception.ShouldNeverHappenException import ShouldNeverHappenException
 from seata.sqlparser.SQLType import SQLType
 from seata.sqlparser.mysql.MySQLDeleteSQLRecognizer import MySQLDeleteSQLRecognizer
-from seata.sqlparser.mysql.MySQLInsertSQLRecognizer import MySQLInsertSQLRecognizer
+from seata.sqlparser.mysql.MySQLInsertSQLRecognizer import MySQLInsertRecognizer
 from seata.sqlparser.mysql.MySQLSelectSQLRecognizer import MySQLSelectSQLRecognizer
 from seata.sqlparser.mysql.MySQLUpdateSQLRecognizer import MySQLUpdateSQLRecognizer
 from seata.sqlparser.mysql.antlr4.MySqlLexer import MySqlLexer, CommonTokenStream
@@ -43,7 +43,7 @@ class SQLVisitorFactory(object):
         for i in range(len(stmts)):
             dml_stmt = stmts[i].dmlStatement()
             if dml_stmt.insertStatement() is not None:
-                sql_recognizer = MySQLInsertSQLRecognizer()
+                sql_recognizer = MySQLInsertRecognizer()
                 sql_recognizer.sql_type = SQLType.INSERT
                 if dml_stmt.insertStatement().IGNORE() is not None:
                     sql_recognizer.sql_type = SQLType.INSERT_IGNORE

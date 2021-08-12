@@ -12,7 +12,8 @@ class ConnectionContext(object):
         self.branch_id = None
         self.is_global_lock_require = False
         self.lock_keys_buffer = set()
-        self.sql_undo_items_buffer = []
+        self.sql_undo_items_buffer = {}
+        self.autocommit_changed = False
 
     def append_lock_key(self, lock_key):
         self.lock_keys_buffer.add(lock_key)
@@ -58,3 +59,9 @@ class ConnectionContext(object):
             if i != len(self.lock_keys_buffer) - 1:
                 appender += ";"
         return appender
+
+    def get_undo_items(self):
+        undo_items = []
+        for i in range(len(self.sql_undo_items_buffer)):
+            undo_items.append(self.sql_undo_items_buffer[i])
+        return undo_items

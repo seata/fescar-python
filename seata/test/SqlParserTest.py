@@ -5,10 +5,6 @@
 
 from antlr4 import *
 
-# from seata.sqlparser.mysql.antlr4.MySQLStatementLexer import MySQLStatementLexer
-# from seata.sqlparser.mysql.antlr4.MySQLStatementParser import MySQLStatementParser
-# from seata.sqlparser.mysql.antlr4.MySQLStatementVisitor import MySQLStatementVisitor
-# from seata.sqlparser.mysql.antlr4.MySQLStatementListener import MySQLStatementListener
 from seata.sqlparser.mysql.antlr4.MySqlLexer import MySqlLexer
 from seata.sqlparser.mysql.antlr4.MySqlParser import MySqlParser
 from seata.sqlparser.mysql.antlr4.MySqlParserVisitor import MySqlParserVisitor
@@ -77,14 +73,8 @@ if __name__ == '__main__':
     sql = """
     insert ignore into test values(?,?);
     insert into test (id, name) values (?,?);
-    insert into test value (?, ?);
-    insert into test values (1,1), (2,2);
-    insert into test value (1,1);
-    insert into test value (null, 1);
-    insert into test value (default, 1);
-    insert into test value (now(6));
+    insert into test value (default, 'null', null, true, '1', 1, 1.0, now(6), format(250500.5634, 2));
     insert into test (a, b, c) values (1, 2, 3) on duplicate key update c = c + 1;
-    insert into test value ('null', 1);
     """
     sql2 = """
     delete from test where id = ?;

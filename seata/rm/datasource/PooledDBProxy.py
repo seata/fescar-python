@@ -32,6 +32,9 @@ class PooledDBProxy(object):
     def connection(self):
         return ConnectionProxy(self, self.pool.connection())
 
+    def get_origin_connection(self):
+        return self.pool.connection()
+
     def steady_connection(self):
         return ConnectionProxy(self, self.pool.steady_connection())
 

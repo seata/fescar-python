@@ -3,16 +3,16 @@
 # @author jsbxyyx
 # @since 1.0
 from seata.sqlparser.mysql.antlr4.MySqlParser import MySqlParser
+from seata.sqlparser.mysql.antlr4.util.MySQLStatementUtil import MySQLStatementUtil
 from seata.sqlparser.mysql.antlr4.value.MySQLValue import DefaultValue, InsertNotSupportValue, FunctionNameValue, \
-    ParameterMarkerValue, StringValue, NullValue, NumberValue, OtherValue, BoolValue
-from seata.sqlparser.mysql.antlr4.value.value import OtherLiteralValue
+    ParameterMarkerValue
 
 
 class MySQLInsertStatement:
 
     def __init__(self, ctx: MySqlParser.InsertStatementContext):
         self.table_name = None
-        self.insert_columns = []
+        self.insert_columns = None
         self.values_list = []
         self.__ctx = ctx
         self.parse()
@@ -28,7 +28,7 @@ class MySQLInsertStatement:
     def __parse_insert_columns(self):
         columns = self.__ctx.columns
         if columns is None:
-            return None
+            return
         uids = columns.uid()
         columns_list = []
         for i in range(len(uids)):
@@ -54,19 +54,7 @@ class MySQLInsertStatement:
                         if isinstance(p, MySqlParser.ExpressionAtomPredicateContext):
                             ea = p.expressionAtom()
                             if isinstance(ea, MySqlParser.ConstantExpressionAtomContext):
-                                cst = ea.constant()
-                                if cst.nullLiteral() is not None:
-                                    row.append(NullValue())
-                                elif cst.stringLiteral() is not None:
-                                    row.append(StringValue(ea.getText()))
-                                elif cst.decimalLiteral() is not None:
-                                    row.append(NumberValue(cst.decimalLiteral().getText()))
-                                elif cst.hexadecimalLiteral() is not None:
-                                    row.append(OtherValue(cst.hexadecimalLiteral()))
-                                elif cst.booleanLiteral() is not None:
-                                    row.append(BoolValue(cst.booleanLiteral().getText()))
-                                else:
-                                    row.append(OtherLiteralValue(cst.getText()))
+                                row.append(MySQLStatementUtil.parse_constant(ea.constant()))
                             elif isinstance(ea, MySqlParser.FullColumnNameExpressionAtomContext):
                                 fcn = ea.fullColumnName()
                                 if fcn.uid() is not None:

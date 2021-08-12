@@ -12,3 +12,6 @@ class Field(object):
         self.key_type = KeyType.NULL
         self.type = 0
         self.value = None
+
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__

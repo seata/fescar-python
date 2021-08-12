@@ -18,7 +18,7 @@ def get_stmts(sql):
     return stmts
 
 
-if __name__ == '__main__':
+def test_insert_sql():
     stmt = get_stmts("insert into test (id, name) values (?,?)")[0].dmlStatement().insertStatement()
     mis = MySQLInsertStatement(stmt)
     assert mis.table_name == "test"
@@ -29,3 +29,7 @@ if __name__ == '__main__':
         row = rows[i]
         for j in range(len(row)):
             assert row[j].value == "?"
+
+
+if __name__ == '__main__':
+    test_insert_sql()
