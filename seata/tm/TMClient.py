@@ -23,6 +23,7 @@ def do_heart():  # 每隔 5秒 向服务器发送消息
             hb = HeartbeatMessage(True)
             TMClient.get().send_sync_request(hb)
             time.sleep(5)
+            print("tm client do heart...")
         except Exception as e:
             pass
 

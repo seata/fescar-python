@@ -19,9 +19,10 @@ def do_heart(factory):  # 每隔 5秒 向服务器发送消息
     while True:
         try:
             # 判断连接状态（factory.protocol.connected），决定是否向服务器发送消息
-            if factory.protocol and factory.protocol.connected:
-                hb = HeartbeatMessage(True)
-                RMClient.get().send_sync_request(hb)
+            wait_connected(factory)
+            hb = HeartbeatMessage(True)
+            RMClient.get().send_sync_request(hb)
+            print("rm client do heart...")
             time.sleep(1)
         except Exception as e:
             pass

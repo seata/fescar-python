@@ -5,7 +5,9 @@
 from enum import Enum
 
 from seata.core.compressor.CompressorType import CompressorType
+from seata.rm.datasource.sql.TableMetaCacheFactory import TableMetaCacheFactory
 from seata.rm.datasource.undo.BranchUndoLog import BranchUndoLog
+from seata.rm.datasource.undo.UndoExecutorFactory import UndoExecutorFactory
 from seata.rm.datasource.undo.UndoLogParserFactory import UndoLogParserFactory
 
 
@@ -106,7 +108,14 @@ class UndoLogManager(object):
 
                     sql_undo_logs = branch_undo_log.sql_undo_logs
                     if len(sql_undo_logs) > 1:
-                        pass
+                        sql_undo_logs.reverse()
+                    for i in range(len(sql_undo_logs)):
+                        sql_undo_log = sql_undo_logs[i]
+                        table_meta = TableMetaCacheFactory.get_table_meta_cache(pooled_db_proxy.db_type) \
+                            .get_table_meta(con, sql_undo_log.table_name, pooled_db_proxy.resource_id)
+                        sql_undo_log.set_table_meta(table_meta)
+                        undo_executor = UndoExecutorFactory.get_undo_executor(pooled_db_proxy.db_type, sql_undo_log)
+                        undo_executor.execute_on(con)
 
 
 

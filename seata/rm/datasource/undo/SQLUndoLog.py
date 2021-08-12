@@ -4,7 +4,6 @@
 # @since 1.0
 
 class SQLUndoLog(object):
-
     def __int__(self):
         self.sql_type = None
         self.table_name = None
