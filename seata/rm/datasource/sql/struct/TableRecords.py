@@ -10,13 +10,12 @@ from seata.rm.datasource.sql.struct.Row import Row
 
 class TableRecords(object):
 
-    def __init__(self):
-        self.table_meta = None
-        self.table_name = None
-        self.rows = []
-
-    def __init__(self, table_meta):
+    def __init__(self, table_meta=None):
+        # TableMeta
         self.table_meta = table_meta
+        self.table_name = None
+        # Row
+        self.rows = []
 
     def set_table_meta(self, table_meta):
         if self.table_meta is not None:
@@ -26,7 +25,9 @@ class TableRecords(object):
 
     @staticmethod
     def empty(table_meta):
-        pass
+        tr = TableRecords()
+        tr.set_table_meta(table_meta)
+        return tr
 
     def pk_rows(self):
         primary_key_map = self.table_meta.get_primary_key_map()

@@ -2,18 +2,16 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-from enum import Enum
 
 from seata.core.compressor.CompressorType import CompressorType
+from seata.exception.TransactionException import BranchTransactionException
+from seata.exception.TransactionExceptionCode import TransactionExceptionCode
 from seata.rm.datasource.sql.TableMetaCacheFactory import TableMetaCacheFactory
 from seata.rm.datasource.undo.BranchUndoLog import BranchUndoLog
+from seata.rm.datasource.undo.State import State
 from seata.rm.datasource.undo.UndoExecutorFactory import UndoExecutorFactory
 from seata.rm.datasource.undo.UndoLogParserFactory import UndoLogParserFactory
-
-
-class State(Enum):
-    Normal = 1
-    GlobalFinished = 1
+from seata.sqlparser.util.CollectionUtil import CollectionUtil
 
 
 class UndoLogManager(object):
@@ -28,17 +26,11 @@ class UndoLogManager(object):
         pass
 
     def build_context(self, parse_name, compressor_type):
-        return self.CONTEXT_SERIALIZER + "=" + parse_name + self.CONTEXT_COMPRESSOR_TYPE + "&=" + compressor_type
+        context_map = {self.CONTEXT_SERIALIZER: parse_name, self.CONTEXT_COMPRESSOR_TYPE: compressor_type.name}
+        return CollectionUtil.encode_map(context_map)
 
     def parse_context(self, context_string):
-        if context_string is None:
-            return None
-        context_map = {}
-        cs = context_string.split("&")
-        for i in range(len(cs)):
-            kv = cs[i].split("=")
-            context_map[kv[0]] = kv[1]
-        return context_map
+        return CollectionUtil.decode_map(context_string)
 
     def flush_undo_logs(self, connection_proxy):
         context = connection_proxy.context
@@ -63,6 +55,7 @@ class UndoLogManager(object):
 
     def undo(self, pooled_db_proxy, xid, branch_id):
         con = None
+        cursor = None
         original_auto_commit = True
         while True:
             try:
@@ -117,25 +110,63 @@ class UndoLogManager(object):
                         undo_executor = UndoExecutorFactory.get_undo_executor(pooled_db_proxy.db_type, sql_undo_log)
                         undo_executor.execute_on(con)
 
-
-
+                    if exists:
+                        self.delete_undo_log(xid, branch_id, con)
+                        con.commit()
+                        print('xid {} branch {}, undo_log deleted with {}'.format(xid, branch_id,
+                                                                                  State.GlobalFinished.name))
+                    else:
+                        self.insert_undo_log_with_global_finished(xid, branch_id, UndoLogParserFactory.get_instance(),
+                                                                  con)
+                        con.commit()
+                        print('xid {} branch {}, undo_log added with {}'.format(xid, branch_id,
+                                                                                State.GlobalFinished.name))
+                    return
             except Exception as e:
-                if con is not None:
-                    try:
-                        con.rollback()
-                    except Exception as e:
-                        print("close connection while undo", e)
+                error_name = e.__class__.__name__
+                if error_name == 'IntegrityError':
+                    print('xid {} branch {}, undo_log inserted, retry rollback'.format(xid, branch_id))
+                else:
+                    if con is not None:
+                        try:
+                            con.rollback()
+                        except Exception as e:
+                            print("close connection while undo", e)
+                    raise BranchTransactionException(TransactionExceptionCode.BranchRollbackFailed_Retriable)
             finally:
+                if cursor is not None:
+                    try:
+                        cursor.close()
+                    except Exception as ignored:
+                        pass
                 if con is not None:
-                    con.close()
+                    if original_auto_commit:
+                        con.autocommit = True
+                    try:
+                        con.close()
+                    except Exception as ignored:
+                        pass
 
     def delete_undo_log(self, xid, branch_id, connection):
-        with connection.cursor() as cursor:
+        try:
+            cursor = connection.cursor()
             cursor.execute(self.DELETE_UNDO_LOG_SQL, (branch_id, xid))
             cursor.commit()
+        finally:
+            if cursor is not None:
+                try:
+                    cursor.close()
+                except Exception as ignored:
+                    pass
 
     def batch_delete_undo_log(self, xids, branch_ids, connection):
         pass
 
     def delete_undo_log_by_log_created(self, log_created, limit_rows, connection):
+        pass
+
+    def insert_undo_log_with_global_finished(self, xid, branch_id, undo_log_parser, connection):
+        pass
+
+    def insert_undo_log_with_normal(self, xid, branch_id, rollback_context, undo_log_content, connection):
         pass

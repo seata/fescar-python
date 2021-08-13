@@ -5,8 +5,10 @@
 
 class SQLUndoLog(object):
     def __int__(self):
+        # SQLType
         self.sql_type = None
         self.table_name = None
+        # TableRecords
         self.before_image = None
         self.after_image = None
 

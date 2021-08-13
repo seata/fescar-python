@@ -5,6 +5,6 @@
 from enum import Enum
 
 
-class KeyType(Enum):
-    NULL = 1
-    PRIMARY_KEY = 2
+class State(Enum):
+    Normal = 1
+    GlobalFinished = 1

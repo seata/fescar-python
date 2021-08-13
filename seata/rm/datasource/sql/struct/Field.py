@@ -11,6 +11,7 @@ class Field(object):
         self.name = None
         self.key_type = KeyType.NULL
         self.type = 0
+        # any
         self.value = None
 
     def __eq__(self, other):

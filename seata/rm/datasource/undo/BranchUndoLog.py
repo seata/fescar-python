@@ -8,5 +8,5 @@ class BranchUndoLog:
     def __init__(self):
         self.xid = None
         self.branch_id = 0
-        # SQLUndoLog
+        # SQLUndoLog list
         self.sql_undo_logs = None

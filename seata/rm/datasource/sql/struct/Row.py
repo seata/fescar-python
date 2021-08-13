@@ -8,6 +8,7 @@ from seata.rm.datasource.sql.struct.KeyType import KeyType
 class Row(object):
 
     def __init__(self):
+        # Field
         self.fields = []
 
     def __eq__(self, other):

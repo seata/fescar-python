@@ -13,9 +13,9 @@ class TableMeta(object):
 
     def __init__(self):
         self.table_name = None
-        # key: column_name
+        # key: column_name value: ColumnMeta
         self.all_columns = OrderedDict()
-        # key: index_name
+        # key: index_name value: IndexMeta
         self.all_indexs = OrderedDict()
 
     def __eq__(self, other):

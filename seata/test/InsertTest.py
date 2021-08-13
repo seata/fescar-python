@@ -82,9 +82,22 @@ def test_insert_lastrowid():
     print()
 
 
+def test_IntegrityError():
+    pool = PooledDB(creator=mariadb, host="mariadb.dev", port=3306, user="root", password="root", database="test")
+    con = pool.connection()
+    try:
+        cursor = con.cursor()
+        sql = "insert into test (id, name) values(1, 1)"
+        cursor.execute(sql)
+        con.commit()
+    except Exception as e:
+        print(e.__class__.mro())
+
+
 if __name__ == '__main__':
     # test_insert()
     # test_get_table_meta()
     # test_get_low_case()
-    test_insert_lastrowid()
+    # test_insert_lastrowid()
+    test_IntegrityError()
     print()

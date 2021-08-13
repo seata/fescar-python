@@ -9,3 +9,9 @@ class TransactionException(Exception):
         self.code = code
         self.message = message
         self.cause = cause
+
+
+class BranchTransactionException(TransactionException):
+
+    def __init__(self, code, message=None, cause=None):
+        super(BranchTransactionException, self).__init__(code, message, cause)
