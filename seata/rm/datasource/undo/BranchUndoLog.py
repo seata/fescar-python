@@ -26,31 +26,31 @@ class BranchUndoLog:
             self.__dic_to_branch_undo_log(dic)
 
     def __dic_to_branch_undo_log(self, bul_dic):
-        self.xid = bul_dic['xid']
-        self.branch_id = bul_dic['branch_id']
+        self.xid = bul_dic.get('xid', None)
+        self.branch_id = bul_dic.get('branch_id', None)
         self.sql_undo_logs = []
-        sql_undo_logs = bul_dic['sql_undo_logs']
+        sql_undo_logs = bul_dic.get('sql_undo_logs', None)
         if sql_undo_logs is not None and len(sql_undo_logs) > 0:
             for i in sql_undo_logs:
                 sql_undo_log = sql_undo_logs[i]
                 sul = SQLUndoLog()
-                sul.sql_type = SQLType(sql_undo_log['sql_type'])
-                sul.table_name = sql_undo_log['table_name']
-                before_image = sql_undo_log['before_image']
+                sul.sql_type = SQLType(sql_undo_log.get('sql_type', None))
+                sul.table_name = sql_undo_log.get('table_name', None)
+                before_image = sql_undo_log.get('before_image', None)
 
                 if before_image is not None:
                     sul.before_image = self.__dic_to_table_records(before_image)
 
-                after_image = sql_undo_log['after_image']
+                after_image = sql_undo_log.get('after_image', None)
                 if after_image is not None:
                     sul.after_image = self.__dic_to_table_records(after_image)
 
     def __dic_to_table_records(self, tr_dic):
         tr = TableRecords()
-        table_meta = tr_dic['table_meta']
+        table_meta = tr_dic.get('table_meta', None)
         tr.table_meta = self.__dic_to_table_meta(table_meta)
-        tr.table_name = tr_dic['table_name']
-        rows_dic = tr_dic['rows']
+        tr.table_name = tr_dic.get('table_name', None)
+        rows_dic = tr_dic.get('rows', None)
         tr.rows = self.__dic_to_rows(rows_dic)
         return tr
 
@@ -60,28 +60,28 @@ class BranchUndoLog:
             for i in range(len(rows_dic)):
                 row_dic = rows_dic[i]
                 row = Row()
-                fields_dic = row_dic['fields']
+                fields_dic = row_dic.get('fields', None)
                 if fields_dic is not None and len(fields_dic) > 0:
                     for j in range(len(fields_dic)):
                         field_dic = fields_dic[j]
                         f = Field()
-                        f.name = field_dic['name']
-                        f.key_type = KeyType(field_dic['key_type'])
-                        f.value = field_dic['value']
+                        f.name = field_dic.get('name', None)
+                        f.key_type = KeyType(field_dic.get('key_type', None))
+                        f.value = field_dic.get('value', None)
                         row.fields.append(f)
                 rows.append(row)
         return rows
 
     def __dic_to_table_meta(self, tm_dic):
         tm = TableMeta()
-        tm.table_name = tm_dic['table_name']
-        all_columns = tm_dic['all_columns']
+        tm.table_name = tm_dic.get('table_name', None)
+        all_columns = tm_dic.get('all_columns', None)
         if all_columns is not None and len(all_columns) > 0:
             tm.all_columns = OrderedDict()
             for column_name, cm_dic in all_columns:
                 cm = self.__dic_to_column_meta(cm_dic)
                 tm.all_columns[column_name] = cm
-        all_indexs = tm_dic['all_indexs']
+        all_indexs = tm_dic.get('all_indexs', None)
         if all_indexs is not None and len(all_indexs) > 0:
             tm.all_indexs = OrderedDict()
             for index_name, im_dic in all_indexs:
@@ -91,40 +91,40 @@ class BranchUndoLog:
 
     def __dic_to_column_meta(self, cm_dic):
         cm = ColumnMeta()
-        cm.table_cat = cm_dic['table_cat']
-        cm.table_schema_name = cm_dic['table_schema_name']
-        cm.table_name = cm_dic['table_name']
-        cm.column_name = cm_dic['column_name']
-        cm.data_type = cm_dic['data_type']
-        cm.data_type_name = cm_dic['data_type_name']
-        cm.column_size = cm_dic['column_size']
-        cm.decimal_digits = cm_dic['decimal_digits']
-        cm.num_prec_radix = cm_dic['num_prec_radix']
-        cm.null_able = cm_dic['null_able']
-        cm.remarks = cm_dic['remarks']
-        cm.column_def = cm_dic['column_def']
-        cm.sql_data_type = cm_dic['sql_data_type']
-        cm.sql_datetime_sub = cm_dic['sql_datetime_sub']
-        cm.char_octet_length = cm_dic['char_octet_length']
-        cm.ordinal_position = cm_dic['ordinal_position']
-        cm.is_nullable = cm_dic['is_nullable']
-        cm.is_autoincrement = cm_dic['is_autoincrement']
+        cm.table_cat = cm_dic.get('table_cat', None)
+        cm.table_schema_name = cm_dic.get('table_schema_name', None)
+        cm.table_name = cm_dic.get('table_name', None)
+        cm.column_name = cm_dic.get('column_name', None)
+        cm.data_type = cm_dic.get('data_type', None)
+        cm.data_type_name = cm_dic.get('data_type_name', None)
+        cm.column_size = cm_dic.get('column_size', None)
+        cm.decimal_digits = cm_dic.get('decimal_digits', None)
+        cm.num_prec_radix = cm_dic.get('num_prec_radix', None)
+        cm.null_able = cm_dic.get('null_able', None)
+        cm.remarks = cm_dic.get('remarks', None)
+        cm.column_def = cm_dic.get('column_def', None)
+        cm.sql_data_type = cm_dic.get('sql_data_type', None)
+        cm.sql_datetime_sub = cm_dic.get('sql_datetime_sub', None)
+        cm.char_octet_length = cm_dic.get('char_octet_length', None)
+        cm.ordinal_position = cm_dic.get('ordinal_position', None)
+        cm.is_nullable = cm_dic.get('is_nullable', None)
+        cm.is_autoincrement = cm_dic.get('is_autoincrement', None)
         return cm
 
     def __dic_to_index_meta(self, im_dic):
         im = IndexMeta()
-        values = im_dic['values']
+        values = im_dic.get('values', None)
         if values is not None and len(values) > 0:
             im.values = []
             for i in range(len(values)):
                 value = values[i]
                 im.values.append(self.__dic_to_column_meta(value))
-        im.non_unique = im_dic['non_unique']
-        im.index_qualifier = im_dic['index_qualifier']
-        im.index_name = im_dic['index_name']
-        im.type = im_dic['type']
-        im.index_type = IndexType(im_dic['index_type'])
-        im.asc_or_desc = im_dic['asc_or_desc']
-        im.cardinality = im_dic['cardinality']
-        im.ordinal_position = im_dic['ordinal_position']
+        im.non_unique = im_dic.get('non_unique', None)
+        im.index_qualifier = im_dic.get('index_qualifier', None)
+        im.index_name = im_dic.get('index_name', None)
+        im.type = im_dic.get('type', None)
+        im.index_type = IndexType(im_dic.get('index_type', None))
+        im.asc_or_desc = im_dic.get('asc_or_desc', None)
+        im.cardinality = im_dic.get('cardinality', None)
+        im.ordinal_position = im_dic.get('ordinal_position', None)
         return im

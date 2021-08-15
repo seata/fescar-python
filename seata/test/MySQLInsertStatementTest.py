@@ -5,8 +5,8 @@
 from antlr4 import *
 
 from seata.sqlparser.mysql.antlr4.visit.MySQLInsertStatement import MySQLInsertStatement
-from seata.sqlparser.mysql.antlr4.MySqlLexer import MySqlLexer
-from seata.sqlparser.mysql.antlr4.MySqlParser import MySqlParser
+from seata.sqlparser.mysql.antlr4.gen.MySqlLexer import MySqlLexer
+from seata.sqlparser.mysql.antlr4.gen.MySqlParser import MySqlParser
 from seata.sqlparser.mysql.antlr4.stream.NoCaseStringStream import NoCaseStringStream
 
 
@@ -31,5 +31,13 @@ def test_insert_sql():
             assert row[j].value == "?"
 
 
+def test_insert_values():
+    stmt = get_stmts("insert into test (id, name) values (?,?), (?,?)")[0].dmlStatement().insertStatement()
+    mis = MySQLInsertStatement(stmt)
+    pass
+
+
 if __name__ == '__main__':
-    test_insert_sql()
+    # test_insert_sql()
+    test_insert_values()
+    print()

@@ -4,7 +4,7 @@
 # @since 1.0
 from seata.core.protocol import Version
 from seata.core.protocol.MessageType import MessageType
-from seata.core.protocol.MessageTypeAware import MessageTypeAware
+from seata.core.protocol.MessageTypeAware import MessageTypeAware, ResultMessage
 
 
 class RegisterRMRequest(MessageTypeAware):
@@ -21,7 +21,7 @@ class RegisterRMRequest(MessageTypeAware):
         return MessageType.TYPE_REG_RM
 
 
-class RegisterRMResponse(MessageTypeAware):
+class RegisterRMResponse(ResultMessage, MessageTypeAware):
 
     def __init__(self, result=True):
         self.result = result

@@ -12,7 +12,7 @@ class CollectionUtil:
         if len(map_) == 0:
             return ""
         result = ""
-        for k, v in map_:
+        for k, v in map_.items():
             result += (k + "=" + v + "&")
         return result
 

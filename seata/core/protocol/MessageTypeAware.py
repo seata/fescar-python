@@ -7,3 +7,6 @@ class MessageTypeAware(object):
 
     def get_type_code(self):
         raise NotImplemented("not implemention")
+
+class ResultMessage:
+    pass

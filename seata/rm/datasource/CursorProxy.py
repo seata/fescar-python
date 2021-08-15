@@ -11,6 +11,7 @@ class CursorProxy(object):
     def __init__(self, connection_proxy, target_cursor, target_sql=None):
         self.connection_proxy = connection_proxy
         self.target_sql = target_sql
+        self.parameters = None
         self.target_cursor = target_cursor
 
     @property
@@ -41,11 +42,13 @@ class CursorProxy(object):
     # override Cursor executor
     def execute(self, operation, parameters=None):
         self.target_sql = operation
+        self.parameters = parameters
         return ExecuteTemplate.execute(self, CursorCallback('execute'), parameters)
 
     # override Cursor executemany
     def executemany(self, operation, seq_of_parameters=None):
         self.target_sql = operation
+        self.parameters = seq_of_parameters
         return ExecuteTemplate.execute(self, CursorCallback('executemany'), seq_of_parameters)
 
     # override Cursor fetchone

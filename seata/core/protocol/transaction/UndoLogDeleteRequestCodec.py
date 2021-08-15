@@ -4,6 +4,7 @@
 # @since 1.0
 from seata.core.ByteBuffer import ByteBuffer
 from seata.core.model.BranchType import BranchType
+from seata.core.util.ClassUtil import ClassUtil
 
 
 class UndoLogDeleteRequestCodec(object):
@@ -14,12 +15,12 @@ class UndoLogDeleteRequestCodec(object):
     def encode(self, t, out_buffer):
         if not isinstance(out_buffer, ByteBuffer):
             raise TypeError("out_buffer is not ByteBuffer")
-        save_days = t.save_days
-        branch_type = t.branch_type
-        resource_id = t.resource_id
+        save_days = ClassUtil.get_attr(t, 'save_days')
+        branch_type = ClassUtil.get_attr(t, 'branch_type')
+        resource_id = ClassUtil.get_attr(t, 'resource_id')
         out_buffer.put_int8(branch_type.value)
         if resource_id is not None:
-            resource_id_ba = bytearray(resource_id)
+            resource_id_ba = bytearray(resource_id.encode(encoding="utf-8"))
             out_buffer.put_int16(len(resource_id_ba))
             if len(resource_id_ba) > 0:
                 out_buffer.put(resource_id_ba)

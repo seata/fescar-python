@@ -13,7 +13,6 @@ from seata.exception.RmTransactionException import RmTransactionException
 from seata.exception.ShouldNeverHappenException import ShouldNeverHappenException
 from seata.exception.TransactionException import TransactionException
 from seata.exception.TransactionExceptionCode import TransactionExceptionCode
-from seata.rm.RMClient import RMClient
 from seata.rm.datasource.undo.UndoLogManagerFactory import UndoLogManagerFactory
 
 manager = None
@@ -38,14 +37,19 @@ class ATResourceManager(object):
             raise TypeError("Register resource type error.")
         self.pool_db_proxy_cache[pooled_db_proxy.get_resource_id()] = pooled_db_proxy
         request = RegisterRMRequest()
+        from seata.rm.RMClient import RMClient
         request.transaction_service_group = RMClient.get().transaction_service_group
         request.application_id = RMClient.get().application_id
         RMClient.get().send_sync_request(request)
+
+    def get(self, resource_id):
+        return self.pool_db_proxy_cache.get(resource_id, None)
 
     def lock_query(self, branch_type, resource_id, xid, lock_keys):
         try:
             request = GlobalLockQueryRequest()
             request.xid = xid
+            request.branch_type = branch_type
             request.lock_key = lock_keys
             request.resource_id = resource_id
             if RootContext.in_global_transaction() or RootContext.require_global_lock():
@@ -71,6 +75,7 @@ class ATResourceManager(object):
             response = RMClient.get().send_sync_request(request)
             if response.result_code == ResultCode.Failed:
                 raise RmTransactionException("response {} {}".format(response.transaction_exception_code, response.msg))
+            return response.branch_id
         except TimeoutError as e:
             raise RmTransactionException(TransactionExceptionCode.IO, "RPC Timeout", e)
         except RuntimeError as e:
@@ -81,6 +86,7 @@ class ATResourceManager(object):
             request = BranchReportRequest()
             request.xid = xid
             request.branch_id = branch_id
+            request.branch_type = branch_type
             request.status = status
             request.application_data = application_data
             response = RMClient.get().send_sync_request(request)
@@ -106,3 +112,7 @@ class ATResourceManager(object):
             else:
                 return BranchStatus.PhaseTwo_RollbackFailed_Retryable
         return BranchStatus.PhaseTwo_Rollbacked
+
+    def branch_commit(self, xid, branch_id, resource_id):
+        # TODO async delete undo log
+        return BranchStatus.PhaseTwo_Committed

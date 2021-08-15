@@ -10,8 +10,8 @@ from seata.sqlparser.mysql.MySQLDeleteSQLRecognizer import MySQLDeleteSQLRecogni
 from seata.sqlparser.mysql.MySQLInsertSQLRecognizer import MySQLInsertRecognizer
 from seata.sqlparser.mysql.MySQLSelectSQLRecognizer import MySQLSelectSQLRecognizer
 from seata.sqlparser.mysql.MySQLUpdateSQLRecognizer import MySQLUpdateSQLRecognizer
-from seata.sqlparser.mysql.antlr4.MySqlLexer import MySqlLexer, CommonTokenStream
-from seata.sqlparser.mysql.antlr4.MySqlParser import MySqlParser
+from seata.sqlparser.mysql.antlr4.gen.MySqlLexer import MySqlLexer, CommonTokenStream
+from seata.sqlparser.mysql.antlr4.gen.MySqlParser import MySqlParser
 from seata.sqlparser.mysql.antlr4.stream.NoCaseStringStream import NoCaseStringStream
 from seata.sqlparser.util.JdbcConstants import JdbcConstants
 
@@ -51,18 +51,21 @@ class SQLVisitorFactory(object):
                     sql_recognizer.sql_type = SQLType.INSERT_ON_DUPLICATE_UPDATE
                 sql_recognizer.stmt = dml_stmt
                 sql_recognizer.original_sql = target_sql
+                sql_recognizer.init()
                 sql_recognizers.append(sql_recognizer)
             elif dml_stmt.deleteStatement() is not None:
                 sql_recognizer = MySQLDeleteSQLRecognizer()
                 sql_recognizer.sql_type = SQLType.DELETE
                 sql_recognizer.stmt = dml_stmt
                 sql_recognizer.original_sql = target_sql
+                sql_recognizer.init()
                 sql_recognizers.append(sql_recognizer)
             elif dml_stmt.updateStatement() is not None:
                 sql_recognizer = MySQLUpdateSQLRecognizer()
                 sql_recognizer.sql_type = SQLType.UPDATE
                 sql_recognizer.stmt = dml_stmt
                 sql_recognizer.original_sql = target_sql
+                sql_recognizer.init()
                 sql_recognizers.append(sql_recognizer)
             elif dml_stmt.selectStatement() is not None:
                 sql_recognizer = MySQLSelectSQLRecognizer()
@@ -71,6 +74,7 @@ class SQLVisitorFactory(object):
                     sql_recognizer.sql_type = SQLType.SELECT_FOR_UPDATE
                 sql_recognizer.stmt = dml_stmt
                 sql_recognizer.original_sql = target_sql
+                sql_recognizer.init()
                 sql_recognizers.append(sql_recognizer)
 
         return sql_recognizers

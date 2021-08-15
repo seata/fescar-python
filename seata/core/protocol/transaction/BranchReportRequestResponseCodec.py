@@ -6,6 +6,7 @@ from seata.core.ByteBuffer import ByteBuffer
 from seata.core.model.BranchStatus import BranchStatus
 from seata.core.model.BranchType import BranchType
 from seata.core.protocol.transaction.AbstractTransactionRequestResponseCodec import AbstractTransactionResponseCodec
+from seata.core.util.ClassUtil import ClassUtil
 
 
 class BranchReportRequestCodec(object):
@@ -16,30 +17,30 @@ class BranchReportRequestCodec(object):
     def encode(self, t, out_buffer):
         if not isinstance(out_buffer, ByteBuffer):
             raise TypeError("out_buffer is not ByteBuffer")
-        xid = t.xid
-        branch_id = t.branch_id
-        status = t.status
-        resource_id = t.resource_id
-        application_data = t.application_data
-        branch_type = t.branch_type
+        xid = ClassUtil.get_attr(t, 'xid')
+        branch_id = ClassUtil.get_attr(t, 'branch_id')
+        status = ClassUtil.get_attr(t, 'status')
+        resource_id = ClassUtil.get_attr(t, 'resource_id')
+        application_data = ClassUtil.get_attr(t, 'application_data')
+        branch_type = ClassUtil.get_attr(t, 'branch_type')
         if xid is not None:
-            xid_ba = bytearray(xid)
+            xid_ba = bytearray(xid.encode(encoding="utf-8"))
             out_buffer.put_int16(len(xid_ba))
             if len(xid_ba) > 0:
                 out_buffer.put(xid_ba)
         else:
             out_buffer.put_int16(0)
         out_buffer.put_int64(branch_id)
-        out_buffer.put_int8(status.value)
+        out_buffer.put_int8(status.value[0])
         if resource_id is not None:
-            resource_id_ba = bytearray(resource_id)
+            resource_id_ba = bytearray(resource_id.encode(encoding="utf-8"))
             out_buffer.put_int16(len(resource_id_ba))
             if len(resource_id_ba) > 0:
                 out_buffer.put(resource_id_ba)
         else:
             out_buffer.put_int16(0)
         if application_data is not None:
-            application_data_ba = bytearray(application_data)
+            application_data_ba = bytearray(application_data.encode(encoding="utf-8"))
             out_buffer.put_int32(len(application_data_ba))
             if len(application_data_ba) > 0:
                 out_buffer.put(application_data_ba)

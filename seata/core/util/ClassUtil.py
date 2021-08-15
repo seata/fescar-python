@@ -14,7 +14,9 @@ class ClassUtil:
             value = getattr(obj, name)
             if not name.startswith('__') and not callable(value):
                 # print(str(value) + ":" + str(type(value)))
-                if isinstance(value, list) or isinstance(value, set):
+                if value is None:
+                    pr[name] = value
+                elif isinstance(value, list) or isinstance(value, set):
                     value_array = []
                     for o in value:
                         value_array.append(cls.obj_to_dic(o))
@@ -31,5 +33,10 @@ class ClassUtil:
         return pr
 
     @classmethod
-    def dic_to_obj(cls, obj, data):
-        obj.__dict__.update(data)
+    def get_attr(cls, obj, name, default_value=None):
+        try:
+            return getattr(obj, name)
+        except AttributeError:
+            if default_value is not None:
+                return default_value
+            return None

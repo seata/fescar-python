@@ -5,6 +5,9 @@
 import gevent
 
 from seata.core.compressor.CompressorFactory import CompressorFactory
+from seata.core.protocol.MergeResultMessage import MergeResultMessage
+from seata.core.protocol.MessageType import MessageType
+from seata.core.protocol.MessageTypeAware import ResultMessage
 from seata.core.rpc.v1.HeadMapSerializer import HeadMapSerializer
 from seata.core.protocol.HeartbeatMessage import HeartbeatMessage
 from seata.core.ByteBuffer import ByteBuffer
@@ -30,20 +33,19 @@ from seata.core.serializer.SerializerFactory import SerializerFactory
 
 
 class ProtocolV1:
-
     dataBuffer = bytes()
 
     # 初始无连接
-    def __init__(self, skt):
+    def __init__(self, sock, message_handler):
         self.connected = False
-        self.req_id_map = dict()
-        self.skt = skt
-        gevent.spawn(self.data_received, self.skt)
+        self.sock = sock
+        self.message_handler = message_handler
+        gevent.spawn(self.data_received, self.sock, self.message_handler)
 
     # 接收数据时调用
-    def data_received(self, skt):
+    def data_received(self, sock, message_handler):
         while True:
-            recv_data = skt.recv(7)
+            recv_data = sock.recv(7)
             if recv_data:
                 self.dataBuffer += recv_data
                 bb = ByteBuffer.wrap(bytearray(self.dataBuffer))
@@ -56,15 +58,16 @@ class ProtocolV1:
                 bb.get_int8()
                 full_length = bb.get_int32()
                 if len(self.dataBuffer) < full_length:
-                    self.dataBuffer += skt.recv(full_length)
+                    self.dataBuffer += sock.recv(full_length)
                     data = self.dataBuffer
-                    gevent.spawn(self.handle_decode, data)
                     self.dataBuffer = bytes()
+                    gevent.spawn(self.handle_decode, data, message_handler)
 
-    def handle_decode(self, data):
+    def handle_decode(self, data, message_handler):
         bb = ByteBuffer.wrap(bytearray(data))
-        response = self.decode(bb)
-        self.req_id_map[response.id] = response
+        rpc_message = self.decode(bb)
+        # tc response
+        message_handler.process(rpc_message)
 
     def decode(self, bb):
         magic = bytearray(len(ProtocolConstants.MAGIC_CODE_BYTES))
@@ -147,14 +150,5 @@ class ProtocolV1:
         result.put_int8(rpc_message.compressor)
         result.put_int32(rpc_message.id)
         result.put(bb.array())
-        self.skt.send(bytes(result.array()))
-        self.req_id_map[rpc_message.id] = None
-        timeout = 0
-        while self.req_id_map[rpc_message.id] is None and timeout <= 30:
-            timeout += 1
-            gevent.sleep(1)
-        response = self.req_id_map[rpc_message.id]
-        if response is None and timeout > 30:
-            raise TimeoutError()
-        self.req_id_map.pop(rpc_message.id, None)
-        return response.body
+        # print('will send msg type : {}'.format(rpc_message.message_type))
+        self.sock.send(bytes(result.array()))

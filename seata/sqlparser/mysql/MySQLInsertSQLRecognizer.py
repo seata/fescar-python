@@ -2,21 +2,22 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-from seata.sqlparser.SQLParsingException import SQLParsingException
 from seata.sqlparser.SQLDMLRecognizer import SQLInsertRecognizer
-from seata.sqlparser.SQLRecognizer import SQLRecognizer
-from seata.sqlparser.mysql.antlr4.MySqlParser import MySqlParser
+from seata.sqlparser.SQLParsingException import SQLParsingException
 from seata.sqlparser.mysql.antlr4.value import MySQLValue
 from seata.sqlparser.mysql.antlr4.value.MySQLValue import NotPlaceholderValue
 from seata.sqlparser.mysql.antlr4.visit.MySQLInsertStatement import MySQLInsertStatement
 
 
 class MySQLInsertRecognizer(SQLInsertRecognizer):
-
     def __int__(self, original_sql=None, sql_type=None, stmt=None):
         self.original_sql = original_sql
         self.sql_type = sql_type
         self.stmt = stmt
+        self.insert_statement = None
+        pass
+
+    def init(self):
         self.insert_statement = MySQLInsertStatement(self.stmt.insertStatement())
 
     def get_sql_type(self):
@@ -48,6 +49,8 @@ class MySQLInsertRecognizer(SQLInsertRecognizer):
                 elif isinstance(value, MySQLValue.ValueExpr):
                     row.append(value.get_value())
                 elif isinstance(value, MySQLValue.FunctionNameValue):
+                    row.append(value)
+                elif isinstance(value, MySQLValue.ParameterMarkerValue):
                     row.append(value)
                 else:
                     if j in pk_index:

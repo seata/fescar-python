@@ -2,9 +2,9 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-from seata.sqlparser.mysql.antlr4.MySqlParser import MySqlParser
+from seata.sqlparser.mysql.antlr4.gen.MySqlParser import MySqlParser
 from seata.sqlparser.mysql.antlr4.value.MySQLValue import NullValue, StringValue, BoolValue, IntValue, \
-    DoubleValue
+    DoubleValue, ParameterMarkerValue
 from seata.sqlparser.mysql.antlr4.value.value import OtherLiteralValue
 
 
@@ -22,5 +22,7 @@ class MySQLStatementUtil:
             return DoubleValue(ctx.REAL_LITERAL().getText())
         elif ctx.booleanLiteral() is not None:
             return BoolValue(ctx.booleanLiteral().getText())
+        elif ctx.parameterMarker() is not None:
+            return ParameterMarkerValue(ctx.parameterMarker().getText())
         else:
             return OtherLiteralValue(ctx.getText())

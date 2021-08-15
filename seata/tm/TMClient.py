@@ -13,14 +13,14 @@ from seata.core.protocol.RpcMessage import RpcMessage
 from seata.core.rpc.v1.RemotingClient import RemotingClient
 
 
-def do_heart():  # 每隔 5秒 向服务器发送消息
+def do_heart(remote_client):  # 每隔 5秒 向服务器发送消息
     while True:
         try:
             hb = HeartbeatMessage(True)
-            TMClient.get().send_sync_request(hb)
+            remote_client.send_async_request(hb)
             print("tm client do heart...")
             time.sleep(5)
-        except Exception as e:
+        except Exception:
             pass
 
 
@@ -46,7 +46,7 @@ class TMClient(object):
     def init_client(self, host="localhost", port=8091):
         # 程序启动
         self.remote_client = RemotingClient(host, port)
-        threading.Thread(target=do_heart, args=()).start()
+        threading.Thread(target=do_heart, args=(self.remote_client,)).start()
         self.reg()
 
     def reg(self):
@@ -55,8 +55,4 @@ class TMClient(object):
         print("tm register...")
 
     def send_sync_request(self, msg):
-        if isinstance(msg, HeartbeatMessage):
-            rpc_message = RpcMessage.build_request_message(msg, ProtocolConstants.MSGTYPE_HEARTBEAT_REQUEST)
-        else:
-            rpc_message = RpcMessage.build_request_message(msg, ProtocolConstants.MSGTYPE_RESQUEST_SYNC)
-        return self.remote_client.protocol.encode(rpc_message)
+        self.remote_client.send_sync_request(msg)

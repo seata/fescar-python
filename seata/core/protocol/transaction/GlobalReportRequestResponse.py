@@ -3,7 +3,7 @@
 # @author jsbxyyx
 # @since 1.0
 from seata.core.protocol import MessageType
-from seata.core.protocol.MessageTypeAware import MessageTypeAware
+from seata.core.protocol.MessageTypeAware import MessageTypeAware, ResultMessage
 
 
 class GlobalReportRequest(MessageTypeAware):
@@ -17,7 +17,7 @@ class GlobalReportRequest(MessageTypeAware):
         return MessageType.TYPE_GLOBAL_REPORT
 
 
-class GlobalReportResponse(MessageTypeAware):
+class GlobalReportResponse(ResultMessage, MessageTypeAware):
 
     def __init__(self):
         self.global_status = None

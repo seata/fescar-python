@@ -22,7 +22,7 @@ class AbstractResultMessageCodec(object):
                     msg = result_msg[0:Number.SHORT_MAX_VALUE]
                 else:
                     msg = result_msg
-                msg_ba = bytearray(msg)
+                msg_ba = bytearray(msg.encode(encoding="utf-8"))
                 out_buffer.put_int16(len(msg_ba))
                 out_buffer.put(msg_ba)
             else:

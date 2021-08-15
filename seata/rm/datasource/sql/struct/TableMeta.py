@@ -22,12 +22,12 @@ class TableMeta(object):
         return self.__dict__ == other.__dict__
 
     def get_column_meta(self, col_name):
-        return self.all_columns.get(col_name)
+        return self.all_columns.get(col_name, None)
 
     def get_auto_increase_column(self):
         for k in self.all_columns:
             col = self.all_columns[k]
-            if 'YES' == col.is_auto_increment:
+            if 'YES' == col.is_auto_increment():
                 return col
         return None
 
@@ -37,7 +37,7 @@ class TableMeta(object):
             index = self.all_indexs[k]
             if index.index_type.value == IndexType.PRIMARY.value:
                 for col in index.values:
-                    pk[col.col_name] = col
+                    pk[col.column_name] = col
         if len(pk) < 1:
             raise NotSupportYetException('{} needs to contain the primary key'.format(self.table_name))
         return pk

@@ -20,8 +20,12 @@ class ProtobufUndoLogParser(UndoLogParser):
 
     def encode(self, branch_undo_log):
         dic = ClassUtil.obj_to_dic(branch_undo_log)
-        return json_format.ParseDict(branch_undolog_pb2.BranchUndoLog, dic)
+        bul_pb = json_format.ParseDict(dic, branch_undolog_pb2.BranchUndoLog(), ignore_unknown_fields=True)
+        bs = bul_pb.SerializeToString()
+        return bs
 
     def decode(self, bytes_):
-        dic = json_format.MessageToDict(bytes_)
+        bul_pb = branch_undolog_pb2.BranchUndoLog()
+        bul_pb.ParseFromString(bytes_)
+        dic = json_format.MessageToDict(bul_pb, including_default_value_fields=True)
         return BranchUndoLog(dic)

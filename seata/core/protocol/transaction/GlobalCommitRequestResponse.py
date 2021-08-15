@@ -3,7 +3,7 @@
 # @author jsbxyyx
 # @since 1.0
 from seata.core.protocol.MessageType import MessageType
-from seata.core.protocol.MessageTypeAware import MessageTypeAware
+from seata.core.protocol.MessageTypeAware import MessageTypeAware, ResultMessage
 
 
 class GlobalCommitRequest(MessageTypeAware):
@@ -16,7 +16,7 @@ class GlobalCommitRequest(MessageTypeAware):
         return MessageType.TYPE_GLOBAL_COMMIT
 
 
-class GlobalCommitResponse(MessageTypeAware):
+class GlobalCommitResponse(ResultMessage, MessageTypeAware):
 
     def __init__(self):
         self.global_status = None

@@ -2055,7 +2055,9 @@ nullNotnull
     ;
 
 constant
-    : stringLiteral | decimalLiteral
+    : parameterMarker
+    | stringLiteral
+    | decimalLiteral
     | '-' decimalLiteral
     | hexadecimalLiteral | booleanLiteral
     | REAL_LITERAL | BIT_STRING

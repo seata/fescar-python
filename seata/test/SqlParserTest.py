@@ -5,10 +5,9 @@
 
 from antlr4 import *
 
-from seata.sqlparser.mysql.antlr4.MySqlLexer import MySqlLexer
-from seata.sqlparser.mysql.antlr4.MySqlParser import MySqlParser
-from seata.sqlparser.mysql.antlr4.MySqlParserVisitor import MySqlParserVisitor
-from seata.sqlparser.mysql.antlr4.MySqlParserListener import MySqlParserListener
+from seata.sqlparser.mysql.antlr4.gen.MySqlLexer import MySqlLexer
+from seata.sqlparser.mysql.antlr4.gen.MySqlParser import MySqlParser
+from seata.sqlparser.mysql.antlr4.gen.MySqlParserListener import MySqlParserListener
 from seata.sqlparser.mysql.antlr4.stream.NoCaseStringStream import NoCaseStringStream
 
 
@@ -72,6 +71,7 @@ def test2(sql):
 if __name__ == '__main__':
     sql = """
     insert ignore into test values(?,?);
+    insert into test values(%s, %s);
     insert into test (id, name) values (?,?);
     insert into test value (default, 'null', null, true, '1', 1, 1.0, now(6), format(250500.5634, 2));
     insert into test (a, b, c) values (1, 2, 3) on duplicate key update c = c + 1;
