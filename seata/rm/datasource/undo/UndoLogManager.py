@@ -14,10 +14,22 @@ from seata.rm.datasource.undo.UndoLogParserFactory import UndoLogParserFactory
 from seata.sqlparser.util.CollectionUtil import CollectionUtil
 
 
+# CREATE TABLE IF NOT EXISTS `undo_log` (
+#     `branch_id`     BIGINT       NOT NULL COMMENT 'branch transaction id',
+#     `xid`           VARCHAR(128) NOT NULL COMMENT 'global transaction id',
+#     `context`       VARCHAR(128) NOT NULL COMMENT 'undo_log context,such as serialization',
+#     `rollback_info` LONGBLOB     NOT NULL COMMENT 'rollback info',
+#     `log_status`    INT(11)      NOT NULL COMMENT '0:normal status,1:defense status',
+#     `log_created`   DATETIME(6)  NOT NULL COMMENT 'create datetime',
+#     `log_modified`  DATETIME(6)  NOT NULL COMMENT 'modify datetime',
+#     UNIQUE KEY `ux_undo_log` (`xid`, `branch_id`)
+# ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8 COMMENT ='AT transaction mode undo table';
+
+
 class UndoLogManager(object):
     UNDO_LOG_TABLE_NAME = "undo_log"
-    DELETE_UNDO_LOG_SQL = "DELETE FROM " + UNDO_LOG_TABLE_NAME + " WHERE branch_id = ? AND xid = ?"
-    SELECT_UNDO_LOG_SQL = "SELECT * FROM " + UNDO_LOG_TABLE_NAME + " WHERE branch_id = ? AND xid = ? FOR UPDATE"
+    DELETE_UNDO_LOG_SQL = "DELETE FROM " + UNDO_LOG_TABLE_NAME + " WHERE branch_id = %s AND xid = %s"
+    SELECT_UNDO_LOG_SQL = "SELECT * FROM " + UNDO_LOG_TABLE_NAME + " WHERE branch_id = %s AND xid = %s FOR UPDATE"
 
     CONTEXT_SERIALIZER = "serializer"
     CONTEXT_COMPRESSOR_TYPE = "compressorType"
@@ -64,19 +76,6 @@ class UndoLogManager(object):
                     con.autocommit = False
 
                 cursor = con.cursor()
-                """
-                CREATE TABLE IF NOT EXISTS `undo_log`
-                (
-                    `branch_id`     BIGINT       NOT NULL COMMENT 'branch transaction id',
-                    `xid`           VARCHAR(128) NOT NULL COMMENT 'global transaction id',
-                    `context`       VARCHAR(128) NOT NULL COMMENT 'undo_log context,such as serialization',
-                    `rollback_info` LONGBLOB     NOT NULL COMMENT 'rollback info',
-                    `log_status`    INT(11)      NOT NULL COMMENT '0:normal status,1:defense status',
-                    `log_created`   DATETIME(6)  NOT NULL COMMENT 'create datetime',
-                    `log_modified`  DATETIME(6)  NOT NULL COMMENT 'modify datetime',
-                    UNIQUE KEY `ux_undo_log` (`xid`, `branch_id`)
-                ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8 COMMENT ='AT transaction mode undo table';
-                """
                 cursor.execute(self.SELECT_UNDO_LOG_SQL, (branch_id, xid))
                 rs = cursor.fetchall()
                 exists = False
@@ -102,8 +101,8 @@ class UndoLogManager(object):
                     sql_undo_logs = branch_undo_log.sql_undo_logs
                     if len(sql_undo_logs) > 1:
                         sql_undo_logs.reverse()
-                    for i in range(len(sql_undo_logs)):
-                        sql_undo_log = sql_undo_logs[i]
+                    for j in range(len(sql_undo_logs)):
+                        sql_undo_log = sql_undo_logs[j]
                         table_meta = TableMetaCacheFactory.get_table_meta_cache(pooled_db_proxy.db_type) \
                             .get_table_meta(con, sql_undo_log.table_name, pooled_db_proxy.resource_id)
                         sql_undo_log.set_table_meta(table_meta)
@@ -158,6 +157,9 @@ class UndoLogManager(object):
                     cursor.close()
                 except Exception as ignored:
                     pass
+
+    def get_rollback_info(self, rollback_info):
+        return rollback_info
 
     def batch_delete_undo_log(self, xids, branch_ids, connection):
         pass

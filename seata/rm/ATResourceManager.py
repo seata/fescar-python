@@ -71,6 +71,7 @@ class ATResourceManager(object):
             response = RMClient.get().send_sync_request(request)
             if response.result_code == ResultCode.Failed:
                 raise RmTransactionException("response {} {}".format(response.transaction_exception_code, response.msg))
+            return response.branch_id
         except TimeoutError as e:
             raise RmTransactionException(TransactionExceptionCode.IO, "RPC Timeout", e)
         except RuntimeError as e:
@@ -81,6 +82,7 @@ class ATResourceManager(object):
             request = BranchReportRequest()
             request.xid = xid
             request.branch_id = branch_id
+            request.branch_type = branch_type
             request.status = status
             request.application_data = application_data
             response = RMClient.get().send_sync_request(request)

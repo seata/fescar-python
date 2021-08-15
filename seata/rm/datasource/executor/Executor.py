@@ -10,7 +10,6 @@ from seata.rm.datasource.sql.TableMetaCacheFactory import TableMetaCacheFactory
 from seata.rm.datasource.sql.struct.TableRecords import TableRecords
 from seata.rm.datasource.undo.SQLUndoLog import SQLUndoLog
 from seata.sqlparser.SQLType import SQLType
-from seata.sqlparser.mysql.MySQLInsertSQLRecognizer import MySQLInsertRecognizer
 
 
 class Executor:
@@ -62,12 +61,12 @@ class BaseTransactionalExecutor(Executor):
             lock_key_records = after_image
         lock_keys = self.build_lock_key(lock_key_records)
         if lock_keys is not None:
-            cp.appendLockKey(lock_keys)
+            cp.append_lock_key(lock_keys)
             sql_undo_log = self.build_undo_item(before_image, after_image)
             cp.append_undo_log(sql_undo_log)
 
     def build_lock_key(self, lock_key_records):
-        if len(lock_key_records) == 0:
+        if lock_key_records.size() == 0:
             return None
 
         string = lock_key_records.table_meta.table_name + ":"
@@ -80,7 +79,7 @@ class BaseTransactionalExecutor(Executor):
                 pk_name = pk_list[j]
                 if j > 0:
                     string += "_"
-                string += pk_row[pk_name].value
+                string += str(pk_row.get(pk_name).value)
             field_seq += 1
             if field_seq < len(pk_rows):
                 string += ","
@@ -95,6 +94,26 @@ class BaseTransactionalExecutor(Executor):
         sql_undo_log.before_image = before_image
         sql_undo_log.after_image = after_image
         return sql_undo_log
+
+    def get_standard_pk_column_name(self, column_name):
+        new_column_name = ColumnUtils.del_escape_by_colname_dbtype(column_name, self.get_db_type())
+        pks = self.get_table_meta().get_primary_key_only_name()
+        for i in range(len(pks)):
+            cn = pks[i]
+            if cn.lower() == new_column_name.lower():
+                return cn
+        return None
+
+    def get_db_type(self):
+        return self.cursor_proxy.connection_proxy.get_db_type()
+
+    def get_from_table_in_sql(self):
+        table_name = self.sql_recognizer.get_table_name()
+        table_alias = self.sql_recognizer.get_table_alias()
+        if table_alias is None:
+            return table_name
+        else:
+            return table_alias + "." + table_name
 
 
 class DMLBaseExecutor(BaseTransactionalExecutor):
@@ -125,7 +144,7 @@ class DMLBaseExecutor(BaseTransactionalExecutor):
 
     def execute_autocommit_false(self, args):
         before_image = self.before_image()
-        result = self.cursor_proxy.execute(self.cursor_proxy.target_cursor, args)
+        result = self.cursor_callback.execute(self.cursor_proxy.target_cursor, self.cursor_proxy.target_sql, args)
         after_image = self.after_image(before_image)
         self.prepare_undo_log(before_image, after_image)
         return result
@@ -159,15 +178,17 @@ class BaseInsertExecutor(DMLBaseExecutor, InsertExecutor):
             raise SQLException("build table records error for insert")
         return after_image
 
-    def contains_pk(self, insert_columns=None):
+    def contains_pk(self, insert_columns: list = None):
+        if insert_columns is not None and not isinstance(insert_columns, list):
+            raise ValueError('insert columns is not list type')
         if insert_columns is None:
-            recognizer: MySQLInsertRecognizer = self.sql_recognizer
+            recognizer = self.sql_recognizer
             insert_columns = recognizer.get_insert_columns()
             if insert_columns is None or len(insert_columns) <= 0:
                 return False
         if len(insert_columns) <= 0:
             return False
-        new_columns = ColumnUtils.del_escape(insert_columns, self.get_db_type())
+        new_columns = ColumnUtils.del_escape_by_cols_dbtype(insert_columns, self.get_db_type())
         return self.get_table_meta().contains_pk(new_columns)
 
     def build_table_records(self, pk_values_map):
@@ -202,7 +223,7 @@ class BaseInsertExecutor(DMLBaseExecutor, InsertExecutor):
             for i in range(len(pk_column_name_list)):
                 if i > 0:
                     where_str += ","
-                where_str += ColumnUtils.add_escape_by_cols_dbtype(pk_column_name_list[i], db_type)
+                where_str += ColumnUtils.add_by_dbtype(pk_column_name_list[i], db_type)
             where_str += ") in ( "
             if batch == batch_size - 1:
                 if row_size % max_in_size == 0:
@@ -218,10 +239,7 @@ class BaseInsertExecutor(DMLBaseExecutor, InsertExecutor):
                 for x in range(len(pk_column_name_list)):
                     if x > 0:
                         where_str += ","
-                    where_str += "?"
+                    where_str += "%s"
                 where_str += ")"
             where_str += ")"
         return where_str
-
-    def get_db_type(self):
-        return self.cursor_proxy.connection_proxy.get_db_type()

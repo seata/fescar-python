@@ -4,6 +4,7 @@
 # @since 1.0
 from seata.core.ByteBuffer import ByteBuffer
 from seata.core.protocol.transaction.AbstractTransactionRequestResponseCodec import AbstractTransactionResponseCodec
+from seata.core.util.ClassUtil import ClassUtil
 
 
 class GlobalBeginRequestCodec(object):
@@ -14,8 +15,8 @@ class GlobalBeginRequestCodec(object):
     def encode(self, t, out_buffer):
         if not isinstance(out_buffer, ByteBuffer):
             raise TypeError("out_buffer is not ByteBuffer")
-        timeout = t.timeout
-        transaction_name = t.transaction_name
+        timeout = ClassUtil.get_attr(t, 'timeout')
+        transaction_name = ClassUtil.get_attr(t, 'transaction_name')
         out_buffer.put_int32(timeout)
         if transaction_name is not None:
             transaction_name_ba = bytearray(transaction_name.encode(encoding="utf-8"))
@@ -45,10 +46,10 @@ class GlobalBeginResponseCodec(object):
         if not isinstance(out_buffer, ByteBuffer):
             raise TypeError("out_buffer is not ByteBuffer")
         AbstractTransactionResponseCodec.encode(t, out_buffer)
-        xid = t.xid
-        extra_data = t.extra_data
+        xid = ClassUtil.get_attr(t, 'xid')
+        extra_data = ClassUtil.get_attr(t, 'extra_data')
         if xid is not None:
-            xid_ba = bytearray(xid)
+            xid_ba = bytearray(xid.encode(encoding="utf-8"))
             out_buffer.put_int16(len(xid_ba))
             if len(xid_ba) > 0:
                 out_buffer.put(xid_ba)

@@ -13,7 +13,7 @@ class CursorCallback:
         """
         :param target: cursor
         :param sql: sql
-        :param args: parameters
+        :param parameters: parameters
         :return:
         """
         return getattr(target, self.func_name)(sql, parameters)

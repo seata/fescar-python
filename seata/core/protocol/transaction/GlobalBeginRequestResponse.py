@@ -3,7 +3,7 @@
 # @author jsbxyyx
 # @since 1.0
 from seata.core.protocol.MessageType import MessageType
-from seata.core.protocol.MessageTypeAware import MessageTypeAware
+from seata.core.protocol.MessageTypeAware import MessageTypeAware, ResultMessage
 
 
 class GlobalBeginRequest(MessageTypeAware):
@@ -16,7 +16,7 @@ class GlobalBeginRequest(MessageTypeAware):
         return MessageType.TYPE_GLOBAL_BEGIN
 
 
-class GlobalBeginResponse(MessageTypeAware):
+class GlobalBeginResponse(ResultMessage, MessageTypeAware):
 
     def __init__(self):
         self.xid = None

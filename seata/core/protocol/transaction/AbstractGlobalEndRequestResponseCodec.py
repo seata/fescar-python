@@ -3,7 +3,7 @@
 # @author jsbxyyx
 # @since 1.0
 from seata.core.ByteBuffer import ByteBuffer
-from seata.core.model import GlobalStatus
+from seata.core.model.GlobalStatus import GlobalStatus
 from seata.core.protocol.transaction.AbstractTransactionRequestResponseCodec import AbstractTransactionResponseCodec
 
 
@@ -20,14 +20,14 @@ class AbstractGlobalEndRequestCodec(object):
         except AttributeError:
             pass
         if xid is not None:
-            xid_ba = bytearray(xid)
+            xid_ba = bytearray(xid.encode(encoding="utf-8"))
             out_buffer.put_int16(len(xid_ba))
             if len(xid_ba) > 0:
                 out_buffer.put(xid_ba)
         else:
             out_buffer.put_int16(0)
         if extra_data is not None:
-            extra_data_ba = bytearray(extra_data)
+            extra_data_ba = bytearray(extra_data.encode(encoding="utf-8"))
             out_buffer.put_int16(len(extra_data_ba))
             if len(extra_data_ba) > 0:
                 out_buffer.put(extra_data_ba)
@@ -58,11 +58,12 @@ class AbstractGlobalEndResponseCodec(object):
             raise TypeError("out_buffer is not ByteBuffer")
         AbstractTransactionResponseCodec.encode(t, out_buffer)
         global_status = t.global_status
-        out_buffer.put_int8(global_status.value)
+        out_buffer.put_int8(global_status.value[0])
 
     @staticmethod
     def decode(t, in_buffer):
         if not isinstance(in_buffer, ByteBuffer):
             raise TypeError("in_buffer is not ByteBuffer")
         AbstractTransactionResponseCodec.decode(t, in_buffer)
-        t.global_status = GlobalStatus(in_buffer.get_int8())
+        gs = in_buffer.get_int8()
+        t.global_status = GlobalStatus(gs)

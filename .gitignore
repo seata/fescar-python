@@ -139,3 +139,6 @@ cython_debug/
 
 # idea
 .idea/
+
+# my ignore
+seata/test/pool_config.py

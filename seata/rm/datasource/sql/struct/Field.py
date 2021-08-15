@@ -14,5 +14,8 @@ class Field(object):
         # any
         self.value = None
 
+    def set_value(self, value):
+        self.value = str(value)
+
     def __eq__(self, other):
         return self.__dict__ == other.__dict__

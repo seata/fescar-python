@@ -5,6 +5,9 @@
 import gevent
 
 from seata.core.compressor.CompressorFactory import CompressorFactory
+from seata.core.protocol.MergeResultMessage import MergeResultMessage
+from seata.core.protocol.MessageType import MessageType
+from seata.core.protocol.MessageTypeAware import ResultMessage
 from seata.core.rpc.v1.HeadMapSerializer import HeadMapSerializer
 from seata.core.protocol.HeartbeatMessage import HeartbeatMessage
 from seata.core.ByteBuffer import ByteBuffer
@@ -30,18 +33,17 @@ from seata.core.serializer.SerializerFactory import SerializerFactory
 
 
 class ProtocolV1:
-
     dataBuffer = bytes()
 
     # 初始无连接
-    def __init__(self, skt):
+    def __init__(self, skt, result_message_handler):
         self.connected = False
-        self.req_id_map = dict()
         self.skt = skt
-        gevent.spawn(self.data_received, self.skt)
+        self.result_message_handler = result_message_handler
+        gevent.spawn(self.data_received, self.skt, self.result_message_handler)
 
     # 接收数据时调用
-    def data_received(self, skt):
+    def data_received(self, skt, result_message_handler):
         while True:
             recv_data = skt.recv(7)
             if recv_data:
@@ -58,13 +60,42 @@ class ProtocolV1:
                 if len(self.dataBuffer) < full_length:
                     self.dataBuffer += skt.recv(full_length)
                     data = self.dataBuffer
-                    gevent.spawn(self.handle_decode, data)
+                    gevent.spawn(self.handle_decode, data, result_message_handler)
                     self.dataBuffer = bytes()
 
-    def handle_decode(self, data):
+    def handle_decode(self, data, result_message_handler):
         bb = ByteBuffer.wrap(bytearray(data))
-        response = self.decode(bb)
-        self.req_id_map[response.id] = response
+        rpc_message = self.decode(bb)
+        # tc response
+        mt = rpc_message.message_type
+        if mt == MessageType.TYPE_SEATA_MERGE_RESULT or \
+                        mt == MessageType.TYPE_GLOBAL_BEGIN_RESULT or \
+                        mt == MessageType.TYPE_GLOBAL_COMMIT_RESULT or \
+                        mt == MessageType.TYPE_GLOBAL_REPORT_RESULT or \
+                        mt == MessageType.TYPE_GLOBAL_ROLLBACK_RESULT or \
+                        mt == MessageType.TYPE_GLOBAL_STATUS_RESULT or \
+                        mt == MessageType.TYPE_REG_CLT_RESULT:
+            self.client_process(rpc_message, result_message_handler)
+        elif rpc_message.message_type == MessageType.TYPE_HEARTBEAT_MSG:
+            if not rpc_message.body.ping:
+                print('received PONG')
+        else:
+            print('message type : {}'.format(mt))
+
+    def client_process(self, rpc_message, result_message_handler):
+        if isinstance(rpc_message.body, MergeResultMessage):
+            msgs = rpc_message.body.msgs
+            for msg in msgs:
+                if self.req_id_map.get(msg.id, None) is not None:
+                    self.req_id_map[msg.id] = msg
+                else:
+                    print('msg : {} not found'.format(msg.id))
+        else:
+            if self.req_id_map.get(rpc_message.id, None) is not None:
+                self.req_id_map[rpc_message.id] = rpc_message.body
+            else:
+                if isinstance(rpc_message.body, ResultMessage):
+                    result_message_handler.on_response(rpc_message.body)
 
     def decode(self, bb):
         magic = bytearray(len(ProtocolConstants.MAGIC_CODE_BYTES))
@@ -127,7 +158,7 @@ class ProtocolV1:
 
         body_array = None
         if message_type is not ProtocolConstants.MSGTYPE_HEARTBEAT_REQUEST and \
-                message_type is not ProtocolConstants.MSGTYPE_HEARTBEAT_RESPONSE:
+                        message_type is not ProtocolConstants.MSGTYPE_HEARTBEAT_RESPONSE:
             body_array = SerializerFactory.get(rpc_message.codec).serialize(rpc_message.body)
             body_array = CompressorFactory.get(rpc_message.compressor).compress(body_array)
             full_length += len(body_array)
@@ -147,14 +178,6 @@ class ProtocolV1:
         result.put_int8(rpc_message.compressor)
         result.put_int32(rpc_message.id)
         result.put(bb.array())
+        # print('will send msg type : {}'.format(rpc_message.message_type))
         self.skt.send(bytes(result.array()))
-        self.req_id_map[rpc_message.id] = None
-        timeout = 0
-        while self.req_id_map[rpc_message.id] is None and timeout <= 30:
-            timeout += 1
-            gevent.sleep(1)
-        response = self.req_id_map[rpc_message.id]
-        if response is None and timeout > 30:
-            raise TimeoutError()
-        self.req_id_map.pop(rpc_message.id, None)
-        return response.body
+

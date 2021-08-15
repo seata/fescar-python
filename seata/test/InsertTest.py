@@ -9,11 +9,19 @@ from seata.Boostrap import Bootstrap
 from seata.rm.RMClient import RMClient
 from seata.rm.datasource.PooledDBProxy import PooledDBProxy
 from seata.sqlparser.util.JdbcConstants import JdbcConstants
+from seata.test import pool_config
 from seata.tm.TMClient import TMClient
 from seata.tm.api.GlobalTransaction import DefaultGlobalTransaction, GlobalTransactionRole
 
+
 def get_pool():
-    return PooledDB(creator=pymysql, host="mariadb.dev", port=3306, user="root", password="root", database="test")
+    host = pool_config.host
+    port = pool_config.port
+    user = pool_config.user
+    password = pool_config.password
+    database = pool_config.database
+    return PooledDB(creator=pymysql, host=host, port=port, user=user, password=password, database=database)
+
 
 def bootstrap_init():
     host = "127.0.0.1"
@@ -53,13 +61,12 @@ def test_insert():
     print("success")
 
 
-
 def test_get_table_meta():
     pool = get_pool()
     con = pool.connection()
     cursor = con.cursor()
     schema = con._pool._kwargs['database']
-    sql = 'select * from information_schema.columns where table_name = ? and table_schema = ?'
+    sql = 'select * from information_schema.columns where table_name = %s and table_schema = %s'
     cursor.execute(sql, ('test', schema))
     all = cursor.fetchall()
     for i in range(len(all)):

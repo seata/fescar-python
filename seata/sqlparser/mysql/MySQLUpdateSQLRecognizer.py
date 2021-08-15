@@ -14,6 +14,9 @@ class MySQLUpdateSQLRecognizer(SQLRecognizer):
         self.sql_type = sql_type
         self.stmt = stmt
 
+    def init(self):
+        pass
+
     def get_sql_type(self):
         return self.sql_type
 

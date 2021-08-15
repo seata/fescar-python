@@ -4,7 +4,7 @@
 # @since 1.0
 from seata.core.model.BranchType import BranchType
 from seata.core.protocol.MessageType import MessageType
-from seata.core.protocol.MessageTypeAware import MessageTypeAware
+from seata.core.protocol.MessageTypeAware import MessageTypeAware, ResultMessage
 
 
 class GlobalLockQueryRequest(MessageTypeAware):
@@ -20,7 +20,7 @@ class GlobalLockQueryRequest(MessageTypeAware):
         return MessageType.TYPE_GLOBAL_LOCK_QUERY
 
 
-class GlobalLockQueryResponse(MessageTypeAware):
+class GlobalLockQueryResponse(ResultMessage, MessageTypeAware):
 
     def __init__(self):
         self.lockable = False

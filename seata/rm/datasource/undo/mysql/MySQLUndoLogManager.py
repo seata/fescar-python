@@ -10,12 +10,15 @@ from seata.sqlparser.util.JdbcConstants import JdbcConstants
 
 class MySQLUndoLogManager(UndoLogManager):
 
+    def __init__(self):
+        super().__init__()
+
     @classmethod
     def get_insert_undo_log_sql(cls):
         return "INSERT INTO " + \
                cls.UNDO_LOG_TABLE_NAME + \
                " (branch_id, xid, context, rollback_info, log_status, log_created, log_modified) " + \
-               "values (?,?,?,?,?,now(6),now(6))"
+               "values (%s,%s,%s,%s,%s,now(6),now(6))"
 
     def get_db_type(self):
         return JdbcConstants.MYSQL

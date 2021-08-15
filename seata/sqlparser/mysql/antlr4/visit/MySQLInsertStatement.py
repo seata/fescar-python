@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-from seata.sqlparser.mysql.antlr4.MySqlParser import MySqlParser
+from seata.sqlparser.mysql.antlr4.gen.MySqlParser import MySqlParser
 from seata.sqlparser.mysql.antlr4.util.MySQLStatementUtil import MySQLStatementUtil
 from seata.sqlparser.mysql.antlr4.value.MySQLValue import DefaultValue, InsertNotSupportValue, FunctionNameValue, \
     ParameterMarkerValue
@@ -20,7 +20,7 @@ class MySQLInsertStatement:
     def parse(self):
         self.__parse_table_name()
         self.__parse_insert_columns()
-        self.__parse_insert_rows()
+        self.__parse_value_list()
 
     def __parse_table_name(self):
         self.table_name = self.__ctx.tableName().getText()
@@ -35,7 +35,7 @@ class MySQLInsertStatement:
             columns_list.append(uids[i].getText())
         self.insert_columns = columns_list
 
-    def __parse_insert_rows(self):
+    def __parse_value_list(self):
         ewds = self.__ctx.insertStatementValue().expressionsWithDefaults()
         rows = []
         for i in range(len(ewds)):

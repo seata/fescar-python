@@ -5,6 +5,7 @@
 from seata.core.context.RootContext import RootContext
 from seata.exception.NotSupportYetException import NotSupportYetException
 from seata.exception.ShouldNeverHappenException import ShouldNeverHappenException
+from seata.rm.datasource.Types import Types
 from seata.rm.datasource.sql.struct.ColumnMeta import ColumnMeta
 from seata.rm.datasource.sql.struct.IndexMeta import IndexMeta
 from seata.rm.datasource.sql.struct.IndexType import IndexType
@@ -22,17 +23,17 @@ class TableMetaCacheFactory:
 
 
 class TableMetaCache:
-    __CACHE = {}
+    CACHE = {}
 
     def get_table_meta(self, connection, table_name, resource_id):
         if table_name is None or table_name.strip() == '':
             raise ValueError("table name is blank")
         cache_key = self.get_cache_key(connection, table_name, resource_id)
-        table_meta = self.__CACHE[cache_key]
+        table_meta = self.CACHE.get(cache_key, None)
         if table_meta is None:
             try:
                 table_meta = self.fetch_schema(connection, table_name)
-                self.__CACHE[cache_key] = table_meta
+                self.CACHE[cache_key] = table_meta
             except Exception as e:
                 print('get table meta error.', e)
         if table_meta is None:
@@ -41,14 +42,14 @@ class TableMetaCache:
         return table_meta
 
     def refresh(self, connection, resource_id):
-        cache = self.__CACHE
+        cache = self.CACHE
         for k, v in cache:
             key = self.get_cache_key(connection, v.table_name, resource_id)
             if k == key:
                 try:
                     table_meta = self.fetch_schema(connection, v.table_name)
                     if table_meta != v:
-                        self.__CACHE[k] = table_meta
+                        self.CACHE[k] = table_meta
                         print('table meta change was found. key:' + key)
                 except Exception as e:
                     print('table meta refresh error', e)
@@ -87,7 +88,7 @@ class MySQLTableMetaCache(TableMetaCache):
     def fetch_schema(self, connection, table_name):
         cursor = connection.cursor()
         schema = connection._pool._kwargs['database']
-        columns_sql = 'select * from information_schema.columns where table_name = ? and table_schema = ?'
+        columns_sql = "select * from information_schema.columns where table_name = %s and table_schema = %s"
         cursor.execute(columns_sql, (table_name, schema))
         columns_all = cursor.fetchall()
         table_meta = TableMeta()
@@ -103,6 +104,7 @@ class MySQLTableMetaCache(TableMetaCache):
             # col. = r[5] # COLUMN_DEFAULT
             col.is_nullable = r[6]  # IS_NULLABLE
             col.data_type_name = r[7]  # DATA_TYPE
+            col.data_type = Types.get(col.data_type_name)
             # col. = r[8] # CHARACTER_MAXIMUM_LENGTH
             col.char_octet_length = r[9]  # character_octet_length
             col.num_prec_radix = r[10]  # NUMERIC_PRECISION
@@ -123,9 +125,9 @@ class MySQLTableMetaCache(TableMetaCache):
             # col. = r[21] # GENERATION_EXPRESSION
             table_meta.all_columns[col.column_name] = col
 
-        # indexs_sql = 'select * from information_schema.statistics where table_schema = ? and table_name = ?'
-        indexs_sql = 'show index from ? from ?'
-        cursor.execute(indexs_sql, (table_name, schema))
+        # indexs_sql = "select * from information_schema.statistics where table_schema = %s and table_name = %s"
+        indexs_sql = "show index from {} from {}".format(table_name, schema)
+        cursor.execute(indexs_sql)
         indexs_all = cursor.fetchall()
         for i in range(len(indexs_all)):
             r = indexs_all[i]
@@ -135,7 +137,7 @@ class MySQLTableMetaCache(TableMetaCache):
             column_name = r[4]  # Column_name
             cardinality = r[6]  # Cardinality
             col = table_meta.all_columns[column_name]
-            if table_meta.all_indexs[index_name] is not None:
+            if table_meta.all_indexs.get(index_name, None) is not None:
                 table_meta.all_indexs[index_name].values.append(col)
             else:
                 im = IndexMeta()

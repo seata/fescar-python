@@ -4,7 +4,7 @@
 # @since 1.0
 from seata.core.protocol import Version
 from seata.core.protocol.MessageType import MessageType
-from seata.core.protocol.MessageTypeAware import MessageTypeAware
+from seata.core.protocol.MessageTypeAware import MessageTypeAware, ResultMessage
 
 
 class RegisterTMRequest(MessageTypeAware):
@@ -24,7 +24,7 @@ class RegisterTMRequest(MessageTypeAware):
         return MessageType.TYPE_REG_CLT
 
 
-class RegisterTMResponse(MessageTypeAware):
+class RegisterTMResponse(ResultMessage, MessageTypeAware):
 
     def __init__(self, result=True):
         self.result = result

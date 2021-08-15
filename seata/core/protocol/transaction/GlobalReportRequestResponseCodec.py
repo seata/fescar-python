@@ -19,7 +19,7 @@ class GlobalReportRequestCodec(object):
         AbstractGlobalEndRequestCodec.encode(t, out_buffer)
         global_status = t.global_status
         if global_status is not None:
-            out_buffer.put_int8(global_status.value)
+            out_buffer.put_int8(global_status.value[0])
         else:
             out_buffer.put_int8(-1)
 

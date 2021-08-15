@@ -59,4 +59,5 @@ class TMClient(object):
             rpc_message = RpcMessage.build_request_message(msg, ProtocolConstants.MSGTYPE_HEARTBEAT_REQUEST)
         else:
             rpc_message = RpcMessage.build_request_message(msg, ProtocolConstants.MSGTYPE_RESQUEST_SYNC)
-        return self.remote_client.protocol.encode(rpc_message)
+        self.remote_client.send_sync(rpc_message)
+

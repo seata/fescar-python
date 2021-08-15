@@ -15,7 +15,6 @@ from seata.rm.datasource.executor.LockConflictException import LockConflictExcep
 
 
 class ConnectionProxy(object):
-
     def __init__(self, pooled_db_proxy, target_connection):
         from seata.rm.datasource.PooledDBProxy import PooledDBProxy
         if not isinstance(pooled_db_proxy, PooledDBProxy):
@@ -30,7 +29,6 @@ class ConnectionProxy(object):
 
     def bind(self, xid):
         self.context.bind(xid)
-        pass
 
     def set_global_lock_require(self, is_lock):
         self.context.is_global_lock_require = is_lock
@@ -66,7 +64,7 @@ class ConnectionProxy(object):
             self.do_commit()
             return None
         except RuntimeError as e:
-            if self.target_connection is not None and not self.target_connection.autocommit:
+            if self.target_connection is not None and not self.target_connection.get_autocommit():
                 self.rollback()
             raise e
         except Exception as e:
@@ -88,10 +86,13 @@ class ConnectionProxy(object):
         if (self.context.in_global_transaction() or self.context.is_global_lock_require) \
                 and on and not self.get_autocommit():
             self.do_commit()
-        self.target_connection.autocommit = on
+        self.get_low_con().autocommit(on)
 
     def get_autocommit(self):
-        return self.target_connection.autocommit
+        return self.get_low_con().get_autocommit()
+
+    def get_low_con(self):
+        return self.target_connection._con._con
 
     def change_autocommit(self):
         self.context.autocommit_changed = True
@@ -113,14 +114,17 @@ class ConnectionProxy(object):
 
         try:
             if self.context.has_undo_log():
-                UndoLogManagerFactory.get_undo_log_manager(self.get_db_type()).flush_undo_log(self)
+                UndoLogManagerFactory.get_undo_log_manager(self.get_db_type()).flush_undo_logs(self)
         except Exception as ex:
-            print("process connectionProxy commit error: {}, {}".format(ex.getMessage(), ex))
+            print("process connectionProxy commit error: {}".format(ex))
             self.report(False)
             raise ex
 
         self.report(True)
         self.context.reset()
+
+    def recognize_lock_key_conflict_exception(self, e, lock_keys):
+        pass
 
     def process_local_commit_with_global_locks(self):
         self.check_lock(self.context.build_lock_keys())
@@ -149,13 +153,14 @@ class ConnectionProxy(object):
                     status = BranchStatus.PhaseOne_Failed
                 ATResourceManager.get().branch_report(BranchType.AT, self.context.xid, self.context.branch_id, status,
                                                       None)
+                return
             except Exception as e:
                 print("Failed to report [{}/{}]  commit done [{}] Retry Countdown: {}".format(self.context.branch_id,
                                                                                               self.context.xid,
                                                                                               commit_done, retry))
                 retry -= 1
                 if retry == 0:
-                    raise RuntimeError("Failed to report branch status  {}".format(commit_done), e)
+                    raise RuntimeError("Failed to report branch status  {}, {}".format(commit_done, e))
 
     def _recognize_lock_key_conflict_exception(self, e, lock_keys):
         if e.value == TransactionExceptionCode.LockKeyConflict:

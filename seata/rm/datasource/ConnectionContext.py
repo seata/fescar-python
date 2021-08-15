@@ -6,20 +6,21 @@ from seata.exception.ShouldNeverHappenException import ShouldNeverHappenExceptio
 
 
 class ConnectionContext(object):
+    P = "default"
 
     def __init__(self):
         self.xid = None
         self.branch_id = None
         self.is_global_lock_require = False
         self.lock_keys_buffer = set()
-        self.sql_undo_items_buffer = {}
+        self.sql_undo_items_buffer = {self.P: []}
         self.autocommit_changed = False
 
     def append_lock_key(self, lock_key):
         self.lock_keys_buffer.add(lock_key)
 
     def append_undo_item(self, sql_undo_log):
-        self.sql_undo_items_buffer.append(sql_undo_log)
+        self.sql_undo_items_buffer.get(self.P).append(sql_undo_log)
 
     def in_global_transaction(self):
         if self.xid is not None:
@@ -41,27 +42,28 @@ class ConnectionContext(object):
                 raise ShouldNeverHappenException("self.xid.[{}] != xid.[{}]".format(self.xid, xid))
 
     def has_undo_log(self):
-        return len(self.sql_undo_items_buffer) > 0
+        return len(self.sql_undo_items_buffer.get(self.P)) > 0
 
     def reset(self, xid=None):
         self.xid = xid
         self.branch_id = None
         self.is_global_lock_require = False
         self.lock_keys_buffer.clear()
-        self.sql_undo_items_buffer.clear()
+        self.sql_undo_items_buffer.get(self.P).clear()
 
     def build_lock_keys(self):
         if len(self.lock_keys_buffer) == 0:
             return None
         appender = ""
-        for i in range(len(self.lock_keys_buffer)):
-            appender += self.lock_keys_buffer[i]
-            if i != len(self.lock_keys_buffer) - 1:
+        for idx, key_buffer in enumerate(self.lock_keys_buffer):
+            appender += key_buffer
+            if idx != len(self.lock_keys_buffer) - 1:
                 appender += ";"
         return appender
 
     def get_undo_items(self):
         undo_items = []
-        for i in range(len(self.sql_undo_items_buffer)):
-            undo_items.append(self.sql_undo_items_buffer[i])
+        us = self.sql_undo_items_buffer.get(self.P)
+        for i in range(len(us)):
+            undo_items.append(us[i])
         return undo_items

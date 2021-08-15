@@ -3,10 +3,10 @@
 # @author jsbxyyx
 # @since 1.0
 from seata.core.protocol.MessageType import MessageType
-from seata.core.protocol.MessageTypeAware import MessageTypeAware
+from seata.core.protocol.MessageTypeAware import MessageTypeAware, ResultMessage
 
 
-class GlobalStatusRequest(MessageTypeAware):
+class GlobalStatusRequest(ResultMessage, MessageTypeAware):
 
     def __int__(self):
         self.xid = None

@@ -58,7 +58,7 @@ class AbstractIdentifyRequestCodec(object):
             return
         version_ba = bytearray(version_len)
         in_buffer.get(version_ba)
-        t.version = str(version_ba)
+        t.version = version_ba.decode(encoding="utf-8")
 
         if in_buffer.readable_bytes() < 2:
             return
@@ -67,7 +67,7 @@ class AbstractIdentifyRequestCodec(object):
             return
         application_id_ba = bytearray(application_id_len)
         in_buffer.get(application_id_ba)
-        t.application_id = str(application_id_ba)
+        t.application_id = application_id_ba.decode(encoding="utf-8")
 
         if in_buffer.readable_bytes() < 2:
             return
@@ -76,7 +76,7 @@ class AbstractIdentifyRequestCodec(object):
             return
         transaction_service_group_ba = bytearray(transaction_service_group_len)
         in_buffer.get(transaction_service_group_ba)
-        t.transaction_service_group = str(transaction_service_group_ba)
+        t.transaction_service_group = transaction_service_group_ba.decode(encoding="utf-8")
 
         if in_buffer.readable_bytes() < 2:
             return
@@ -85,7 +85,7 @@ class AbstractIdentifyRequestCodec(object):
             return
         extra_data_ba = bytearray(extra_data_len)
         in_buffer.get(extra_data_ba)
-        t.extra_data = str(extra_data_ba)
+        t.extra_data = extra_data_ba.decode(encoding="utf-8")
 
 
 class AbstractIdentifyResponseCodec(object):
@@ -120,4 +120,4 @@ class AbstractIdentifyResponseCodec(object):
             return
         version_ba = bytearray(version_len)
         in_buffer.get(version_ba)
-        t.version = str(version_ba)
+        t.version = version_ba.decode(encoding="utf-8")
