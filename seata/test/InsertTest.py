@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-import mariadb
+import pymysql
 from dbutils.pooled_db import PooledDB
 
 from seata.Boostrap import Bootstrap
@@ -10,7 +10,10 @@ from seata.rm.RMClient import RMClient
 from seata.rm.datasource.PooledDBProxy import PooledDBProxy
 from seata.sqlparser.util.JdbcConstants import JdbcConstants
 from seata.tm.TMClient import TMClient
+from seata.tm.api.GlobalTransaction import DefaultGlobalTransaction, GlobalTransactionRole
 
+def get_pool():
+    return PooledDB(creator=pymysql, host="mariadb.dev", port=3306, user="root", password="root", database="test")
 
 def bootstrap_init():
     host = "127.0.0.1"
@@ -32,20 +35,27 @@ def bootstrap_init():
 def test_insert():
     bootstrap_init()
 
-    pool = PooledDB(creator=mariadb, host="mariadb.dev", port=3306, user="root", password="root", database="test")
+    pool = get_pool()
 
     pool_proxy = PooledDBProxy(pool, JdbcConstants.MYSQL)
 
     cp = pool_proxy.connection()
 
+    t = DefaultGlobalTransaction(None, None, GlobalTransactionRole.Launcher)
+    t.begin()
+
+    cp.bind(t.get_xid())
+
     cursor = cp.cursor()
-    cursor.execute("insert into test(id, name) values(?, ?)", (None, "name1"))
+    cursor.execute("insert into test(id, name) values(%s, %s)", (None, "name1"))
     cp.commit()
+    t.commit()
     print("success")
 
 
+
 def test_get_table_meta():
-    pool = PooledDB(creator=mariadb, host="mariadb.dev", port=3306, user="root", password="root", database="test")
+    pool = get_pool()
     con = pool.connection()
     cursor = con.cursor()
     schema = con._pool._kwargs['database']
@@ -59,7 +69,7 @@ def test_get_table_meta():
 
 
 def test_get_low_case():
-    pool = PooledDB(creator=mariadb, host="mariadb.dev", port=3306, user="root", password="root", database="test")
+    pool = get_pool()
     con = pool.connection()
     cursor = con.cursor()
     sql = "select * from information_schema.global_variables WHERE variable_name = 'LOWER_CASE_TABLE_NAMES'"
@@ -70,7 +80,7 @@ def test_get_low_case():
 
 
 def test_insert_lastrowid():
-    pool = PooledDB(creator=mariadb, host="mariadb.dev", port=3306, user="root", password="root", database="test")
+    pool = get_pool()
     con = pool.connection()
     cursor = con.cursor()
     sql = "insert into test (id, name) values(null, 1), (null, 2)"
@@ -83,7 +93,7 @@ def test_insert_lastrowid():
 
 
 def test_IntegrityError():
-    pool = PooledDB(creator=mariadb, host="mariadb.dev", port=3306, user="root", password="root", database="test")
+    pool = get_pool()
     con = pool.connection()
     try:
         cursor = con.cursor()
@@ -95,9 +105,9 @@ def test_IntegrityError():
 
 
 if __name__ == '__main__':
-    # test_insert()
+    test_insert()
     # test_get_table_meta()
     # test_get_low_case()
     # test_insert_lastrowid()
-    test_IntegrityError()
+    # test_IntegrityError()
     print()

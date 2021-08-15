@@ -2,6 +2,9 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+from seata.rm.datasource.executor.CursorCallback import CursorCallback
+from seata.rm.datasource.executor.ExecuteTemplate import ExecuteTemplate
+
 
 class CursorProxy(object):
 
@@ -38,11 +41,12 @@ class CursorProxy(object):
     # override Cursor executor
     def execute(self, operation, parameters=None):
         self.target_sql = operation
-        return self.target_cursor.execute(operation, parameters)
+        return ExecuteTemplate.execute(self, CursorCallback('execute'), parameters)
 
     # override Cursor executemany
     def executemany(self, operation, seq_of_parameters=None):
-        return self.target_cursor.executemany(operation, seq_of_parameters)
+        self.target_sql = operation
+        return ExecuteTemplate.execute(self, CursorCallback('executemany'), seq_of_parameters)
 
     # override Cursor fetchone
     def fetchone(self):

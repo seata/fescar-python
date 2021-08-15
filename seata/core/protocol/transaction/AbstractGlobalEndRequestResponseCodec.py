@@ -14,7 +14,11 @@ class AbstractGlobalEndRequestCodec(object):
         if not isinstance(out_buffer, ByteBuffer):
             raise TypeError("out_buffer is not ByteBuffer")
         xid = t.xid
-        extra_data = t.extra_data
+        extra_data = None
+        try:
+            extra_data = getattr(t, 'extra_data')
+        except AttributeError:
+            pass
         if xid is not None:
             xid_ba = bytearray(xid)
             out_buffer.put_int16(len(xid_ba))

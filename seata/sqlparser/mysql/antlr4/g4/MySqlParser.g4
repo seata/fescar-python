@@ -2625,4 +2625,5 @@ functionNameBase
 
 parameterMarker
 	: QUESTION_
+	| PERCENT_S_
 	;

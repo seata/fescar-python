@@ -20,76 +20,11 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x14\x62ranch_undolog.proto\x12%seata.rm.datasource.undo.parser.proto\x1a\x19google/protobuf/any.proto\"\x99\x01\n\rBranchUndoLog\x12\x10\n\x03xid\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x16\n\tbranch_id\x18\x02 \x01(\tH\x01\x88\x01\x01\x12H\n\rsql_undo_logs\x18\x03 \x03(\x0b\x32\x31.seata.rm.datasource.undo.parser.proto.SQLUndoLogB\x06\n\x04_xidB\x0c\n\n_branch_id\"\x98\x02\n\nSQLUndoLog\x12\x15\n\x08sql_type\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x17\n\ntable_name\x18\x02 \x01(\tH\x01\x88\x01\x01\x12N\n\x0c\x62\x65\x66ore_image\x18\x03 \x01(\x0b\x32\x33.seata.rm.datasource.undo.parser.proto.TableRecordsH\x02\x88\x01\x01\x12M\n\x0b\x61\x66ter_image\x18\x04 \x01(\x0b\x32\x33.seata.rm.datasource.undo.parser.proto.TableRecordsH\x03\x88\x01\x01\x42\x0b\n\t_sql_typeB\r\n\x0b_table_nameB\x0f\n\r_before_imageB\x0e\n\x0c_after_image\"\xca\x01\n\x0cTableRecords\x12I\n\ntable_meta\x18\x01 \x01(\x0b\x32\x30.seata.rm.datasource.undo.parser.proto.TableMetaH\x00\x88\x01\x01\x12\x17\n\ntable_name\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x38\n\x04rows\x18\x03 \x03(\x0b\x32*.seata.rm.datasource.undo.parser.proto.RowB\r\n\x0b_table_metaB\r\n\x0b_table_name\"\xa9\x03\n\tTableMeta\x12\x17\n\ntable_name\x18\x01 \x01(\tH\x00\x88\x01\x01\x12U\n\x0b\x61ll_columns\x18\x02 \x03(\x0b\x32@.seata.rm.datasource.undo.parser.proto.TableMeta.AllColumnsEntry\x12S\n\nall_indexs\x18\x03 \x03(\x0b\x32?.seata.rm.datasource.undo.parser.proto.TableMeta.AllIndexsEntry\x1a\x64\n\x0f\x41llColumnsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12@\n\x05value\x18\x02 \x01(\x0b\x32\x31.seata.rm.datasource.undo.parser.proto.ColumnMeta:\x02\x38\x01\x1a\x62\n\x0e\x41llIndexsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12?\n\x05value\x18\x02 \x01(\x0b\x32\x30.seata.rm.datasource.undo.parser.proto.IndexMeta:\x02\x38\x01\x42\r\n\x0b_table_name\"\xca\x06\n\nColumnMeta\x12\x16\n\ttable_cat\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x1e\n\x11table_schema_name\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x17\n\ntable_name\x18\x03 \x01(\tH\x02\x88\x01\x01\x12\x18\n\x0b\x63olumn_name\x18\x04 \x01(\tH\x03\x88\x01\x01\x12\x16\n\tdata_type\x18\x05 \x01(\x05H\x04\x88\x01\x01\x12\x1b\n\x0e\x64\x61ta_type_name\x18\x06 \x01(\tH\x05\x88\x01\x01\x12\x18\n\x0b\x63olumn_size\x18\x07 \x01(\x05H\x06\x88\x01\x01\x12\x1b\n\x0e\x64\x65\x63imal_digits\x18\x08 \x01(\x05H\x07\x88\x01\x01\x12\x1b\n\x0enum_prec_radix\x18\t \x01(\x05H\x08\x88\x01\x01\x12\x16\n\tnull_able\x18\n \x01(\x05H\t\x88\x01\x01\x12\x14\n\x07remarks\x18\x0b \x01(\tH\n\x88\x01\x01\x12\x17\n\ncolumn_def\x18\x0c \x01(\tH\x0b\x88\x01\x01\x12\x1a\n\rsql_data_type\x18\r \x01(\x05H\x0c\x88\x01\x01\x12\x1d\n\x10sql_datetime_sub\x18\x0e \x01(\x05H\r\x88\x01\x01\x12\x34\n\x11\x63har_octet_length\x18\x0f \x01(\x0b\x32\x14.google.protobuf.AnyH\x0e\x88\x01\x01\x12\x1d\n\x10ordinal_position\x18\x10 \x01(\x05H\x0f\x88\x01\x01\x12\x18\n\x0bis_nullable\x18\x11 \x01(\tH\x10\x88\x01\x01\x12\x1d\n\x10is_autoincrement\x18\x12 \x01(\tH\x11\x88\x01\x01\x42\x0c\n\n_table_catB\x14\n\x12_table_schema_nameB\r\n\x0b_table_nameB\x0e\n\x0c_column_nameB\x0c\n\n_data_typeB\x11\n\x0f_data_type_nameB\x0e\n\x0c_column_sizeB\x11\n\x0f_decimal_digitsB\x11\n\x0f_num_prec_radixB\x0c\n\n_null_ableB\n\n\x08_remarksB\r\n\x0b_column_defB\x10\n\x0e_sql_data_typeB\x13\n\x11_sql_datetime_subB\x14\n\x12_char_octet_lengthB\x13\n\x11_ordinal_positionB\x0e\n\x0c_is_nullableB\x13\n\x11_is_autoincrement\"\x99\x04\n\tIndexMeta\x12\x41\n\x06values\x18\x01 \x03(\x0b\x32\x31.seata.rm.datasource.undo.parser.proto.ColumnMeta\x12\x17\n\nnon_unique\x18\x02 \x01(\x08H\x00\x88\x01\x01\x12\x1c\n\x0findex_qualifier\x18\x03 \x01(\tH\x01\x88\x01\x01\x12\x17\n\nindex_name\x18\x04 \x01(\tH\x02\x88\x01\x01\x12\x11\n\x04type\x18\x05 \x01(\x05H\x03\x88\x01\x01\x12S\n\nindex_type\x18\x06 \x01(\x0e\x32:.seata.rm.datasource.undo.parser.proto.IndexMeta.IndexTypeH\x04\x88\x01\x01\x12\x18\n\x0b\x61sc_or_desc\x18\x07 \x01(\tH\x05\x88\x01\x01\x12\x18\n\x0b\x63\x61rdinality\x18\x08 \x01(\x05H\x06\x88\x01\x01\x12\x1d\n\x10ordinal_position\x18\t \x01(\x05H\x07\x88\x01\x01\"?\n\tIndexType\x12\x0b\n\x07PRIMARY\x10\x00\x12\n\n\x06NORMAL\x10\x01\x12\n\n\x06UNIQUE\x10\x02\x12\r\n\tFULL_TEXT\x10\x03\x42\r\n\x0b_non_uniqueB\x12\n\x10_index_qualifierB\r\n\x0b_index_nameB\x07\n\x05_typeB\r\n\x0b_index_typeB\x0e\n\x0c_asc_or_descB\x0e\n\x0c_cardinalityB\x13\n\x11_ordinal_position\"C\n\x03Row\x12<\n\x06\x66ields\x18\x01 \x03(\x0b\x32,.seata.rm.datasource.undo.parser.proto.Field\"\xfd\x01\n\x05\x46ield\x12\x11\n\x04name\x18\x01 \x01(\tH\x00\x88\x01\x01\x12K\n\x08key_type\x18\x02 \x01(\x0e\x32\x34.seata.rm.datasource.undo.parser.proto.Field.KeyTypeH\x01\x88\x01\x01\x12\x11\n\x04type\x18\x03 \x01(\x05H\x02\x88\x01\x01\x12(\n\x05value\x18\x04 \x01(\x0b\x32\x14.google.protobuf.AnyH\x03\x88\x01\x01\".\n\x07KeyType\x12\x08\n\x04NONE\x10\x00\x12\x08\n\x04NULL\x10\x01\x12\x0f\n\x0bPRIMARY_KEY\x10\x02\x42\x07\n\x05_nameB\x0b\n\t_key_typeB\x07\n\x05_typeB\x08\n\x06_valueb\x06proto3'
+  serialized_pb=b'\n\x14\x62ranch_undolog.proto\x12%seata.rm.datasource.undo.parser.proto\x1a\x19google/protobuf/any.proto\"\x99\x01\n\rBranchUndoLog\x12\x10\n\x03xid\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x16\n\tbranch_id\x18\x02 \x01(\tH\x01\x88\x01\x01\x12H\n\rsql_undo_logs\x18\x03 \x03(\x0b\x32\x31.seata.rm.datasource.undo.parser.proto.SQLUndoLogB\x06\n\x04_xidB\x0c\n\n_branch_id\"\xc7\x01\n\nSQLUndoLog\x12\x10\n\x08sql_type\x18\x01 \x01(\x05\x12\x12\n\ntable_name\x18\x02 \x01(\t\x12I\n\x0c\x62\x65\x66ore_image\x18\x03 \x01(\x0b\x32\x33.seata.rm.datasource.undo.parser.proto.TableRecords\x12H\n\x0b\x61\x66ter_image\x18\x04 \x01(\x0b\x32\x33.seata.rm.datasource.undo.parser.proto.TableRecords\"\xa2\x01\n\x0cTableRecords\x12\x44\n\ntable_meta\x18\x01 \x01(\x0b\x32\x30.seata.rm.datasource.undo.parser.proto.TableMeta\x12\x12\n\ntable_name\x18\x02 \x01(\t\x12\x38\n\x04rows\x18\x03 \x03(\x0b\x32*.seata.rm.datasource.undo.parser.proto.Row\"\x95\x03\n\tTableMeta\x12\x12\n\ntable_name\x18\x01 \x01(\t\x12U\n\x0b\x61ll_columns\x18\x02 \x03(\x0b\x32@.seata.rm.datasource.undo.parser.proto.TableMeta.AllColumnsEntry\x12S\n\nall_indexs\x18\x03 \x03(\x0b\x32?.seata.rm.datasource.undo.parser.proto.TableMeta.AllIndexsEntry\x1a\x64\n\x0f\x41llColumnsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12@\n\x05value\x18\x02 \x01(\x0b\x32\x31.seata.rm.datasource.undo.parser.proto.ColumnMeta:\x02\x38\x01\x1a\x62\n\x0e\x41llIndexsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12?\n\x05value\x18\x02 \x01(\x0b\x32\x30.seata.rm.datasource.undo.parser.proto.IndexMeta:\x02\x38\x01\"\xb6\x03\n\nColumnMeta\x12\x11\n\ttable_cat\x18\x01 \x01(\t\x12\x19\n\x11table_schema_name\x18\x02 \x01(\t\x12\x12\n\ntable_name\x18\x03 \x01(\t\x12\x13\n\x0b\x63olumn_name\x18\x04 \x01(\t\x12\x11\n\tdata_type\x18\x05 \x01(\x05\x12\x16\n\x0e\x64\x61ta_type_name\x18\x06 \x01(\t\x12\x13\n\x0b\x63olumn_size\x18\x07 \x01(\x05\x12\x16\n\x0e\x64\x65\x63imal_digits\x18\x08 \x01(\x05\x12\x16\n\x0enum_prec_radix\x18\t \x01(\x05\x12\x11\n\tnull_able\x18\n \x01(\x05\x12\x0f\n\x07remarks\x18\x0b \x01(\t\x12\x12\n\ncolumn_def\x18\x0c \x01(\t\x12\x15\n\rsql_data_type\x18\r \x01(\x05\x12\x18\n\x10sql_datetime_sub\x18\x0e \x01(\x05\x12/\n\x11\x63har_octet_length\x18\x0f \x01(\x0b\x32\x14.google.protobuf.Any\x12\x18\n\x10ordinal_position\x18\x10 \x01(\x05\x12\x13\n\x0bis_nullable\x18\x11 \x01(\t\x12\x18\n\x10is_autoincrement\x18\x12 \x01(\t\"\xf5\x01\n\tIndexMeta\x12\x41\n\x06values\x18\x01 \x03(\x0b\x32\x31.seata.rm.datasource.undo.parser.proto.ColumnMeta\x12\x12\n\nnon_unique\x18\x02 \x01(\x08\x12\x17\n\x0findex_qualifier\x18\x03 \x01(\t\x12\x12\n\nindex_name\x18\x04 \x01(\t\x12\x0c\n\x04type\x18\x05 \x01(\x05\x12\x12\n\nindex_type\x18\x06 \x01(\x05\x12\x13\n\x0b\x61sc_or_desc\x18\x07 \x01(\t\x12\x13\n\x0b\x63\x61rdinality\x18\x08 \x01(\x05\x12\x18\n\x10ordinal_position\x18\t \x01(\x05\"C\n\x03Row\x12<\n\x06\x66ields\x18\x01 \x03(\x0b\x32,.seata.rm.datasource.undo.parser.proto.Field\"Z\n\x05\x46ield\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x10\n\x08key_type\x18\x02 \x01(\x05\x12\x0c\n\x04type\x18\x03 \x01(\x05\x12#\n\x05value\x18\x04 \x01(\x0b\x32\x14.google.protobuf.Anyb\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_any__pb2.DESCRIPTOR,])
 
 
-
-_INDEXMETA_INDEXTYPE = _descriptor.EnumDescriptor(
-  name='IndexType',
-  full_name='seata.rm.datasource.undo.parser.proto.IndexMeta.IndexType',
-  filename=None,
-  file=DESCRIPTOR,
-  create_key=_descriptor._internal_create_key,
-  values=[
-    _descriptor.EnumValueDescriptor(
-      name='PRIMARY', index=0, number=0,
-      serialized_options=None,
-      type=None,
-      create_key=_descriptor._internal_create_key),
-    _descriptor.EnumValueDescriptor(
-      name='NORMAL', index=1, number=1,
-      serialized_options=None,
-      type=None,
-      create_key=_descriptor._internal_create_key),
-    _descriptor.EnumValueDescriptor(
-      name='UNIQUE', index=2, number=2,
-      serialized_options=None,
-      type=None,
-      create_key=_descriptor._internal_create_key),
-    _descriptor.EnumValueDescriptor(
-      name='FULL_TEXT', index=3, number=3,
-      serialized_options=None,
-      type=None,
-      create_key=_descriptor._internal_create_key),
-  ],
-  containing_type=None,
-  serialized_options=None,
-  serialized_start=2355,
-  serialized_end=2418,
-)
-_sym_db.RegisterEnumDescriptor(_INDEXMETA_INDEXTYPE)
-
-_FIELD_KEYTYPE = _descriptor.EnumDescriptor(
-  name='KeyType',
-  full_name='seata.rm.datasource.undo.parser.proto.Field.KeyType',
-  filename=None,
-  file=DESCRIPTOR,
-  create_key=_descriptor._internal_create_key,
-  values=[
-    _descriptor.EnumValueDescriptor(
-      name='NONE', index=0, number=0,
-      serialized_options=None,
-      type=None,
-      create_key=_descriptor._internal_create_key),
-    _descriptor.EnumValueDescriptor(
-      name='NULL', index=1, number=1,
-      serialized_options=None,
-      type=None,
-      create_key=_descriptor._internal_create_key),
-    _descriptor.EnumValueDescriptor(
-      name='PRIMARY_KEY', index=2, number=2,
-      serialized_options=None,
-      type=None,
-      create_key=_descriptor._internal_create_key),
-  ],
-  containing_type=None,
-  serialized_options=None,
-  serialized_start=2783,
-  serialized_end=2829,
-)
-_sym_db.RegisterEnumDescriptor(_FIELD_KEYTYPE)
 
 
 _BRANCHUNDOLOG = _descriptor.Descriptor(
@@ -158,8 +93,8 @@ _SQLUNDOLOG = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='sql_type', full_name='seata.rm.datasource.undo.parser.proto.SQLUndoLog.sql_type', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -195,29 +130,9 @@ _SQLUNDOLOG = _descriptor.Descriptor(
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
-    _descriptor.OneofDescriptor(
-      name='_sql_type', full_name='seata.rm.datasource.undo.parser.proto.SQLUndoLog._sql_type',
-      index=0, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_table_name', full_name='seata.rm.datasource.undo.parser.proto.SQLUndoLog._table_name',
-      index=1, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_before_image', full_name='seata.rm.datasource.undo.parser.proto.SQLUndoLog._before_image',
-      index=2, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_after_image', full_name='seata.rm.datasource.undo.parser.proto.SQLUndoLog._after_image',
-      index=3, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
   ],
   serialized_start=247,
-  serialized_end=527,
+  serialized_end=446,
 )
 
 
@@ -261,19 +176,9 @@ _TABLERECORDS = _descriptor.Descriptor(
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
-    _descriptor.OneofDescriptor(
-      name='_table_meta', full_name='seata.rm.datasource.undo.parser.proto.TableRecords._table_meta',
-      index=0, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_table_name', full_name='seata.rm.datasource.undo.parser.proto.TableRecords._table_name',
-      index=1, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
   ],
-  serialized_start=530,
-  serialized_end=732,
+  serialized_start=449,
+  serialized_end=611,
 )
 
 
@@ -311,8 +216,8 @@ _TABLEMETA_ALLCOLUMNSENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=945,
-  serialized_end=1045,
+  serialized_start=819,
+  serialized_end=919,
 )
 
 _TABLEMETA_ALLINDEXSENTRY = _descriptor.Descriptor(
@@ -349,8 +254,8 @@ _TABLEMETA_ALLINDEXSENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1047,
-  serialized_end=1145,
+  serialized_start=921,
+  serialized_end=1019,
 )
 
 _TABLEMETA = _descriptor.Descriptor(
@@ -393,14 +298,9 @@ _TABLEMETA = _descriptor.Descriptor(
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
-    _descriptor.OneofDescriptor(
-      name='_table_name', full_name='seata.rm.datasource.undo.parser.proto.TableMeta._table_name',
-      index=0, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
   ],
-  serialized_start=735,
-  serialized_end=1160,
+  serialized_start=614,
+  serialized_end=1019,
 )
 
 
@@ -549,99 +449,9 @@ _COLUMNMETA = _descriptor.Descriptor(
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
-    _descriptor.OneofDescriptor(
-      name='_table_cat', full_name='seata.rm.datasource.undo.parser.proto.ColumnMeta._table_cat',
-      index=0, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_table_schema_name', full_name='seata.rm.datasource.undo.parser.proto.ColumnMeta._table_schema_name',
-      index=1, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_table_name', full_name='seata.rm.datasource.undo.parser.proto.ColumnMeta._table_name',
-      index=2, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_column_name', full_name='seata.rm.datasource.undo.parser.proto.ColumnMeta._column_name',
-      index=3, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_data_type', full_name='seata.rm.datasource.undo.parser.proto.ColumnMeta._data_type',
-      index=4, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_data_type_name', full_name='seata.rm.datasource.undo.parser.proto.ColumnMeta._data_type_name',
-      index=5, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_column_size', full_name='seata.rm.datasource.undo.parser.proto.ColumnMeta._column_size',
-      index=6, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_decimal_digits', full_name='seata.rm.datasource.undo.parser.proto.ColumnMeta._decimal_digits',
-      index=7, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_num_prec_radix', full_name='seata.rm.datasource.undo.parser.proto.ColumnMeta._num_prec_radix',
-      index=8, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_null_able', full_name='seata.rm.datasource.undo.parser.proto.ColumnMeta._null_able',
-      index=9, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_remarks', full_name='seata.rm.datasource.undo.parser.proto.ColumnMeta._remarks',
-      index=10, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_column_def', full_name='seata.rm.datasource.undo.parser.proto.ColumnMeta._column_def',
-      index=11, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_sql_data_type', full_name='seata.rm.datasource.undo.parser.proto.ColumnMeta._sql_data_type',
-      index=12, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_sql_datetime_sub', full_name='seata.rm.datasource.undo.parser.proto.ColumnMeta._sql_datetime_sub',
-      index=13, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_char_octet_length', full_name='seata.rm.datasource.undo.parser.proto.ColumnMeta._char_octet_length',
-      index=14, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_ordinal_position', full_name='seata.rm.datasource.undo.parser.proto.ColumnMeta._ordinal_position',
-      index=15, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_is_nullable', full_name='seata.rm.datasource.undo.parser.proto.ColumnMeta._is_nullable',
-      index=16, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_is_autoincrement', full_name='seata.rm.datasource.undo.parser.proto.ColumnMeta._is_autoincrement',
-      index=17, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
   ],
-  serialized_start=1163,
-  serialized_end=2005,
+  serialized_start=1022,
+  serialized_end=1460,
 )
 
 
@@ -690,7 +500,7 @@ _INDEXMETA = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
       name='index_type', full_name='seata.rm.datasource.undo.parser.proto.IndexMeta.index_type', index=5,
-      number=6, type=14, cpp_type=8, label=1,
+      number=6, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -721,56 +531,15 @@ _INDEXMETA = _descriptor.Descriptor(
   ],
   nested_types=[],
   enum_types=[
-    _INDEXMETA_INDEXTYPE,
   ],
   serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
-    _descriptor.OneofDescriptor(
-      name='_non_unique', full_name='seata.rm.datasource.undo.parser.proto.IndexMeta._non_unique',
-      index=0, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_index_qualifier', full_name='seata.rm.datasource.undo.parser.proto.IndexMeta._index_qualifier',
-      index=1, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_index_name', full_name='seata.rm.datasource.undo.parser.proto.IndexMeta._index_name',
-      index=2, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_type', full_name='seata.rm.datasource.undo.parser.proto.IndexMeta._type',
-      index=3, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_index_type', full_name='seata.rm.datasource.undo.parser.proto.IndexMeta._index_type',
-      index=4, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_asc_or_desc', full_name='seata.rm.datasource.undo.parser.proto.IndexMeta._asc_or_desc',
-      index=5, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_cardinality', full_name='seata.rm.datasource.undo.parser.proto.IndexMeta._cardinality',
-      index=6, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_ordinal_position', full_name='seata.rm.datasource.undo.parser.proto.IndexMeta._ordinal_position',
-      index=7, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
   ],
-  serialized_start=2008,
-  serialized_end=2545,
+  serialized_start=1463,
+  serialized_end=1708,
 )
 
 
@@ -801,8 +570,8 @@ _ROW = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2547,
-  serialized_end=2614,
+  serialized_start=1710,
+  serialized_end=1777,
 )
 
 
@@ -823,7 +592,7 @@ _FIELD = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
       name='key_type', full_name='seata.rm.datasource.undo.parser.proto.Field.key_type', index=1,
-      number=2, type=14, cpp_type=8, label=1,
+      number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -847,36 +616,15 @@ _FIELD = _descriptor.Descriptor(
   ],
   nested_types=[],
   enum_types=[
-    _FIELD_KEYTYPE,
   ],
   serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
-    _descriptor.OneofDescriptor(
-      name='_name', full_name='seata.rm.datasource.undo.parser.proto.Field._name',
-      index=0, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_key_type', full_name='seata.rm.datasource.undo.parser.proto.Field._key_type',
-      index=1, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_type', full_name='seata.rm.datasource.undo.parser.proto.Field._type',
-      index=2, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_value', full_name='seata.rm.datasource.undo.parser.proto.Field._value',
-      index=3, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
   ],
-  serialized_start=2617,
-  serialized_end=2870,
+  serialized_start=1779,
+  serialized_end=1869,
 )
 
 _BRANCHUNDOLOG.fields_by_name['sql_undo_logs'].message_type = _SQLUNDOLOG
@@ -888,133 +636,18 @@ _BRANCHUNDOLOG.oneofs_by_name['_branch_id'].fields.append(
 _BRANCHUNDOLOG.fields_by_name['branch_id'].containing_oneof = _BRANCHUNDOLOG.oneofs_by_name['_branch_id']
 _SQLUNDOLOG.fields_by_name['before_image'].message_type = _TABLERECORDS
 _SQLUNDOLOG.fields_by_name['after_image'].message_type = _TABLERECORDS
-_SQLUNDOLOG.oneofs_by_name['_sql_type'].fields.append(
-  _SQLUNDOLOG.fields_by_name['sql_type'])
-_SQLUNDOLOG.fields_by_name['sql_type'].containing_oneof = _SQLUNDOLOG.oneofs_by_name['_sql_type']
-_SQLUNDOLOG.oneofs_by_name['_table_name'].fields.append(
-  _SQLUNDOLOG.fields_by_name['table_name'])
-_SQLUNDOLOG.fields_by_name['table_name'].containing_oneof = _SQLUNDOLOG.oneofs_by_name['_table_name']
-_SQLUNDOLOG.oneofs_by_name['_before_image'].fields.append(
-  _SQLUNDOLOG.fields_by_name['before_image'])
-_SQLUNDOLOG.fields_by_name['before_image'].containing_oneof = _SQLUNDOLOG.oneofs_by_name['_before_image']
-_SQLUNDOLOG.oneofs_by_name['_after_image'].fields.append(
-  _SQLUNDOLOG.fields_by_name['after_image'])
-_SQLUNDOLOG.fields_by_name['after_image'].containing_oneof = _SQLUNDOLOG.oneofs_by_name['_after_image']
 _TABLERECORDS.fields_by_name['table_meta'].message_type = _TABLEMETA
 _TABLERECORDS.fields_by_name['rows'].message_type = _ROW
-_TABLERECORDS.oneofs_by_name['_table_meta'].fields.append(
-  _TABLERECORDS.fields_by_name['table_meta'])
-_TABLERECORDS.fields_by_name['table_meta'].containing_oneof = _TABLERECORDS.oneofs_by_name['_table_meta']
-_TABLERECORDS.oneofs_by_name['_table_name'].fields.append(
-  _TABLERECORDS.fields_by_name['table_name'])
-_TABLERECORDS.fields_by_name['table_name'].containing_oneof = _TABLERECORDS.oneofs_by_name['_table_name']
 _TABLEMETA_ALLCOLUMNSENTRY.fields_by_name['value'].message_type = _COLUMNMETA
 _TABLEMETA_ALLCOLUMNSENTRY.containing_type = _TABLEMETA
 _TABLEMETA_ALLINDEXSENTRY.fields_by_name['value'].message_type = _INDEXMETA
 _TABLEMETA_ALLINDEXSENTRY.containing_type = _TABLEMETA
 _TABLEMETA.fields_by_name['all_columns'].message_type = _TABLEMETA_ALLCOLUMNSENTRY
 _TABLEMETA.fields_by_name['all_indexs'].message_type = _TABLEMETA_ALLINDEXSENTRY
-_TABLEMETA.oneofs_by_name['_table_name'].fields.append(
-  _TABLEMETA.fields_by_name['table_name'])
-_TABLEMETA.fields_by_name['table_name'].containing_oneof = _TABLEMETA.oneofs_by_name['_table_name']
 _COLUMNMETA.fields_by_name['char_octet_length'].message_type = google_dot_protobuf_dot_any__pb2._ANY
-_COLUMNMETA.oneofs_by_name['_table_cat'].fields.append(
-  _COLUMNMETA.fields_by_name['table_cat'])
-_COLUMNMETA.fields_by_name['table_cat'].containing_oneof = _COLUMNMETA.oneofs_by_name['_table_cat']
-_COLUMNMETA.oneofs_by_name['_table_schema_name'].fields.append(
-  _COLUMNMETA.fields_by_name['table_schema_name'])
-_COLUMNMETA.fields_by_name['table_schema_name'].containing_oneof = _COLUMNMETA.oneofs_by_name['_table_schema_name']
-_COLUMNMETA.oneofs_by_name['_table_name'].fields.append(
-  _COLUMNMETA.fields_by_name['table_name'])
-_COLUMNMETA.fields_by_name['table_name'].containing_oneof = _COLUMNMETA.oneofs_by_name['_table_name']
-_COLUMNMETA.oneofs_by_name['_column_name'].fields.append(
-  _COLUMNMETA.fields_by_name['column_name'])
-_COLUMNMETA.fields_by_name['column_name'].containing_oneof = _COLUMNMETA.oneofs_by_name['_column_name']
-_COLUMNMETA.oneofs_by_name['_data_type'].fields.append(
-  _COLUMNMETA.fields_by_name['data_type'])
-_COLUMNMETA.fields_by_name['data_type'].containing_oneof = _COLUMNMETA.oneofs_by_name['_data_type']
-_COLUMNMETA.oneofs_by_name['_data_type_name'].fields.append(
-  _COLUMNMETA.fields_by_name['data_type_name'])
-_COLUMNMETA.fields_by_name['data_type_name'].containing_oneof = _COLUMNMETA.oneofs_by_name['_data_type_name']
-_COLUMNMETA.oneofs_by_name['_column_size'].fields.append(
-  _COLUMNMETA.fields_by_name['column_size'])
-_COLUMNMETA.fields_by_name['column_size'].containing_oneof = _COLUMNMETA.oneofs_by_name['_column_size']
-_COLUMNMETA.oneofs_by_name['_decimal_digits'].fields.append(
-  _COLUMNMETA.fields_by_name['decimal_digits'])
-_COLUMNMETA.fields_by_name['decimal_digits'].containing_oneof = _COLUMNMETA.oneofs_by_name['_decimal_digits']
-_COLUMNMETA.oneofs_by_name['_num_prec_radix'].fields.append(
-  _COLUMNMETA.fields_by_name['num_prec_radix'])
-_COLUMNMETA.fields_by_name['num_prec_radix'].containing_oneof = _COLUMNMETA.oneofs_by_name['_num_prec_radix']
-_COLUMNMETA.oneofs_by_name['_null_able'].fields.append(
-  _COLUMNMETA.fields_by_name['null_able'])
-_COLUMNMETA.fields_by_name['null_able'].containing_oneof = _COLUMNMETA.oneofs_by_name['_null_able']
-_COLUMNMETA.oneofs_by_name['_remarks'].fields.append(
-  _COLUMNMETA.fields_by_name['remarks'])
-_COLUMNMETA.fields_by_name['remarks'].containing_oneof = _COLUMNMETA.oneofs_by_name['_remarks']
-_COLUMNMETA.oneofs_by_name['_column_def'].fields.append(
-  _COLUMNMETA.fields_by_name['column_def'])
-_COLUMNMETA.fields_by_name['column_def'].containing_oneof = _COLUMNMETA.oneofs_by_name['_column_def']
-_COLUMNMETA.oneofs_by_name['_sql_data_type'].fields.append(
-  _COLUMNMETA.fields_by_name['sql_data_type'])
-_COLUMNMETA.fields_by_name['sql_data_type'].containing_oneof = _COLUMNMETA.oneofs_by_name['_sql_data_type']
-_COLUMNMETA.oneofs_by_name['_sql_datetime_sub'].fields.append(
-  _COLUMNMETA.fields_by_name['sql_datetime_sub'])
-_COLUMNMETA.fields_by_name['sql_datetime_sub'].containing_oneof = _COLUMNMETA.oneofs_by_name['_sql_datetime_sub']
-_COLUMNMETA.oneofs_by_name['_char_octet_length'].fields.append(
-  _COLUMNMETA.fields_by_name['char_octet_length'])
-_COLUMNMETA.fields_by_name['char_octet_length'].containing_oneof = _COLUMNMETA.oneofs_by_name['_char_octet_length']
-_COLUMNMETA.oneofs_by_name['_ordinal_position'].fields.append(
-  _COLUMNMETA.fields_by_name['ordinal_position'])
-_COLUMNMETA.fields_by_name['ordinal_position'].containing_oneof = _COLUMNMETA.oneofs_by_name['_ordinal_position']
-_COLUMNMETA.oneofs_by_name['_is_nullable'].fields.append(
-  _COLUMNMETA.fields_by_name['is_nullable'])
-_COLUMNMETA.fields_by_name['is_nullable'].containing_oneof = _COLUMNMETA.oneofs_by_name['_is_nullable']
-_COLUMNMETA.oneofs_by_name['_is_autoincrement'].fields.append(
-  _COLUMNMETA.fields_by_name['is_autoincrement'])
-_COLUMNMETA.fields_by_name['is_autoincrement'].containing_oneof = _COLUMNMETA.oneofs_by_name['_is_autoincrement']
 _INDEXMETA.fields_by_name['values'].message_type = _COLUMNMETA
-_INDEXMETA.fields_by_name['index_type'].enum_type = _INDEXMETA_INDEXTYPE
-_INDEXMETA_INDEXTYPE.containing_type = _INDEXMETA
-_INDEXMETA.oneofs_by_name['_non_unique'].fields.append(
-  _INDEXMETA.fields_by_name['non_unique'])
-_INDEXMETA.fields_by_name['non_unique'].containing_oneof = _INDEXMETA.oneofs_by_name['_non_unique']
-_INDEXMETA.oneofs_by_name['_index_qualifier'].fields.append(
-  _INDEXMETA.fields_by_name['index_qualifier'])
-_INDEXMETA.fields_by_name['index_qualifier'].containing_oneof = _INDEXMETA.oneofs_by_name['_index_qualifier']
-_INDEXMETA.oneofs_by_name['_index_name'].fields.append(
-  _INDEXMETA.fields_by_name['index_name'])
-_INDEXMETA.fields_by_name['index_name'].containing_oneof = _INDEXMETA.oneofs_by_name['_index_name']
-_INDEXMETA.oneofs_by_name['_type'].fields.append(
-  _INDEXMETA.fields_by_name['type'])
-_INDEXMETA.fields_by_name['type'].containing_oneof = _INDEXMETA.oneofs_by_name['_type']
-_INDEXMETA.oneofs_by_name['_index_type'].fields.append(
-  _INDEXMETA.fields_by_name['index_type'])
-_INDEXMETA.fields_by_name['index_type'].containing_oneof = _INDEXMETA.oneofs_by_name['_index_type']
-_INDEXMETA.oneofs_by_name['_asc_or_desc'].fields.append(
-  _INDEXMETA.fields_by_name['asc_or_desc'])
-_INDEXMETA.fields_by_name['asc_or_desc'].containing_oneof = _INDEXMETA.oneofs_by_name['_asc_or_desc']
-_INDEXMETA.oneofs_by_name['_cardinality'].fields.append(
-  _INDEXMETA.fields_by_name['cardinality'])
-_INDEXMETA.fields_by_name['cardinality'].containing_oneof = _INDEXMETA.oneofs_by_name['_cardinality']
-_INDEXMETA.oneofs_by_name['_ordinal_position'].fields.append(
-  _INDEXMETA.fields_by_name['ordinal_position'])
-_INDEXMETA.fields_by_name['ordinal_position'].containing_oneof = _INDEXMETA.oneofs_by_name['_ordinal_position']
 _ROW.fields_by_name['fields'].message_type = _FIELD
-_FIELD.fields_by_name['key_type'].enum_type = _FIELD_KEYTYPE
 _FIELD.fields_by_name['value'].message_type = google_dot_protobuf_dot_any__pb2._ANY
-_FIELD_KEYTYPE.containing_type = _FIELD
-_FIELD.oneofs_by_name['_name'].fields.append(
-  _FIELD.fields_by_name['name'])
-_FIELD.fields_by_name['name'].containing_oneof = _FIELD.oneofs_by_name['_name']
-_FIELD.oneofs_by_name['_key_type'].fields.append(
-  _FIELD.fields_by_name['key_type'])
-_FIELD.fields_by_name['key_type'].containing_oneof = _FIELD.oneofs_by_name['_key_type']
-_FIELD.oneofs_by_name['_type'].fields.append(
-  _FIELD.fields_by_name['type'])
-_FIELD.fields_by_name['type'].containing_oneof = _FIELD.oneofs_by_name['_type']
-_FIELD.oneofs_by_name['_value'].fields.append(
-  _FIELD.fields_by_name['value'])
-_FIELD.fields_by_name['value'].containing_oneof = _FIELD.oneofs_by_name['_value']
 DESCRIPTOR.message_types_by_name['BranchUndoLog'] = _BRANCHUNDOLOG
 DESCRIPTOR.message_types_by_name['SQLUndoLog'] = _SQLUNDOLOG
 DESCRIPTOR.message_types_by_name['TableRecords'] = _TABLERECORDS

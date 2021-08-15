@@ -3,7 +3,6 @@
 # @author jsbxyyx
 # @since 1.0
 from seata.exception.ShouldNeverHappenException import ShouldNeverHappenException
-from seata.rm.datasource.CursorProxy import CursorProxy
 from seata.rm.datasource.executor.Executor import BaseInsertExecutor
 from seata.sqlparser.mysql.antlr4.value import MySQLValue
 
@@ -11,7 +10,7 @@ from seata.sqlparser.mysql.antlr4.value import MySQLValue
 class MySQLInsertExecutor(BaseInsertExecutor):
     RESOURCE_STEP_CACHE = {}
 
-    def __int__(self, cursor_proxy: CursorProxy, cursor_callback, sql_recognizer):
+    def __int__(self, cursor_proxy, cursor_callback, sql_recognizer):
         self.cursor_proxy = cursor_proxy
         self.cursor_callback = cursor_callback
         self.sql_recognizer = sql_recognizer

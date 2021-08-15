@@ -18,7 +18,7 @@ class ExecuteTemplate(object):
     @staticmethod
     def execute(cursor_proxy, cursor_callback, args):
         if not RootContext.in_global_transaction() and BranchType.AT != RootContext.get_branch_type():
-            return cursor_callback(args)
+            return cursor_callback.execute(cursor_proxy.target_cursor, cursor_proxy.target_sql, args)
         db_type = cursor_proxy.connection.get_db_type()
         sql_recognizer = SQLVisitorFactory.get(cursor_proxy.target_sql, db_type)
         executor = None

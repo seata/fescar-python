@@ -4,12 +4,12 @@
 # @since 1.0
 import threading
 
-from twisted.internet import reactor
+from seata.rm.RMClient import RMClient
+from seata.tm.TMClient import TMClient
 
 
 class Bootstrap(object):
 
-    @staticmethod
-    def start():
-        if not reactor.running:
-            threading.Thread(target=reactor.run, args=(False,)).start()
+    @classmethod
+    def start(cls):
+        pass

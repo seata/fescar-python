@@ -62,7 +62,7 @@ class MySQLInsertStatement:
                                     if uid.simpleId() is not None:
                                         si = uid.simpleId()
                                         if si.parameterMarker() is not None:
-                                            row.append(ParameterMarkerValue(si.parameterMarker().QUESTION_().getText()))
+                                            row.append(ParameterMarkerValue(si.parameterMarker().getText()))
                                         elif si.functionNameBase() is not None:
                                             row.append(si.functionNameBase().getText())
                                         else:

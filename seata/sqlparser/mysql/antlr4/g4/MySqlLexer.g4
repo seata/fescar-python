@@ -35,6 +35,7 @@ LINE_COMMENT:                        (
                                      ) -> channel(HIDDEN);
 
 QUESTION_:                           '?';
+PERCENT_S_:                          '%s';
 
 // Keywords
 // Common Keywords

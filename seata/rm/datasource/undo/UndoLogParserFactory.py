@@ -2,11 +2,8 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-from seata.rm.datasource.undo.parser.ProtobufUndoLogParser import ProtobufUndoLogParser
-
 
 class UndoLogParserFactory:
-
     DEFAULT_SERIALIZER = "protobuf"
 
     @classmethod
@@ -14,12 +11,12 @@ class UndoLogParserFactory:
         if serializer is None:
             serializer = cls.DEFAULT_SERIALIZER
         if serializer == cls.DEFAULT_SERIALIZER:
+            from seata.rm.datasource.undo.parser.ProtobufUndoLogParser import ProtobufUndoLogParser
             return ProtobufUndoLogParser()
         raise NotImplemented()
 
 
 class UndoLogParser:
-
     def get_name(self):
         pass
 

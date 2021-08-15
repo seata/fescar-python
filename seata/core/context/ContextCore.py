@@ -21,15 +21,16 @@ class ContextCore(object):
         return core
 
     def put(self, key, value):
-        self.threadLocal.__setattr__(key, value)
+        setattr(self.threadLocal, key, value)
 
     def get(self, key):
-        return self.threadLocal.__getattribute__(key)
+        try:
+            return getattr(self.threadLocal, key)
+        except AttributeError:
+            return None
 
     def remove(self, key):
-        self.threadLocal.__delattr__(key, None)
+        delattr(self.threadLocal, key)
 
     def entries(self):
-        return self.threadLocal.__dict__
-
-
+        return vars(self.threadLocal)

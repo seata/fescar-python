@@ -12,4 +12,4 @@ class PlainExecutor(object):
         self.sql_recognizer = sql_recognizer
 
     def execute(self, args):
-        self.cursor_callback.execute(args)
+        self.cursor_callback.execute(self.cursor_proxy.target_cursor, self.cursor_proxy.target_sql, args)

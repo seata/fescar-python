@@ -5,25 +5,21 @@
 from seata.core.context.RootContext import RootContext
 from seata.exception.ShouldNeverHappenException import ShouldNeverHappenException
 from seata.rm.datasource.ColumnUtils import ColumnUtils
-from seata.rm.datasource.CursorProxy import CursorProxy
 from seata.rm.datasource.exception.SQLException import SQLException
 from seata.rm.datasource.sql.TableMetaCacheFactory import TableMetaCacheFactory
 from seata.rm.datasource.sql.struct.TableRecords import TableRecords
 from seata.rm.datasource.undo.SQLUndoLog import SQLUndoLog
-from seata.sqlparser.SQLRecognizer import SQLRecognizer
 from seata.sqlparser.SQLType import SQLType
 from seata.sqlparser.mysql.MySQLInsertSQLRecognizer import MySQLInsertRecognizer
 
 
 class Executor:
-
     def execute(self, args):
         pass
 
 
 class BaseTransactionalExecutor(Executor):
-
-    def __init__(self, cursor_proxy: CursorProxy, cursor_callback, sql_recognizer: SQLRecognizer):
+    def __init__(self, cursor_proxy, cursor_callback, sql_recognizer):
         self.cursor_proxy = cursor_proxy
         self.cursor_callback = cursor_callback
         if isinstance(sql_recognizer, list):
@@ -102,8 +98,7 @@ class BaseTransactionalExecutor(Executor):
 
 
 class DMLBaseExecutor(BaseTransactionalExecutor):
-
-    def __init__(self, cursor_proxy: CursorProxy, cursor_callback, sql_recognizer: SQLRecognizer):
+    def __init__(self, cursor_proxy, cursor_callback, sql_recognizer):
         super(DMLBaseExecutor, self).__init__(cursor_proxy, cursor_callback, sql_recognizer)
 
     def do_execute(self, args):
@@ -143,7 +138,6 @@ class DMLBaseExecutor(BaseTransactionalExecutor):
 
 
 class InsertExecutor(Executor):
-
     def get_pk_values(self):
         pass
 
@@ -152,8 +146,7 @@ class InsertExecutor(Executor):
 
 
 class BaseInsertExecutor(DMLBaseExecutor, InsertExecutor):
-
-    def __init__(self, cursor_proxy: CursorProxy, cursor_callback, sql_recognizer: SQLRecognizer):
+    def __init__(self, cursor_proxy, cursor_callback, sql_recognizer):
         super(BaseInsertExecutor, self).__init__(cursor_proxy, cursor_callback, sql_recognizer)
 
     def before_image(self):
@@ -194,9 +187,6 @@ class BaseInsertExecutor(DMLBaseExecutor, InsertExecutor):
             cursor.execute(sql, tuple(params))
             result = cursor.fetchall()
             return TableRecords.build_records(self.get_table_meta(), result)
-
-
-
 
     def build_where_condition_by_pks(self, pk_column_name_list, row_size, db_type):
         max_in_size = 1000

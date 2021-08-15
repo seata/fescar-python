@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 // https://github.com/protocolbuffers/protobuf/releases
+// https://developers.google.com/protocol-buffers/docs/overview
 // cd seata/rm/datasource/undo/parser
 // protoc --python_out=./proto branch_undolog.proto
 
@@ -15,61 +16,57 @@ message BranchUndoLog {
 }
 
 message SQLUndoLog {
-  optional string sql_type = 1;
-  optional string table_name = 2;
-  optional TableRecords before_image = 3;
-  optional TableRecords after_image = 4;
+  // SQLType enum value
+  int32 sql_type = 1;
+  string table_name = 2;
+  TableRecords before_image = 3;
+  TableRecords after_image = 4;
 }
 
 message TableRecords {
-  optional TableMeta table_meta = 1;
-  optional string table_name = 2;
+  TableMeta table_meta = 1;
+  string table_name = 2;
   repeated Row rows = 3;
 }
 
 message TableMeta {
-  optional string table_name = 1;
+  string table_name = 1;
   map<string, ColumnMeta> all_columns = 2;
   map<string, IndexMeta> all_indexs = 3;
 }
 
 message ColumnMeta {
-  optional string table_cat = 1;
-  optional string table_schema_name = 2;
-  optional string table_name = 3;
-  optional string column_name = 4;
-  optional int32 data_type = 5;
-  optional string data_type_name = 6;
-  optional int32 column_size = 7;
-  optional int32 decimal_digits = 8;
-  optional int32 num_prec_radix = 9;
-  optional int32 null_able = 10;
-  optional string remarks = 11;
-  optional string column_def = 12;
-  optional int32 sql_data_type = 13;
-  optional int32 sql_datetime_sub = 14;
-  optional google.protobuf.Any char_octet_length = 15;
-  optional int32 ordinal_position = 16;
-  optional string is_nullable = 17;
-  optional string is_autoincrement = 18;
+  string table_cat = 1;
+  string table_schema_name = 2;
+  string table_name = 3;
+  string column_name = 4;
+  int32 data_type = 5;
+  string data_type_name = 6;
+  int32 column_size = 7;
+  int32 decimal_digits = 8;
+  int32 num_prec_radix = 9;
+  int32 null_able = 10;
+  string remarks = 11;
+  string column_def = 12;
+  int32 sql_data_type = 13;
+  int32 sql_datetime_sub = 14;
+  google.protobuf.Any char_octet_length = 15;
+  int32 ordinal_position = 16;
+  string is_nullable = 17;
+  string is_autoincrement = 18;
 }
 
 message IndexMeta {
   repeated ColumnMeta values = 1;
-  optional bool non_unique = 2;
-  optional string index_qualifier = 3;
-  optional string index_name = 4;
-  optional int32 type = 5;
-  enum IndexType {
-    PRIMARY = 0;
-    NORMAL = 1;
-    UNIQUE = 2;
-    FULL_TEXT = 3;
-  }
-  optional IndexType index_type = 6;
-  optional string asc_or_desc = 7;
-  optional int32 cardinality = 8;
-  optional int32 ordinal_position = 9;
+  bool non_unique = 2;
+  string index_qualifier = 3;
+  string index_name = 4;
+  int32 type = 5;
+  // IndexType enum value
+  int32 index_type = 6;
+  string asc_or_desc = 7;
+  int32 cardinality = 8;
+  int32 ordinal_position = 9;
 }
 
 message Row {
@@ -77,13 +74,9 @@ message Row {
 }
 
 message Field {
-  optional string name = 1;
-  enum KeyType {
-    NONE = 0; // not exists
-    NULL = 1;
-    PRIMARY_KEY = 2;
-  }
-  optional KeyType key_type = 2;
-  optional int32 type = 3;
-  optional google.protobuf.Any value = 4;
+  string name = 1;
+  // KeyType enum value
+  int32 key_type = 2;
+  int32 type = 3;
+  google.protobuf.Any value = 4;
 }

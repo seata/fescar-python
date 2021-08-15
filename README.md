@@ -14,8 +14,19 @@ seata-python是一个seata分布式事务python版本的客户端，什么是sea
 
 ## 项目依赖
 ```
-twisted==20.3.0, DBUtils(PooledDB)==2.0, antlr4-python3-runtime==4.9.2, protobuf==3.17.3
+~~twisted==20.3.0~~
+DBUtils(PooledDB)==2.0
+antlr4-python3-runtime==4.9.2
+protobuf==3.17.3
+gevent==21.8.0
 
 test:
 mariadb==1.0.5
+pymysql==1.0.2
+```
+
+## pip源配置
+```
+https://pypi.org/simple 默认
+https://pypi.tuna.tsinghua.edu.cn/simple/
 ```

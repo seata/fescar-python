@@ -2,24 +2,23 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+from google.protobuf import json_format
+
+from seata.core.util.ClassUtil import ClassUtil
 from seata.rm.datasource.sql.struct.ColumnMeta import ColumnMeta
 from seata.rm.datasource.sql.struct.IndexMeta import IndexMeta
 from seata.rm.datasource.sql.struct.TableMeta import TableMeta
 from seata.rm.datasource.sql.struct.TableRecords import TableRecords
+from seata.rm.datasource.undo.BranchUndoLog import BranchUndoLog
 from seata.rm.datasource.undo.SQLUndoLog import SQLUndoLog
 from seata.rm.datasource.undo.parser.proto import branch_undolog_pb2
-
-from seata.rm.datasource.undo.BranchUndoLog import BranchUndoLog
-
-from google.protobuf import json_format
-
 from seata.sqlparser.SQLType import SQLType
 
 
 def test_protobuf():
-
-    # request = json_format.ParseDict(dict_obj, branch_undolog_pb2.BranchUndoLog())
-    # json_result = json_format.MessageToJson(request)
+    # dic_obj = {}
+    # request = json_format.ParseDict(dic_obj, branch_undolog_pb2.BranchUndoLog())
+    # dic_result = json_format.MessageToDict(request)
 
     b = branch_undolog_pb2.BranchUndoLog()
     b.xid = "1"
@@ -56,8 +55,10 @@ def test_vars():
     sul.before_image = TableRecords.empty(tm)
     sul.after_image = TableRecords.empty(tm)
     bul.sql_undo_logs = [sul]
-    a = vars(bul)
-    print(a)
+    a = ClassUtil.obj_to_dic(bul)
+    bul1 = BranchUndoLog()
+    pb_bul = json_format.ParseDict(a, branch_undolog_pb2.BranchUndoLog())
+    print(pb_bul)
 
 
 if __name__ == '__main__':
