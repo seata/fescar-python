@@ -121,3 +121,4 @@ class AbstractIdentifyResponseCodec(object):
         version_ba = bytearray(version_len)
         in_buffer.get(version_ba)
         t.version = version_ba
+

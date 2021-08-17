@@ -50,7 +50,9 @@ class RMClient(object):
 
     def init_client(self, host="localhost", port=8091):
         # 程序启动
-        self.remote_client = RemotingClient(host, port)  # 实例化通信类
+        from seata.rm.DefaultHandler import DefaultHandler
+        message_handler = DefaultHandler()
+        self.remote_client = RemotingClient(host, port, message_handler)  # 实例化通信类
         threading.Thread(target=do_heart, args=(self.remote_client,)).start()
         self.reg()
 

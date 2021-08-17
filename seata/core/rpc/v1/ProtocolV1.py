@@ -4,15 +4,12 @@
 # @since 1.0
 import gevent
 
-from seata.core.compressor.CompressorFactory import CompressorFactory
-from seata.core.protocol.MergeResultMessage import MergeResultMessage
-from seata.core.protocol.MessageType import MessageType
-from seata.core.protocol.MessageTypeAware import ResultMessage
-from seata.core.rpc.v1.HeadMapSerializer import HeadMapSerializer
-from seata.core.protocol.HeartbeatMessage import HeartbeatMessage
 from seata.core.ByteBuffer import ByteBuffer
+from seata.core.compressor.CompressorFactory import CompressorFactory
+from seata.core.protocol.HeartbeatMessage import HeartbeatMessage
 from seata.core.protocol.ProtocolConstants import ProtocolConstants
 from seata.core.protocol.RpcMessage import RpcMessage
+from seata.core.rpc.v1.HeadMapSerializer import HeadMapSerializer
 from seata.core.serializer.SerializerFactory import SerializerFactory
 
 """

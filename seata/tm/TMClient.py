@@ -7,9 +7,7 @@ import threading
 import time
 
 from seata.core.protocol.HeartbeatMessage import HeartbeatMessage
-from seata.core.protocol.ProtocolConstants import ProtocolConstants
 from seata.core.protocol.RegisterTMRequestResponse import RegisterTMRequest
-from seata.core.protocol.RpcMessage import RpcMessage
 from seata.core.rpc.v1.RemotingClient import RemotingClient
 
 
@@ -45,7 +43,9 @@ class TMClient(object):
 
     def init_client(self, host="localhost", port=8091):
         # 程序启动
-        self.remote_client = RemotingClient(host, port)
+        from seata.rm.DefaultHandler import DefaultHandler
+        message_handler = DefaultHandler()
+        self.remote_client = RemotingClient(host, port, message_handler)
         threading.Thread(target=do_heart, args=(self.remote_client,)).start()
         self.reg()
 

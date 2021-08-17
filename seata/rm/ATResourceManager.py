@@ -14,12 +14,12 @@ from seata.exception.ShouldNeverHappenException import ShouldNeverHappenExceptio
 from seata.exception.TransactionException import TransactionException
 from seata.exception.TransactionExceptionCode import TransactionExceptionCode
 from seata.rm.datasource.undo.UndoLogManagerFactory import UndoLogManagerFactory
+from seata.rm.RMClient import RMClient
 
 manager = None
 
 
 class ATResourceManager(object):
-
     def __init__(self):
         self.pool_db_proxy_cache = dict()
         pass
@@ -37,7 +37,6 @@ class ATResourceManager(object):
             raise TypeError("Register resource type error.")
         self.pool_db_proxy_cache[pooled_db_proxy.get_resource_id()] = pooled_db_proxy
         request = RegisterRMRequest()
-        from seata.rm.RMClient import RMClient
         request.transaction_service_group = RMClient.get().transaction_service_group
         request.application_id = RMClient.get().application_id
         RMClient.get().send_sync_request(request)
