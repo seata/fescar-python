@@ -41,7 +41,7 @@ class ATResourceManager(object):
         request.application_id = RMClient.get().application_id
         RMClient.get().send_sync_request(request)
 
-    def get(self, resource_id):
+    def get_pool_db_proxy(self, resource_id):
         return self.pool_db_proxy_cache.get(resource_id, None)
 
     def lock_query(self, branch_type, resource_id, xid, lock_keys):

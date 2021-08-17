@@ -37,43 +37,43 @@ class DefaultHandler:
             pass
         # RegisterTMResponse
         elif msg_type == MessageType.TYPE_REG_CLT_RESULT:
-            if self.req_msg_map.get(msg_type, None) is not None:
+            if self.req_msg_map.get(rpc_message.id, None):
                 self.req_msg_map[rpc_message.id] = msg
             else:
                 pass
         # GlobalBeginResponse
         elif msg_type == MessageType.TYPE_GLOBAL_BEGIN_RESULT:
-            if self.req_msg_map.get(msg_type, None) is not None:
+            if self.req_msg_map.get(msg_type, None):
                 self.req_msg_map[rpc_message.id] = msg
             else:
                 pass
         # GlobalCommitResponse
         elif msg_type == MessageType.TYPE_GLOBAL_COMMIT_RESULT:
-            if self.req_msg_map.get(msg_type, None) is not None:
+            if self.req_msg_map.get(msg_type, None):
                 self.req_msg_map[rpc_message.id] = msg
             else:
                 pass
         # GlobalReportResponse
         elif msg_type == MessageType.TYPE_GLOBAL_REPORT_RESULT:
-            if self.req_msg_map.get(msg_type, None) is not None:
+            if self.req_msg_map.get(msg_type, None):
                 self.req_msg_map[rpc_message.id] = msg
             else:
                 pass
         # GlobalRollbackResponse
         elif msg_type == MessageType.TYPE_GLOBAL_ROLLBACK_RESULT:
-            if self.req_msg_map.get(msg_type, None) is not None:
+            if self.req_msg_map.get(msg_type, None):
                 self.req_msg_map[rpc_message.id] = msg
             else:
                 pass
         # GlobalStatusResponse
         elif msg_type == MessageType.TYPE_GLOBAL_STATUS_RESULT:
-            if self.req_msg_map.get(msg_type, None) is not None:
+            if self.req_msg_map.get(msg_type, None):
                 self.req_msg_map[rpc_message.id] = msg
             else:
                 pass
         # RegisterTMResponse
         elif msg_type == MessageType.TYPE_REG_CLT_RESULT:
-            if self.req_msg_map.get(msg_type, None) is not None:
+            if self.req_msg_map.get(msg_type, None):
                 self.req_msg_map[rpc_message.id] = msg
             else:
                 pass
@@ -96,25 +96,25 @@ class DefaultHandler:
             pass
         # BranchRegisterResponse
         elif msg_type == MessageType.TYPE_BRANCH_REGISTER_RESULT:
-            if self.req_msg_map.get(msg_type, None) is not None:
+            if self.req_msg_map.get(msg_type, None):
                 self.req_msg_map[rpc_message.id] = msg
             else:
                 pass
         # BranchReportResponse
         elif msg_type == MessageType.TYPE_BRANCH_STATUS_REPORT_RESULT:
-            if self.req_msg_map.get(msg_type, None) is not None:
+            if self.req_msg_map.get(msg_type, None):
                 self.req_msg_map[rpc_message.id] = msg
             else:
                 pass
         # GlobalLockQueryResponse
         elif msg_type == MessageType.TYPE_GLOBAL_LOCK_QUERY_RESULT:
-            if self.req_msg_map.get(msg_type, None) is not None:
+            if self.req_msg_map.get(msg_type, None):
                 self.req_msg_map[rpc_message.id] = msg
             else:
                 pass
         # RegisterRMResponse
         elif msg_type == MessageType.TYPE_REG_RM_RESULT:
-            if self.req_msg_map.get(msg_type, None) is not None:
+            if self.req_msg_map.get(msg_type, None):
                 self.req_msg_map[rpc_message.id] = msg
             else:
                 pass
@@ -146,7 +146,7 @@ class DefaultHandler:
 
     def __do_undo_log_delete(self, msg):
         resource_manager = self.get_resource_manager()
-        pooled_db_proxy = resource_manager.get(msg.resource_id)
+        pooled_db_proxy = resource_manager.get_pool_db_proxy(msg.resource_id)
         if pooled_db_proxy is None:
             print('failed get pooled db proxy for delete undolog on {}', msg.resource_id)
             return

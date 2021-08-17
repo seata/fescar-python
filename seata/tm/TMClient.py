@@ -46,6 +46,7 @@ class TMClient(object):
         from seata.rm.DefaultHandler import DefaultHandler
         message_handler = DefaultHandler()
         self.remote_client = RemotingClient(host, port, message_handler)
+        self.remote_client.start()
         threading.Thread(target=do_heart, args=(self.remote_client,)).start()
         self.reg()
 
@@ -55,4 +56,4 @@ class TMClient(object):
         print("tm register...")
 
     def send_sync_request(self, msg):
-        self.remote_client.send_sync_request(msg)
+        return self.remote_client.send_sync_request(msg)

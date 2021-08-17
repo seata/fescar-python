@@ -30,42 +30,6 @@ from seata.core.serializer.SerializerFactory import SerializerFactory
 
 
 class ProtocolV1:
-    dataBuffer = bytes()
-
-    # 初始无连接
-    def __init__(self, sock, message_handler):
-        self.connected = False
-        self.sock = sock
-        self.message_handler = message_handler
-        gevent.spawn(self.data_received, self.sock, self.message_handler)
-
-    # 接收数据时调用
-    def data_received(self, sock, message_handler):
-        while True:
-            recv_data = sock.recv(7)
-            if recv_data:
-                self.dataBuffer += recv_data
-                bb = ByteBuffer.wrap(bytearray(self.dataBuffer))
-                magic = bytearray(len(ProtocolConstants.MAGIC_CODE_BYTES))
-                bb.get(magic)
-                if magic != ProtocolConstants.MAGIC_CODE_BYTES:
-                    print("magic not 0xdada", magic)
-                    self.dataBuffer = bytes()
-                    continue
-                bb.get_int8()
-                full_length = bb.get_int32()
-                if len(self.dataBuffer) < full_length:
-                    self.dataBuffer += sock.recv(full_length)
-                    data = self.dataBuffer
-                    self.dataBuffer = bytes()
-                    gevent.spawn(self.handle_decode, data, message_handler)
-
-    def handle_decode(self, data, message_handler):
-        bb = ByteBuffer.wrap(bytearray(data))
-        rpc_message = self.decode(bb)
-        # tc response
-        message_handler.process(rpc_message)
-
     def decode(self, bb):
         magic = bytearray(len(ProtocolConstants.MAGIC_CODE_BYTES))
         bb.get(magic)
@@ -127,7 +91,7 @@ class ProtocolV1:
 
         body_array = None
         if message_type is not ProtocolConstants.MSGTYPE_HEARTBEAT_REQUEST and \
-                message_type is not ProtocolConstants.MSGTYPE_HEARTBEAT_RESPONSE:
+                        message_type is not ProtocolConstants.MSGTYPE_HEARTBEAT_RESPONSE:
             body_array = SerializerFactory.get(rpc_message.codec).serialize(rpc_message.body)
             body_array = CompressorFactory.get(rpc_message.compressor).compress(body_array)
             full_length += len(body_array)
@@ -148,4 +112,4 @@ class ProtocolV1:
         result.put_int32(rpc_message.id)
         result.put(bb.array())
         # print('will send msg type : {}'.format(rpc_message.message_type))
-        self.sock.send(bytes(result.array()))
+        return bytes(result.array())
