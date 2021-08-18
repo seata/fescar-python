@@ -25,7 +25,7 @@ class MergeResultMessageCodec(object):
         out_buffer.put_int16(len(msgs))
         out_buffer.put(msg_bb.array())
         if len(msgs) > 20:
-            print("msg in one services merge packet:{},buffer size:{}", len(msgs), length)
+            print("msg in one services merge packet:[{}],buffer size:[{}]".format(len(msgs), length))
 
     def decode(self, t, in_buffer):
         if not isinstance(in_buffer, ByteBuffer):

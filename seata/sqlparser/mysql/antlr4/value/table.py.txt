@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+"""
 from seata.sqlparser.mysql.antlr4.value.value import IdentifierValue
 
 
@@ -177,3 +178,4 @@ class BinaryOperationExpression:
         self.right = right
         self.operator = operator
         self.text = text
+"""

@@ -3,7 +3,6 @@
 # @author jsbxyyx
 # @since 1.0
 from seata.rm.datasource.ColumnUtils import ColumnUtils
-from seata.sqlparser.util.JdbcConstants import JdbcConstants
 
 
 class SQLUtil:
@@ -17,10 +16,9 @@ class SQLUtil:
 
     @classmethod
     def get_db_type(cls, connection):
-        server_info = connection._con._con.get_server_info().lower()
-        if JdbcConstants.MARIADB in server_info or JdbcConstants.MYSQL in server_info:
-            return JdbcConstants.MYSQL
-        return None
+        # the connection from connection_proxy has db_type, database
+        db_type = connection.db_type
+        return db_type
 
     @classmethod
     def build_where_condition_by_pks(cls, pk_column_name_list, row_size, db_type):

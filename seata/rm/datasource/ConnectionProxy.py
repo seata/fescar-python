@@ -158,9 +158,9 @@ class ConnectionProxy(object):
                                                            status, None)
                 return
             except Exception as e:
-                print("Failed to report [{}/{}]  commit done [{}] Retry Countdown: {}".format(self.context.branch_id,
-                                                                                              self.context.xid,
-                                                                                              commit_done, retry))
+                print("Failed to report [{}/{}]  commit done [{}] Retry Countdown: [{}]".format(self.context.branch_id,
+                                                                                                self.context.xid,
+                                                                                                commit_done, retry))
                 retry -= 1
                 if retry == 0:
                     raise RuntimeError("Failed to report branch status  {}, {}".format(commit_done, e))

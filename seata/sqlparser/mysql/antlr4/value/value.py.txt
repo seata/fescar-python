@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+"""
 from seata.sqlparser.util.SQLUtil import SQLUtil
 
 class ASTNode:
@@ -57,3 +58,4 @@ class MySQLIdentifierValue(IdentifierValue):
     def __init__(self, value: str):
         super(MySQLIdentifierValue, self).__init__(value)
         self.quota = "`"
+"""

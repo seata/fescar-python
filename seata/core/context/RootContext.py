@@ -19,10 +19,10 @@ class RootContext(object):
     @staticmethod
     def set_default_branch_type(default_branch_type):
         if default_branch_type != BranchType.AT and default_branch_type != BranchType.XA:
-            raise TypeError("The default branch type must be {} or {}. the value of the argument is: {}"
+            raise TypeError("The default branch type must be [{}] or [{}]. the value of the argument is: [{}]"
                             .format(BranchType.AT, BranchType.XA, default_branch_type))
         if RootContext.DEFAULT_BRANCH_TYPE is not None and RootContext.DEFAULT_BRANCH_TYPE != default_branch_type:
-            print("The `RootContext.DEFAULT_BRANCH_TYPE` has been set repeatedly. The value changes from {} to {}"
+            print("The `RootContext.DEFAULT_BRANCH_TYPE` has been set repeatedly. The value changes from [{}] to [{}]"
                   .format(RootContext.DEFAULT_BRANCH_TYPE, default_branch_type))
         RootContext.DEFAULT_BRANCH_TYPE = default_branch_type
 
@@ -88,7 +88,7 @@ class RootContext(object):
     @staticmethod
     def unbind_branch_type():
         branch_type = RootContext.CONTEXT_HOLDER.get(RootContext.KEY_BRANCH_TYPE)
-        print("unbind branch type {}".format(branch_type))
+        print("unbind branch type [{}]".format(branch_type))
         RootContext.CONTEXT_HOLDER.remove(RootContext.KEY_BRANCH_TYPE)
         return branch_type
 

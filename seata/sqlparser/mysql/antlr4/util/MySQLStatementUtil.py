@@ -4,8 +4,7 @@
 # @since 1.0
 from seata.sqlparser.mysql.antlr4.gen.MySqlParser import MySqlParser
 from seata.sqlparser.mysql.antlr4.value.MySQLValue import NullValue, StringValue, BoolValue, IntValue, \
-    DoubleValue, ParameterMarkerValue
-from seata.sqlparser.mysql.antlr4.value.value import OtherLiteralValue
+    DoubleValue, ParameterMarkerValue, OtherValue
 
 
 class MySQLStatementUtil:
@@ -25,4 +24,4 @@ class MySQLStatementUtil:
         elif ctx.parameterMarker() is not None:
             return ParameterMarkerValue(ctx.parameterMarker().getText())
         else:
-            return OtherLiteralValue(ctx.getText())
+            return OtherValue(ctx.getText())

@@ -27,7 +27,7 @@ class MergedWarpMessageCodec(object):
         content = buffer.array()
         out_buffer.put(content)
         if len(msgs) > 20:
-            print("msg in one packet:{}, buffer size:{}".format(len(msgs), len(content)))
+            print("msg in one packet:[{}], buffer size:[{}]".format(len(msgs), len(content)))
 
     def decode(self, t, in_buffer):
         if not isinstance(in_buffer, ByteBuffer):

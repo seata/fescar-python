@@ -14,6 +14,7 @@ from seata.exception.RmTransactionException import RmTransactionException
 from seata.exception.ShouldNeverHappenException import ShouldNeverHappenException
 from seata.exception.TransactionException import TransactionException
 from seata.exception.TransactionExceptionCode import TransactionExceptionCode
+from seata.rm.datasource.AsyncWorker import AsyncWorker, Phase2Context
 from seata.rm.datasource.undo.UndoLogManagerFactory import UndoLogManagerFactory
 
 manager = None
@@ -23,6 +24,7 @@ class DataSourceResourceManager(object):
 
     def __init__(self):
         self.pool_db_proxy_cache = dict()
+        self.async_work = AsyncWorker(self)
         pass
 
     @staticmethod
@@ -127,5 +129,6 @@ class DataSourceResourceManager(object):
         return BranchStatus.PhaseTwo_Rollbacked
 
     def branch_commit(self, branch_type, xid, branch_id, resource_id):
-        # TODO async delete undo log
+        context = Phase2Context(xid, branch_id, resource_id)
+        self.async_work.add_context(context)
         return BranchStatus.PhaseTwo_Committed

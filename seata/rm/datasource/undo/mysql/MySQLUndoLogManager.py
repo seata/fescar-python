@@ -24,7 +24,31 @@ class MySQLUndoLogManager(UndoLogManager):
         return JdbcConstants.MYSQL
 
     def batch_delete_undo_log(self, xids, branch_ids, connection):
-        pass
+        if (xids is None or len(xids) == 0) or (branch_ids is None or len(branch_ids) == 0):
+            return
+        batch_delete_sql = self.to_batch_delete_undo_log_sql(len(xids), len(branch_ids))
+        cursor = connection.cursor()
+        params = []
+        params.extend(branch_ids)
+        params.extend(xids)
+        cursor.execute(batch_delete_sql, tuple(params))
+
+    def to_batch_delete_undo_log_sql(self, xid_size, branch_id_size):
+        sql = "DELETE FROM " + self.UNDO_LOG_TABLE_NAME + " WHERE branch_id IN "
+        sql += self.append_in_param(branch_id_size)
+        sql += " AND xid IN "
+        sql += self.append_in_param(xid_size)
+        return sql
+
+    def append_in_param(self, size):
+        sql = " ("
+        for i in range(size):
+            sql += "%s"
+            if i < size - 1:
+                sql += ","
+        sql += ") "
+        return sql
+
 
     def delete_undo_log_by_log_created(self, log_created, limit_rows, connection):
         # TODO

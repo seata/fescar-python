@@ -37,8 +37,13 @@ def test_insert():
     cursor = cp.cursor()
     cursor.execute("insert into test(id, name) values(%s, %s)", (None, "name1"))
     cp.commit()
-    # tx.commit()
-    tx.rollback()
+
+    cursor2 = cp.cursor()
+    cursor2.execute("insert into test values(null, '1')")
+    cp.commit()
+
+    tx.commit()
+    # tx.rollback()
     time.sleep(1000)
     print('success')
 

@@ -87,7 +87,8 @@ class MySQLTableMetaCache(TableMetaCache):
 
     def fetch_schema(self, connection, table_name):
         cursor = connection.cursor()
-        schema = connection._pool._kwargs['database']
+        # the connection from connection_proxy has db_type, database
+        schema = connection.database
         columns_sql = "select * from information_schema.columns where table_name = %s and table_schema = %s"
         cursor.execute(columns_sql, (table_name, schema))
         columns_all = cursor.fetchall()

@@ -38,16 +38,23 @@ class PooledDBProxy(object):
         return BranchType.AT
 
     def connection(self):
-        return ConnectionProxy(self, self.pool.connection())
+        connection = self.get_origin_connection()
+        return ConnectionProxy(self, connection)
 
     def get_origin_connection(self):
-        return self.pool.connection()
+        connection = self.pool.connection()
+        self.__set_dbtype_database(connection)
+        return connection
 
     def steady_connection(self):
-        return ConnectionProxy(self, self.pool.steady_connection())
+        steady_connection = self.pool.steady_connection()
+        self.__set_dbtype_database(steady_connection)
+        return ConnectionProxy(self, steady_connection)
 
     def dedicated_connection(self):
-        return ConnectionProxy(self, self.pool.dedicated_connection())
+        dedicated_connection = self.pool.dedicated_connection()
+        self.__set_dbtype_database(dedicated_connection)
+        return ConnectionProxy(self, dedicated_connection)
 
     def unshare(self, con):
         self.pool.unshare(con)
@@ -63,3 +70,7 @@ class PooledDBProxy(object):
 
     def _wait_lock(self):
         self.pool._wait_lock()
+
+    def __set_dbtype_database(self, connection):
+        connection.db_type = self.db_type
+        connection.database = self.database

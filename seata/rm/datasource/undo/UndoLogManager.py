@@ -87,7 +87,7 @@ class UndoLogManager(object):
                     exists = True
                     state = rs[4]
                     if not self.can_undo(state):
-                        print("xid {} branch {}, ignore {} undo_log".format(xid, branch_id, State(state)))
+                        print("xid [{}] branch [{}], ignore [{}] undo_log".format(xid, branch_id, State(state)))
                         return
                     context_string = rs[2]
                     context_map = self.parse_context(context_string)
@@ -117,19 +117,19 @@ class UndoLogManager(object):
                 if exists:
                     self.delete_undo_log(xid, branch_id, con)
                     con.commit()
-                    print('xid {} branch {}, undo_log deleted with {}'.format(xid, branch_id,
-                                                                              State.GlobalFinished.name))
+                    print('xid [{}] branch [{}], undo_log deleted with [{}]'.format(xid, branch_id,
+                                                                                    State.GlobalFinished.name))
                 else:
                     self.insert_undo_log_with_global_finished(xid, branch_id, UndoLogParserFactory.get_instance(),
                                                               con)
                     con.commit()
-                    print('xid {} branch {}, undo_log added with {}'.format(xid, branch_id,
-                                                                            State.GlobalFinished.name))
+                    print('xid [{}] branch [{}], undo_log added with [{}]'.format(xid, branch_id,
+                                                                                  State.GlobalFinished.name))
                 return
             except Exception as e:
                 error_name = e.__class__.__name__
                 if error_name == 'IntegrityError':
-                    print('xid {} branch {}, undo_log inserted, retry rollback'.format(xid, branch_id))
+                    print('xid [{}] branch [{}], undo_log inserted, retry rollback'.format(xid, branch_id))
                 else:
                     print(e)
                     if cp is not None:
@@ -142,14 +142,14 @@ class UndoLogManager(object):
                 if cursor is not None:
                     try:
                         cursor.close()
-                    except Exception as ignored:
+                    except Exception:
                         pass
                 if cp is not None:
                     if original_auto_commit:
                         cp.set_origin_autocommit(True)
                     try:
                         cp.close()
-                    except Exception as ignored:
+                    except Exception:
                         pass
 
     def delete_undo_log(self, xid, branch_id, connection):

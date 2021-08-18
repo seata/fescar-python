@@ -103,9 +103,10 @@ class RMHandlerAT:
         branch_id = msg.branch_id
         resource_id = msg.resource_id
         application_data = msg.application_data
-        print('branch committing : xid={} branch_id={} resource_id={} application_data={}'.format(xid, branch_id,
-                                                                                                  resource_id,
-                                                                                                  application_data))
+        print(
+            'branch committing : xid=[{}] branch_id=[{}] resource_id=[{}] application_data=[{}]'.format(xid, branch_id,
+                                                                                                        resource_id,
+                                                                                                        application_data))
 
         status = self.get_resource_manager().branch_commit(BranchType.AT, xid, branch_id, resource_id)
         response.xid = xid
@@ -127,7 +128,7 @@ class RMHandlerAT:
         resource_manager = self.get_resource_manager()
         pooled_db_proxy = resource_manager.get_resource(msg.resource_id)
         if pooled_db_proxy is None:
-            print('failed get pooled db proxy for delete undolog on {}', msg.resource_id)
+            print('failed get pooled db proxy for delete undo log on [{}]'.format(msg.resource_id))
             return
         log_created = (datetime.datetime.now() + datetime.timedelta(days=-msg.save_days)).strftime('%Y-%m-%d')
         delete_rows = 0

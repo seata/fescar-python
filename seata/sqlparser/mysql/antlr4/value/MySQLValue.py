@@ -61,7 +61,7 @@ class IntValue(ValueExpr):
 
 class DoubleValue(ValueExpr):
     def __init__(self, value: str):
-        self.value - float(value)
+        self.value = float(value)
 
     def get_value(self):
         return self.value
