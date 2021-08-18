@@ -7,10 +7,30 @@ seata-python是一个seata分布式事务python版本的客户端，什么是sea
 项目里面有很多实现不合理的地方，欢迎各位大佬前来修改。谢谢！
 
 ## 项目完成度
-1. seata-server 网络协议模块 (完成)
-2. 封装Connection, Cursor处理前后置镜像 (进行中)
-3. 解析sql模块 (未开始)
-4. 优化TMClient, RMClient (未开始)
+1. seata-server 网络协议模块
+  - [x] TCP协议
+  - [ ] socket优化
+2. 封装Connection, Cursor处理前后置镜像
+  - [x] insert
+  - [ ] delete
+  - [ ] update
+3. 解析 sql 模块
+  - [x] insert
+  - [ ] delete
+  - [ ] update
+  - [ ] select for update
+4. undo 回滚模块
+  - [x] insert
+  - [ ] delete
+  - [ ] update
+5. 优化代码结构
+  - [ ] TMClient 结构
+  - [ ] RMClient 结构
+  - [ ] 项目整体结构
+6. 其他
+  - [ ] 其他数据库
+  - [ ] GRPC 协议
+  - [ ] 等等
 
 ## 项目依赖
 ```

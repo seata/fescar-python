@@ -34,8 +34,6 @@ def test_insert():
     tx = GlobalTransactionContext.get_current_or_create()
     tx.begin()
 
-    cp.bind(tx.get_xid())
-
     cursor = cp.cursor()
     cursor.execute("insert into test(id, name) values(%s, %s)", (None, "name1"))
     cp.commit()
