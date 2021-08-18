@@ -66,30 +66,34 @@ class UndoLogManager(object):
         return state == State.Normal.value
 
     def undo(self, pooled_db_proxy, xid, branch_id):
+        cp = None
         con = None
         cursor = None
         original_auto_commit = True
         while True:
             try:
-                con = pooled_db_proxy.get_origin_connection()
-                if con.autocommit == original_auto_commit:
-                    con.autocommit = False
+                cp = pooled_db_proxy.connection()
+                con = cp.target_connection
+                if cp.get_autocommit() == original_auto_commit:
+                    cp.set_origin_autocommit(False)
 
                 cursor = con.cursor()
                 cursor.execute(self.SELECT_UNDO_LOG_SQL, (branch_id, xid))
-                rs = cursor.fetchall()
+                rs_all = cursor.fetchall()
                 exists = False
-                for i in range(len(rs)):
+                # ********** execute on begin **********
+                for i in range(len(rs_all)):
+                    rs = rs_all[i]
                     exists = True
                     state = rs[4]
                     if not self.can_undo(state):
-                        print("xid {} branch {}, ignore {} undo_log".format(xid, branch_id, state))
+                        print("xid {} branch {}, ignore {} undo_log".format(xid, branch_id, State(state)))
                         return
                     context_string = rs[2]
                     context_map = self.parse_context(context_string)
                     rollback_info = self.get_rollback_info(rs[3])
                     serializer = None
-                    if context_map is None:
+                    if context_map is not None:
                         serializer = context_map[self.CONTEXT_SERIALIZER]
 
                     if serializer is None:
@@ -104,29 +108,31 @@ class UndoLogManager(object):
                     for j in range(len(sql_undo_logs)):
                         sql_undo_log = sql_undo_logs[j]
                         table_meta = TableMetaCacheFactory.get_table_meta_cache(pooled_db_proxy.db_type) \
-                            .get_table_meta(con, sql_undo_log.table_name, pooled_db_proxy.resource_id)
+                            .get_table_meta(con, sql_undo_log.table_name, pooled_db_proxy.get_resource_id())
                         sql_undo_log.set_table_meta(table_meta)
                         undo_executor = UndoExecutorFactory.get_undo_executor(pooled_db_proxy.db_type, sql_undo_log)
                         undo_executor.execute_on(con)
+                # ********** execute on end **********
 
-                    if exists:
-                        self.delete_undo_log(xid, branch_id, con)
-                        con.commit()
-                        print('xid {} branch {}, undo_log deleted with {}'.format(xid, branch_id,
-                                                                                  State.GlobalFinished.name))
-                    else:
-                        self.insert_undo_log_with_global_finished(xid, branch_id, UndoLogParserFactory.get_instance(),
-                                                                  con)
-                        con.commit()
-                        print('xid {} branch {}, undo_log added with {}'.format(xid, branch_id,
-                                                                                State.GlobalFinished.name))
-                    return
+                if exists:
+                    self.delete_undo_log(xid, branch_id, con)
+                    con.commit()
+                    print('xid {} branch {}, undo_log deleted with {}'.format(xid, branch_id,
+                                                                              State.GlobalFinished.name))
+                else:
+                    self.insert_undo_log_with_global_finished(xid, branch_id, UndoLogParserFactory.get_instance(),
+                                                              con)
+                    con.commit()
+                    print('xid {} branch {}, undo_log added with {}'.format(xid, branch_id,
+                                                                            State.GlobalFinished.name))
+                return
             except Exception as e:
                 error_name = e.__class__.__name__
                 if error_name == 'IntegrityError':
                     print('xid {} branch {}, undo_log inserted, retry rollback'.format(xid, branch_id))
                 else:
-                    if con is not None:
+                    print(e)
+                    if cp is not None:
                         try:
                             con.rollback()
                         except Exception as e:
@@ -138,11 +144,11 @@ class UndoLogManager(object):
                         cursor.close()
                     except Exception as ignored:
                         pass
-                if con is not None:
+                if cp is not None:
                     if original_auto_commit:
-                        con.autocommit = True
+                        cp.set_origin_autocommit(True)
                     try:
-                        con.close()
+                        cp.close()
                     except Exception as ignored:
                         pass
 
@@ -150,7 +156,7 @@ class UndoLogManager(object):
         try:
             cursor = connection.cursor()
             cursor.execute(self.DELETE_UNDO_LOG_SQL, (branch_id, xid))
-            cursor.commit()
+            connection.commit()
         finally:
             if cursor is not None:
                 try:

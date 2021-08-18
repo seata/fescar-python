@@ -38,4 +38,3 @@ class RpcMessage(object):
         rpc_message.compressor = 0x0
         rpc_message.body = msg
         return rpc_message
-

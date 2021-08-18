@@ -4,14 +4,18 @@
 # @since 1.0
 import datetime
 
+from seata.core.model.BranchType import BranchType
 from seata.core.protocol.MessageType import MessageType
+from seata.core.protocol.ResultCode import ResultCode
 from seata.core.protocol.transaction.BranchCommitRequestResponse import BranchCommitResponse
 from seata.core.protocol.transaction.BranchRollbackRequestResponse import BranchRollbackResponse
-from seata.rm.ATResourceManager import ATResourceManager
+from seata.core.util.ClassUtil import ClassUtil
+from seata.exception.TransactionException import TransactionException
+from seata.rm.DefaultResourceManager import DefaultResourceManager
 from seata.rm.datasource.undo.UndoLogManagerFactory import UndoLogManagerFactory
 
 
-class DefaultHandler:
+class RMHandlerAT:
     LIMIT_ROWS = 3000
 
     def __init__(self):
@@ -25,69 +29,44 @@ class DefaultHandler:
     def process(self, rpc_message):
         msg = rpc_message.body
         msg_type = msg.get_type_code()
-        print('msg type :', msg_type)
-        # tc response tm message
         # HeartbeatMessage
         if msg_type == MessageType.TYPE_HEARTBEAT_MSG:
             if not msg.ping:
-                print("received PONG")
-        # MergeResultMessage
-        elif msg_type == MessageType.TYPE_SEATA_MERGE_RESULT:
-            print('warn message type : [{}]'.format(msg_type))
-            pass
-        # RegisterTMResponse
-        elif msg_type == MessageType.TYPE_REG_CLT_RESULT:
-            if self.req_msg_map.get(rpc_message.id, None):
-                self.req_msg_map[rpc_message.id] = msg
-            else:
-                pass
-        # GlobalBeginResponse
-        elif msg_type == MessageType.TYPE_GLOBAL_BEGIN_RESULT:
-            if self.req_msg_map.get(msg_type, None):
-                self.req_msg_map[rpc_message.id] = msg
-            else:
-                pass
-        # GlobalCommitResponse
-        elif msg_type == MessageType.TYPE_GLOBAL_COMMIT_RESULT:
-            if self.req_msg_map.get(msg_type, None):
-                self.req_msg_map[rpc_message.id] = msg
-            else:
-                pass
-        # GlobalReportResponse
-        elif msg_type == MessageType.TYPE_GLOBAL_REPORT_RESULT:
-            if self.req_msg_map.get(msg_type, None):
-                self.req_msg_map[rpc_message.id] = msg
-            else:
-                pass
-        # GlobalRollbackResponse
-        elif msg_type == MessageType.TYPE_GLOBAL_ROLLBACK_RESULT:
-            if self.req_msg_map.get(msg_type, None):
-                self.req_msg_map[rpc_message.id] = msg
-            else:
-                pass
-        # GlobalStatusResponse
-        elif msg_type == MessageType.TYPE_GLOBAL_STATUS_RESULT:
-            if self.req_msg_map.get(msg_type, None):
-                self.req_msg_map[rpc_message.id] = msg
-            else:
-                pass
-        # RegisterTMResponse
-        elif msg_type == MessageType.TYPE_REG_CLT_RESULT:
-            if self.req_msg_map.get(msg_type, None):
-                self.req_msg_map[rpc_message.id] = msg
-            else:
+                # print("received PONG")
                 pass
         # tc response rm message
         # BranchCommitRequest
         elif msg_type == MessageType.TYPE_BRANCH_COMMIT:
             response = BranchCommitResponse()
-            self.__do_branch_commit(msg, response)
+            try:
+                self.__do_branch_commit(msg, response)
+                response.result_code = ResultCode.Success
+            except TransactionException as e:
+                print('do branch commit transaction exception error', e)
+                response.result_code = ResultCode.Failed
+                response.transaction_exception_code = e.code
+                response.msg = str(e)
+            except Exception as e:
+                print('do branch commit error', e)
+                response.result_code = ResultCode.Failed
+                response.msg = str(e)
             self.remote_client.send_async_response(rpc_message, response)
             pass
         # BranchRollbackRequest
         elif msg_type == MessageType.TYPE_BRANCH_ROLLBACK:
             response = BranchRollbackResponse()
-            self.__do_branch_rollback(msg, response)
+            try:
+                self.__do_branch_rollback(msg, response)
+                response.result_code = ResultCode.Success
+            except TransactionException as e:
+                print('do branch rollback transaction exception error', e)
+                response.result_code = ResultCode.Failed
+                response.transaction_exception_code = e.code
+                response.msg = str(e)
+            except Exception as e:
+                print('do branch rollback error', e)
+                response.result_code = ResultCode.Failed
+                response.msg = str(e)
             self.remote_client.send_async_response(rpc_message, response)
             pass
         # UndoLogDeleteRequest
@@ -96,25 +75,25 @@ class DefaultHandler:
             pass
         # BranchRegisterResponse
         elif msg_type == MessageType.TYPE_BRANCH_REGISTER_RESULT:
-            if self.req_msg_map.get(msg_type, None):
+            if self.req_msg_map.get(rpc_message.id, None) == -1:
                 self.req_msg_map[rpc_message.id] = msg
             else:
                 pass
         # BranchReportResponse
         elif msg_type == MessageType.TYPE_BRANCH_STATUS_REPORT_RESULT:
-            if self.req_msg_map.get(msg_type, None):
+            if self.req_msg_map.get(rpc_message.id, None) == -1:
                 self.req_msg_map[rpc_message.id] = msg
             else:
                 pass
         # GlobalLockQueryResponse
         elif msg_type == MessageType.TYPE_GLOBAL_LOCK_QUERY_RESULT:
-            if self.req_msg_map.get(msg_type, None):
+            if self.req_msg_map.get(rpc_message.id, None) == -1:
                 self.req_msg_map[rpc_message.id] = msg
             else:
                 pass
         # RegisterRMResponse
         elif msg_type == MessageType.TYPE_REG_RM_RESULT:
-            if self.req_msg_map.get(msg_type, None):
+            if self.req_msg_map.get(rpc_message.id, None) == -1:
                 self.req_msg_map[rpc_message.id] = msg
             else:
                 pass
@@ -128,7 +107,7 @@ class DefaultHandler:
                                                                                                   resource_id,
                                                                                                   application_data))
 
-        status = self.get_resource_manager().branch_commit(xid, branch_id, resource_id)
+        status = self.get_resource_manager().branch_commit(BranchType.AT, xid, branch_id, resource_id)
         response.xid = xid
         response.branch_id = branch_id
         response.branch_status = status
@@ -137,7 +116,7 @@ class DefaultHandler:
         xid = msg.xid
         branch_id = msg.branch_id
         resource_id = msg.resource_id
-        application_data = msg.application_data
+        application_data = ClassUtil.get_attr(msg, 'application_data')
         status = self.get_resource_manager().branch_rollback(msg.branch_type, xid, branch_id, resource_id,
                                                              application_data)
         response.xid = xid
@@ -146,7 +125,7 @@ class DefaultHandler:
 
     def __do_undo_log_delete(self, msg):
         resource_manager = self.get_resource_manager()
-        pooled_db_proxy = resource_manager.get_pool_db_proxy(msg.resource_id)
+        pooled_db_proxy = resource_manager.get_resource(msg.resource_id)
         if pooled_db_proxy is None:
             print('failed get pooled db proxy for delete undolog on {}', msg.resource_id)
             return
@@ -180,4 +159,4 @@ class DefaultHandler:
 
     @classmethod
     def get_resource_manager(cls):
-        return ATResourceManager.get()
+        return DefaultResourceManager.get().get_manager_resource(BranchType.AT)

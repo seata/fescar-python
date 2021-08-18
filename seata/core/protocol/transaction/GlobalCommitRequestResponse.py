@@ -4,6 +4,7 @@
 # @since 1.0
 from seata.core.protocol.MessageType import MessageType
 from seata.core.protocol.MessageTypeAware import MessageTypeAware, ResultMessage
+from seata.exception.TransactionExceptionCode import TransactionExceptionCode
 
 
 class GlobalCommitRequest(MessageTypeAware):
@@ -21,7 +22,7 @@ class GlobalCommitResponse(ResultMessage, MessageTypeAware):
     def __init__(self):
         self.global_status = None
 
-        self.transaction_exception_code = None
+        self.transaction_exception_code = TransactionExceptionCode.Unknown
         self.result_code = None
         self.msg = None
 

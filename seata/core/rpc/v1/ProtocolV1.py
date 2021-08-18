@@ -2,8 +2,6 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-import gevent
-
 from seata.core.ByteBuffer import ByteBuffer
 from seata.core.compressor.CompressorFactory import CompressorFactory
 from seata.core.protocol.HeartbeatMessage import HeartbeatMessage
@@ -44,7 +42,6 @@ class ProtocolV1:
         codec_type = bb.get_int8()
         compressor_type = bb.get_int8()
         request_id = bb.get_int32()
-        print("message_type:{}, request_id={}".format(message_type, request_id))
 
         rpc_message = RpcMessage()
         rpc_message.codec = codec_type
@@ -91,7 +88,7 @@ class ProtocolV1:
 
         body_array = None
         if message_type is not ProtocolConstants.MSGTYPE_HEARTBEAT_REQUEST and \
-                        message_type is not ProtocolConstants.MSGTYPE_HEARTBEAT_RESPONSE:
+                message_type is not ProtocolConstants.MSGTYPE_HEARTBEAT_RESPONSE:
             body_array = SerializerFactory.get(rpc_message.codec).serialize(rpc_message.body)
             body_array = CompressorFactory.get(rpc_message.compressor).compress(body_array)
             full_length += len(body_array)
@@ -111,5 +108,4 @@ class ProtocolV1:
         result.put_int8(rpc_message.compressor)
         result.put_int32(rpc_message.id)
         result.put(bb.array())
-        # print('will send msg type : {}'.format(rpc_message.message_type))
         return bytes(result.array())

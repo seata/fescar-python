@@ -16,7 +16,7 @@ def do_heart(remote_client):  # 每隔 5秒 向服务器发送消息
         try:
             hb = HeartbeatMessage(True)
             remote_client.send_async_request(hb)
-            print("tm client do heart...")
+            # print("tm client do heart...")
             time.sleep(5)
         except Exception:
             pass
@@ -43,8 +43,8 @@ class TMClient(object):
 
     def init_client(self, host="localhost", port=8091):
         # 程序启动
-        from seata.rm.DefaultHandler import DefaultHandler
-        message_handler = DefaultHandler()
+        from seata.tm.TMHandler import TMHandler
+        message_handler = TMHandler()
         self.remote_client = RemotingClient(host, port, message_handler)
         self.remote_client.start()
         threading.Thread(target=do_heart, args=(self.remote_client,)).start()
@@ -53,7 +53,7 @@ class TMClient(object):
     def reg(self):
         request = RegisterTMRequest(self.application_id, self.transaction_service_group, None)
         self.send_sync_request(request)
-        print("tm register...")
+        print("========== tm register ==========")
 
     def send_sync_request(self, msg):
         return self.remote_client.send_sync_request(msg)

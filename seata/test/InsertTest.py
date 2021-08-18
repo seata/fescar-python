@@ -2,16 +2,16 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+import time
+
 import pymysql
 from dbutils.pooled_db import PooledDB
 
-from seata.Boostrap import Bootstrap
-from seata.rm.RMClient import RMClient
+from seata.boot.GlobalTransactionScanner import GlobalTransactionScanner
 from seata.rm.datasource.PooledDBProxy import PooledDBProxy
 from seata.sqlparser.util.JdbcConstants import JdbcConstants
 from seata.test import pool_config
-from seata.tm.TMClient import TMClient
-from seata.tm.api.GlobalTransaction import DefaultGlobalTransaction, GlobalTransactionRole
+from seata.tm.api.GlobalTransactionContext import GlobalTransactionContext
 
 
 def get_pool():
@@ -23,42 +23,26 @@ def get_pool():
     return PooledDB(creator=pymysql, host=host, port=port, user=user, password=password, database=database)
 
 
-def bootstrap_init():
-    host = "127.0.0.1"
-    port = 8091
-
-    tm_client = TMClient.get()
-    tm_client.application_id = "test"
-    tm_client.transaction_service_group = "my_test_tx_group"
-    tm_client.init_client(host, port)
-
-    rm_client = RMClient.get()
-    rm_client.application_id = tm_client.application_id
-    rm_client.transaction_service_group = tm_client.transaction_service_group
-    rm_client.init_client(host, port)
-
-    Bootstrap.start()
-
-
 def test_insert():
-    bootstrap_init()
+    GlobalTransactionScanner("test", "my_test_tx_group")
 
     pool = get_pool()
-
     pool_proxy = PooledDBProxy(pool, JdbcConstants.MYSQL)
 
     cp = pool_proxy.connection()
 
-    t = DefaultGlobalTransaction(None, None, GlobalTransactionRole.Launcher)
-    t.begin()
+    tx = GlobalTransactionContext.get_current_or_create()
+    tx.begin()
 
-    cp.bind(t.get_xid())
+    cp.bind(tx.get_xid())
 
     cursor = cp.cursor()
     cursor.execute("insert into test(id, name) values(%s, %s)", (None, "name1"))
     cp.commit()
-    t.commit()
-    print("success")
+    # tx.commit()
+    tx.rollback()
+    time.sleep(1000)
+    print('success')
 
 
 def test_get_table_meta():

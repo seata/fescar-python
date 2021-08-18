@@ -34,7 +34,7 @@ class RootContext(object):
     def bind(xid=None):
         if xid is None or len(xid) == 0:
             xid = None
-        print("bind xid {}".format(xid))
+        print("bind xid [{}]".format(xid))
         RootContext.CONTEXT_HOLDER.put(RootContext.KEY_XID, xid)
 
     @staticmethod
@@ -44,13 +44,13 @@ class RootContext(object):
     @staticmethod
     def unbind():
         xid = RootContext.CONTEXT_HOLDER.get(RootContext.KEY_XID)
-        print("unbind xid {}".format(xid))
+        print("unbind xid [{}]".format(xid))
         return xid
 
     @staticmethod
     def unbind_global_lock_flag():
         flag = RootContext.CONTEXT_HOLDER.get(RootContext.KEY_GLOBAL_LOCK_FLAG)
-        print("unbind global lock flag {}".format(flag))
+        print("unbind global lock flag [{}]".format(flag))
         RootContext.CONTEXT_HOLDER.remove(RootContext.KEY_GLOBAL_LOCK_FLAG)
 
     @staticmethod

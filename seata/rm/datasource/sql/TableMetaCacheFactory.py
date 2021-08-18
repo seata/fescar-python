@@ -104,7 +104,7 @@ class MySQLTableMetaCache(TableMetaCache):
             # col. = r[5] # COLUMN_DEFAULT
             col.is_nullable = r[6]  # IS_NULLABLE
             col.data_type_name = r[7]  # DATA_TYPE
-            col.data_type = Types.get(col.data_type_name)
+            col.data_type = Types.get(col.data_type_name.upper())
             # col. = r[8] # CHARACTER_MAXIMUM_LENGTH
             col.char_octet_length = r[9]  # character_octet_length
             col.num_prec_radix = r[10]  # NUMERIC_PRECISION

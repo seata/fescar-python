@@ -3,6 +3,8 @@
 # @author jsbxyyx
 # @since 1.0
 from dbutils.pooled_db import PooledDB
+
+from seata.core.model.BranchType import BranchType
 from seata.rm.datasource.ConnectionProxy import ConnectionProxy
 
 
@@ -18,16 +20,22 @@ class PooledDBProxy(object):
         port = 3306
         if kwargs['port'] is not None:
             port = kwargs['port']
-        self.jdbc_url = "{}:{}:{}/{}".format(db_type, kwargs['host'], port, kwargs['database'])
+        self.jdbc_url = "{}://{}:{}/{}".format(db_type, kwargs['host'], port, kwargs['database'])
         self.db_type = db_type
         self.username = kwargs['user']
         self.database = kwargs['database']
 
-        from seata.rm.ATResourceManager import ATResourceManager
-        ATResourceManager.get().register_resource(self)
+        self.init()
+
+    def init(self):
+        from seata.rm.DefaultResourceManager import DefaultResourceManager
+        DefaultResourceManager.get().register_resource(self)
 
     def get_resource_id(self):
         return self.jdbc_url
+
+    def get_branch_type(self):
+        return BranchType.AT
 
     def connection(self):
         return ConnectionProxy(self, self.pool.connection())

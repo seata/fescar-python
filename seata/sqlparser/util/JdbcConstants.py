@@ -6,3 +6,4 @@
 class JdbcConstants(object):
 
     MYSQL = "mysql"
+    MARIADB = "mariadb"

@@ -5,6 +5,7 @@
 from seata.core.model.BranchType import BranchType
 from seata.core.protocol.MessageType import MessageType
 from seata.core.protocol.MessageTypeAware import MessageTypeAware, ResultMessage
+from seata.exception.TransactionExceptionCode import TransactionExceptionCode
 
 
 class BranchRollbackRequest(MessageTypeAware):
@@ -27,7 +28,7 @@ class BranchRollbackResponse(ResultMessage, MessageTypeAware):
         self.branch_id = 0
         self.branch_status = None
 
-        self.transaction_exception_code = None
+        self.transaction_exception_code = TransactionExceptionCode.Unknown
         self.result_code = None
         self.msg = None
 

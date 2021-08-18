@@ -6,7 +6,7 @@ from seata.core.model.BranchStatus import BranchStatus
 from seata.core.model.BranchType import BranchType
 from seata.exception.TransactionException import TransactionException
 from seata.exception.TransactionExceptionCode import TransactionExceptionCode
-from seata.rm.ATResourceManager import ATResourceManager
+from seata.rm.DefaultResourceManager import DefaultResourceManager
 from seata.rm.datasource.ConnectionContext import ConnectionContext
 from seata.rm.datasource.CursorProxy import CursorProxy
 
@@ -41,8 +41,8 @@ class ConnectionProxy(object):
             return
         # Just check lock without requiring lock by now.
         try:
-            lockable = ATResourceManager.get().lock_query(BranchType.AT, self.pooled_db_proxy.get_resource_id(),
-                                                          self.context.xid, lock_keys)
+            lockable = DefaultResourceManager.get().lock_query(BranchType.AT, self.pooled_db_proxy.get_resource_id(),
+                                                               self.context.xid, lock_keys)
             if not lockable:
                 raise LockConflictException()
         except TransactionException as e:
@@ -86,6 +86,9 @@ class ConnectionProxy(object):
         if (self.context.in_global_transaction() or self.context.is_global_lock_require) \
                 and on and not self.get_autocommit():
             self.do_commit()
+        self.get_low_con().autocommit(on)
+
+    def set_origin_autocommit(self, on):
         self.get_low_con().autocommit(on)
 
     def get_autocommit(self):
@@ -137,9 +140,9 @@ class ConnectionProxy(object):
     def register(self):
         if not self.context.has_undo_log() or len(self.context.lock_keys_buffer) == 0:
             return
-        branch_id = ATResourceManager.get().branch_register(BranchType.AT, self.pooled_db_proxy.get_resource_id(),
-                                                            None, self.context.xid, None,
-                                                            self.context.build_lock_keys())
+        branch_id = DefaultResourceManager.get().branch_register(BranchType.AT, self.pooled_db_proxy.get_resource_id(),
+                                                                 None, self.context.xid, None,
+                                                                 self.context.build_lock_keys())
         self.context.branch_id = branch_id
 
     def report(self, commit_done):
@@ -151,8 +154,8 @@ class ConnectionProxy(object):
                 status = BranchStatus.PhaseOne_Done
                 if not commit_done:
                     status = BranchStatus.PhaseOne_Failed
-                ATResourceManager.get().branch_report(BranchType.AT, self.context.xid, self.context.branch_id, status,
-                                                      None)
+                DefaultResourceManager.get().branch_report(BranchType.AT, self.context.xid, self.context.branch_id,
+                                                           status, None)
                 return
             except Exception as e:
                 print("Failed to report [{}/{}]  commit done [{}] Retry Countdown: {}".format(self.context.branch_id,

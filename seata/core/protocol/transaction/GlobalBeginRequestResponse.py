@@ -4,6 +4,7 @@
 # @since 1.0
 from seata.core.protocol.MessageType import MessageType
 from seata.core.protocol.MessageTypeAware import MessageTypeAware, ResultMessage
+from seata.exception.TransactionExceptionCode import TransactionExceptionCode
 
 
 class GlobalBeginRequest(MessageTypeAware):
@@ -22,7 +23,7 @@ class GlobalBeginResponse(ResultMessage, MessageTypeAware):
         self.xid = None
         self.extra_data = None
 
-        self.transaction_exception_code = None
+        self.transaction_exception_code = TransactionExceptionCode.Unknown
         self.result_code = None
         self.msg = None
 

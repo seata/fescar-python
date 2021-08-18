@@ -23,6 +23,8 @@ class CollectionUtil:
         map_ = {}
         cs = string.split("&")
         for i in range(len(cs)):
-            kv = cs[i].split("=")
-            map_[kv[0]] = kv[1]
+            c = cs[i]
+            if c.strip() != '':
+                kv = c.split("=")
+                map_[kv[0]] = kv[1]
         return map_

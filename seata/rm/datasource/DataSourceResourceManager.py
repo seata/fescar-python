@@ -4,6 +4,7 @@
 # @since 1.0
 from seata.core.context.RootContext import RootContext
 from seata.core.model.BranchStatus import BranchStatus
+from seata.core.model.BranchType import BranchType
 from seata.core.protocol.RegisterRMRequestResponse import RegisterRMRequest
 from seata.core.protocol.ResultCode import ResultCode
 from seata.core.protocol.transaction.BranchRegisterRequestResponse import BranchRegisterRequest
@@ -14,12 +15,12 @@ from seata.exception.ShouldNeverHappenException import ShouldNeverHappenExceptio
 from seata.exception.TransactionException import TransactionException
 from seata.exception.TransactionExceptionCode import TransactionExceptionCode
 from seata.rm.datasource.undo.UndoLogManagerFactory import UndoLogManagerFactory
-from seata.rm.RMClient import RMClient
 
 manager = None
 
 
-class ATResourceManager(object):
+class DataSourceResourceManager(object):
+
     def __init__(self):
         self.pool_db_proxy_cache = dict()
         pass
@@ -28,7 +29,7 @@ class ATResourceManager(object):
     def get():
         global manager
         if manager is None:
-            manager = ATResourceManager()
+            manager = DataSourceResourceManager()
         return manager
 
     def register_resource(self, pooled_db_proxy):
@@ -36,13 +37,23 @@ class ATResourceManager(object):
         if not isinstance(pooled_db_proxy, PooledDBProxy):
             raise TypeError("Register resource type error.")
         self.pool_db_proxy_cache[pooled_db_proxy.get_resource_id()] = pooled_db_proxy
+
+        from seata.rm.RMClient import RMClient
         request = RegisterRMRequest()
         request.transaction_service_group = RMClient.get().transaction_service_group
         request.application_id = RMClient.get().application_id
+        request.resource_ids = pooled_db_proxy.get_resource_id()
         RMClient.get().send_sync_request(request)
+        print("========== rm register ==========")
 
-    def get_pool_db_proxy(self, resource_id):
+    def get_resource(self, resource_id):
         return self.pool_db_proxy_cache.get(resource_id, None)
+
+    def get_manager_resources(self):
+        return self.pool_db_proxy_cache
+
+    def get_branch_type(self):
+        return BranchType.AT
 
     def lock_query(self, branch_type, resource_id, xid, lock_keys):
         try:
@@ -51,6 +62,7 @@ class ATResourceManager(object):
             request.branch_type = branch_type
             request.lock_key = lock_keys
             request.resource_id = resource_id
+            from seata.rm.RMClient import RMClient
             if RootContext.in_global_transaction() or RootContext.require_global_lock():
                 response = RMClient.get().send_sync_request(request)
             else:
@@ -71,6 +83,7 @@ class ATResourceManager(object):
             request.resource_id = resource_id
             request.lock_key = lock_keys
             request.application_data = application_data
+            from seata.rm.RMClient import RMClient
             response = RMClient.get().send_sync_request(request)
             if response.result_code == ResultCode.Failed:
                 raise RmTransactionException("response {} {}".format(response.transaction_exception_code, response.msg))
@@ -88,6 +101,7 @@ class ATResourceManager(object):
             request.branch_type = branch_type
             request.status = status
             request.application_data = application_data
+            from seata.rm.RMClient import RMClient
             response = RMClient.get().send_sync_request(request)
             if response.result_code == ResultCode.Failed:
                 raise RmTransactionException(response.transaction_exception_code, "response [{}]".format(response.msg))
@@ -101,7 +115,7 @@ class ATResourceManager(object):
         if pool_db_proxy is None:
             raise ShouldNeverHappenException()
         try:
-            UndoLogManagerFactory.get_undo_log_manager(pool_db_proxy.get_db_type()).undo(pool_db_proxy, xid, branch_id)
+            UndoLogManagerFactory.get_undo_log_manager(pool_db_proxy.db_type).undo(pool_db_proxy, xid, branch_id)
         except TransactionException as e:
             print("branchRollback failed. branch_type:[{}], xid:[{}], branch_id:[{}], resource_id:[{}], "
                   "application_data:[{}], reason:[{}]".format(branch_type, xid, branch_id, resource_id,
@@ -112,6 +126,6 @@ class ATResourceManager(object):
                 return BranchStatus.PhaseTwo_RollbackFailed_Retryable
         return BranchStatus.PhaseTwo_Rollbacked
 
-    def branch_commit(self, xid, branch_id, resource_id):
+    def branch_commit(self, branch_type, xid, branch_id, resource_id):
         # TODO async delete undo log
         return BranchStatus.PhaseTwo_Committed

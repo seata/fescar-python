@@ -6,5 +6,5 @@ from enum import Enum
 
 
 class State(Enum):
-    Normal = 1
+    Normal = 0
     GlobalFinished = 1

@@ -52,7 +52,7 @@ class GlobalTransaction:
 
 
 class DefaultGlobalTransaction(GlobalTransaction):
-    def __init__(self, xid=None, status=None, role=None):
+    def __init__(self, xid=None, status=GlobalStatus.UnKnown, role=GlobalTransactionRole.Launcher):
         self.transaction_manager = DefaultTransactionManager()
         self.xid = xid
         self.status = status
@@ -79,13 +79,15 @@ class DefaultGlobalTransaction(GlobalTransaction):
             return
         self.__assert_xid_not_null()
         self.status = self.transaction_manager.commit(self.xid)
+        print('commit global transaction [{}] [{}]'.format(self.xid, self.status))
 
     def rollback(self):
         if self.role == GlobalTransactionRole.Participant:
             print('ignore rollback, involved in global transaction xid : [{}]'.format(self.xid))
             return
         self.__assert_xid_not_null()
-        self.transaction_manager.rollback(self.xid)
+        self.status = self.transaction_manager.rollback(self.xid)
+        print('rollback global transaction [{}] [{}]'.format(self.xid, self.status))
 
     def get_status(self):
         if self.xid is None:
@@ -100,6 +102,7 @@ class DefaultGlobalTransaction(GlobalTransaction):
         if global_status is None:
             raise ValueError('global status is null')
         self.status = self.transaction_manager.global_report(self.xid, global_status)
+        print('report global transaction [{}] [{}]'.format(self.xid, global_status))
 
     def __assert_xid_null(self):
         if self.xid is not None:

@@ -17,7 +17,6 @@ seata-python是一个seata分布式事务python版本的客户端，什么是sea
 DBUtils(PooledDB)==2.0
 antlr4-python3-runtime==4.9.2
 protobuf==3.17.3
-gevent==21.8.0
 
 test:
 mariadb==1.0.5

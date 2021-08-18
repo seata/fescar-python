@@ -10,6 +10,7 @@ from seata.rm.datasource.sql.TableMetaCacheFactory import TableMetaCacheFactory
 from seata.rm.datasource.sql.struct.TableRecords import TableRecords
 from seata.rm.datasource.undo.SQLUndoLog import SQLUndoLog
 from seata.sqlparser.SQLType import SQLType
+from seata.sqlparser.util.SQLUtil import SQLUtil
 
 
 class Executor:
@@ -198,8 +199,10 @@ class BaseInsertExecutor(DMLBaseExecutor, InsertExecutor):
         sql += " WHERE "
         first_key = next(iter(pk_values_map))
         row_size = len(pk_values_map[first_key])
-        sql += self.build_where_condition_by_pks(pk_column_name_list, row_size, self.get_db_type())
-        with self.cursor_proxy.get_connection().cursor() as cursor:
+        sql += SQLUtil.build_where_condition_by_pks(pk_column_name_list, row_size, self.get_db_type())
+        cursor = None
+        try:
+            cursor = self.cursor_proxy.get_connection().cursor()
             params = []
             for r in range(row_size):
                 for c in range(len(pk_column_name_list)):
@@ -208,38 +211,9 @@ class BaseInsertExecutor(DMLBaseExecutor, InsertExecutor):
             cursor.execute(sql, tuple(params))
             result = cursor.fetchall()
             return TableRecords.build_records(self.get_table_meta(), result)
-
-    def build_where_condition_by_pks(self, pk_column_name_list, row_size, db_type):
-        max_in_size = 1000
-        where_str = ""
-        if row_size % max_in_size == 0:
-            batch_size = row_size // max_in_size
-        else:
-            batch_size = row_size // max_in_size + 1
-        for batch in range(batch_size):
-            if batch > 0:
-                where_str += " or "
-            where_str += "("
-            for i in range(len(pk_column_name_list)):
-                if i > 0:
-                    where_str += ","
-                where_str += ColumnUtils.add_by_dbtype(pk_column_name_list[i], db_type)
-            where_str += ") in ( "
-            if batch == batch_size - 1:
-                if row_size % max_in_size == 0:
-                    each_size = max_in_size
-                else:
-                    each_size = row_size % max_in_size
-            else:
-                each_size = max_in_size
-            for i in range(each_size):
-                if i > 0:
-                    where_str += ","
-                where_str += "("
-                for x in range(len(pk_column_name_list)):
-                    if x > 0:
-                        where_str += ","
-                    where_str += "%s"
-                where_str += ")"
-            where_str += ")"
-        return where_str
+        finally:
+            if cursor is not None:
+                try:
+                    cursor.close()
+                except Exception:
+                    pass
