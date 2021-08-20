@@ -4,7 +4,8 @@
 # @since 1.0
 from seata.core.context.RootContext import RootContext
 from seata.core.model.GlobalStatus import GlobalStatus
-from seata.tm.api.GlobalTransaction import DefaultGlobalTransaction, GlobalTransactionRole
+from seata.tm.api.DefaultGlobalTransaction import DefaultGlobalTransaction
+from seata.tm.api.GlobalTransactionRole import GlobalTransactionRole
 
 
 class GlobalTransactionContext:

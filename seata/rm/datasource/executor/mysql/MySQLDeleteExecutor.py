@@ -3,8 +3,6 @@
 # @author jsbxyyx
 # @since 1.0
 
-from seata.rm.datasource.sql.struct.TableRecords import TableRecords
-
 
 class MySQLDeleteExecutor(object):
 
@@ -14,14 +12,13 @@ class MySQLDeleteExecutor(object):
         self.sql_recognizer = sql_recognizer
 
     def before_image(self):
-        return TableRecords.empty(self.get_table_meta())
+        raise NotImplemented()
 
     def after_image(self, before_image):
-        pass
+        raise NotImplemented()
 
     def execute(self, args):
-        pass
+        raise NotImplemented()
 
     def get_table_meta(self):
-        self.sql_recognizer.get_table_name()
-        pass
+        raise NotImplemented()

@@ -15,17 +15,17 @@ from seata.rm.datasource.executor.LockConflictException import LockConflictExcep
 
 
 class ConnectionProxy(object):
-    def __init__(self, pooled_db_proxy, target_connection):
-        from seata.rm.datasource.PooledDBProxy import PooledDBProxy
-        if not isinstance(pooled_db_proxy, PooledDBProxy):
-            raise TypeError("Only support PooledDBProxy")
+    def __init__(self, data_source_proxy, target_connection):
+        from seata.rm.datasource.DataSourceProxy import DataSourceProxy
+        if not isinstance(data_source_proxy, DataSourceProxy):
+            raise TypeError("Only support DataSourceProxy")
 
-        self.pooled_db_proxy = pooled_db_proxy
+        self.data_source_proxy = data_source_proxy
         self.target_connection = target_connection
         self.context = ConnectionContext()
 
     def get_db_type(self):
-        return self.pooled_db_proxy.db_type
+        return self.data_source_proxy.db_type
 
     def bind(self, xid):
         self.context.bind(xid)
@@ -41,7 +41,7 @@ class ConnectionProxy(object):
             return
         # Just check lock without requiring lock by now.
         try:
-            lockable = DefaultResourceManager.get().lock_query(BranchType.AT, self.pooled_db_proxy.get_resource_id(),
+            lockable = DefaultResourceManager.get().lock_query(BranchType.AT, self.data_source_proxy.get_resource_id(),
                                                                self.context.xid, lock_keys)
             if not lockable:
                 raise LockConflictException()
@@ -140,7 +140,8 @@ class ConnectionProxy(object):
     def register(self):
         if not self.context.has_undo_log() or len(self.context.lock_keys_buffer) == 0:
             return
-        branch_id = DefaultResourceManager.get().branch_register(BranchType.AT, self.pooled_db_proxy.get_resource_id(),
+        branch_id = DefaultResourceManager.get().branch_register(BranchType.AT,
+                                                                 self.data_source_proxy.get_resource_id(),
                                                                  None, self.context.xid, None,
                                                                  self.context.build_lock_keys())
         self.context.branch_id = branch_id

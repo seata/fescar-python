@@ -16,90 +16,90 @@ class RootContext(object):
 
     CONTEXT_HOLDER = ContextCore.get_instance()
 
-    @staticmethod
-    def set_default_branch_type(default_branch_type):
+    @classmethod
+    def set_default_branch_type(cls, default_branch_type):
         if default_branch_type != BranchType.AT and default_branch_type != BranchType.XA:
             raise TypeError("The default branch type must be [{}] or [{}]. the value of the argument is: [{}]"
                             .format(BranchType.AT, BranchType.XA, default_branch_type))
-        if RootContext.DEFAULT_BRANCH_TYPE is not None and RootContext.DEFAULT_BRANCH_TYPE != default_branch_type:
+        if cls.DEFAULT_BRANCH_TYPE is not None and cls.DEFAULT_BRANCH_TYPE != default_branch_type:
             print("The `RootContext.DEFAULT_BRANCH_TYPE` has been set repeatedly. The value changes from [{}] to [{}]"
-                  .format(RootContext.DEFAULT_BRANCH_TYPE, default_branch_type))
-        RootContext.DEFAULT_BRANCH_TYPE = default_branch_type
+                  .format(cls.DEFAULT_BRANCH_TYPE, default_branch_type))
+        cls.DEFAULT_BRANCH_TYPE = default_branch_type
 
-    @staticmethod
-    def get_xid():
-        return RootContext.CONTEXT_HOLDER.get(RootContext.KEY_XID)
+    @classmethod
+    def get_xid(cls):
+        return cls.CONTEXT_HOLDER.get(cls.KEY_XID)
 
-    @staticmethod
-    def bind(xid=None):
+    @classmethod
+    def bind(cls, xid=None):
         if xid is None or len(xid) == 0:
             xid = None
         print("bind xid [{}]".format(xid))
-        RootContext.CONTEXT_HOLDER.put(RootContext.KEY_XID, xid)
+        cls.CONTEXT_HOLDER.put(cls.KEY_XID, xid)
 
-    @staticmethod
-    def bind_global_lock_flag():
-        RootContext.CONTEXT_HOLDER.put(RootContext.KEY_GLOBAL_LOCK_FLAG, RootContext.VALUE_GLOBAL_LOCK_FLAG)
+    @classmethod
+    def bind_global_lock_flag(cls):
+        cls.CONTEXT_HOLDER.put(cls.KEY_GLOBAL_LOCK_FLAG, cls.VALUE_GLOBAL_LOCK_FLAG)
 
-    @staticmethod
-    def unbind():
-        xid = RootContext.CONTEXT_HOLDER.get(RootContext.KEY_XID)
+    @classmethod
+    def unbind(cls):
+        xid = cls.CONTEXT_HOLDER.get(cls.KEY_XID)
         print("unbind xid [{}]".format(xid))
         return xid
 
-    @staticmethod
-    def unbind_global_lock_flag():
-        flag = RootContext.CONTEXT_HOLDER.get(RootContext.KEY_GLOBAL_LOCK_FLAG)
+    @classmethod
+    def unbind_global_lock_flag(cls):
+        flag = cls.CONTEXT_HOLDER.get(cls.KEY_GLOBAL_LOCK_FLAG)
         print("unbind global lock flag [{}]".format(flag))
-        RootContext.CONTEXT_HOLDER.remove(RootContext.KEY_GLOBAL_LOCK_FLAG)
+        cls.CONTEXT_HOLDER.remove(cls.KEY_GLOBAL_LOCK_FLAG)
 
-    @staticmethod
-    def in_global_transaction():
-        if RootContext.CONTEXT_HOLDER.get(RootContext.KEY_XID) is not None:
+    @classmethod
+    def in_global_transaction(cls):
+        if cls.CONTEXT_HOLDER.get(cls.KEY_XID) is not None:
             return True
         return False
 
-    @staticmethod
-    def in_tcc_branch():
+    @classmethod
+    def in_tcc_branch(cls):
         return BranchType.TCC == RootContext.get_branch_type()
 
-    @staticmethod
-    def in_saga_branch():
+    @classmethod
+    def in_saga_branch(cls):
         return BranchType.SAGA == RootContext.get_branch_type()
 
-    @staticmethod
-    def get_branch_type():
-        if RootContext.in_global_transaction():
-            branch_type = RootContext.CONTEXT_HOLDER.get(RootContext.KEY_BRANCH_TYPE)
+    @classmethod
+    def get_branch_type(cls):
+        if cls.in_global_transaction():
+            branch_type = cls.CONTEXT_HOLDER.get(cls.KEY_BRANCH_TYPE)
             if branch_type is not None:
                 return branch_type
-            if RootContext.DEFAULT_BRANCH_TYPE is not None:
-                return RootContext.DEFAULT_BRANCH_TYPE
+            if cls.DEFAULT_BRANCH_TYPE is not None:
+                return cls.DEFAULT_BRANCH_TYPE
             else:
                 return BranchType.AT
         return None
 
-    @staticmethod
-    def bind_branch_type(branch_type):
+    @classmethod
+    def bind_branch_type(cls, branch_type):
         if branch_type is None:
             raise ValueError("branch_type is None")
-        RootContext.CONTEXT_HOLDER.put(RootContext.KEY_BRANCH_TYPE, branch_type)
+        cls.CONTEXT_HOLDER.put(cls.KEY_BRANCH_TYPE, branch_type)
 
-    @staticmethod
-    def unbind_branch_type():
-        branch_type = RootContext.CONTEXT_HOLDER.get(RootContext.KEY_BRANCH_TYPE)
+    @classmethod
+    def unbind_branch_type(cls):
+        branch_type = cls.CONTEXT_HOLDER.get(cls.KEY_BRANCH_TYPE)
         print("unbind branch type [{}]".format(branch_type))
-        RootContext.CONTEXT_HOLDER.remove(RootContext.KEY_BRANCH_TYPE)
+        cls.CONTEXT_HOLDER.remove(cls.KEY_BRANCH_TYPE)
         return branch_type
 
-    @staticmethod
-    def require_global_lock():
-        global_lock_flag = RootContext.CONTEXT_HOLDER.get(RootContext.KEY_GLOBAL_LOCK_FLAG)
+    @classmethod
+    def require_global_lock(cls):
+        global_lock_flag = cls.CONTEXT_HOLDER.get(cls.KEY_GLOBAL_LOCK_FLAG)
         if global_lock_flag is not None:
             return True
         return False
 
-    @staticmethod
-    def assert_not_in_global_transaction():
-        if RootContext.in_global_transaction():
+    @classmethod
+    def assert_not_in_global_transaction(cls):
+        if cls.in_global_transaction():
             raise ShouldNeverHappenException()

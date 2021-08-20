@@ -260,7 +260,7 @@ class MySQLInsertExecutor(BaseInsertExecutor):
 
     def auto_generate_pks(self, rowid, auto_column_name, rowcount):
         step = 1
-        resource_id = self.cursor_proxy.connection_proxy.pooled_db_proxy.get_resource_id()
+        resource_id = self.cursor_proxy.connection_proxy.data_source_proxy.get_resource_id()
         if self.RESOURCE_STEP_CACHE[resource_id] is not None:
             step = self.RESOURCE_STEP_CACHE[resource_id]
         else:

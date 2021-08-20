@@ -15,16 +15,3 @@ class UndoLogParserFactory:
             return ProtobufUndoLogParser()
         raise NotImplemented()
 
-
-class UndoLogParser:
-    def get_name(self):
-        pass
-
-    def get_default_content(self):
-        pass
-
-    def encode(self, branch_undo_log):
-        pass
-
-    def decode(self, bytes_):
-        pass

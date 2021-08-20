@@ -8,30 +8,30 @@ from seata.sqlparser.util.JdbcConstants import JdbcConstants
 if __name__ == '__main__':
     sql = "insert into test values(?, ?)"
     sql_recognizer = SQLVisitorFactory.get(sql, JdbcConstants.MYSQL)
-    print()
+    print(1)
 
     sql = "insert ignore into test values(?, ?)"
     sql_recognizer = SQLVisitorFactory.get(sql, JdbcConstants.MYSQL)
-    print()
+    print(2)
 
     sql = "delete from test where a = ?"
     sql_recognizer = SQLVisitorFactory.get(sql, JdbcConstants.MYSQL)
-    print()
+    print(3)
 
     sql = "update test set a = ? where b = ?"
     sql_recognizer = SQLVisitorFactory.get(sql, JdbcConstants.MYSQL)
-    print()
+    print(4)
 
     sql = "select * from test"
     sql_recognizer = SQLVisitorFactory.get(sql, JdbcConstants.MYSQL)
-    print()
+    print(5)
 
     sql = "select * from test for update"
     sql_recognizer = SQLVisitorFactory.get(sql, JdbcConstants.MYSQL)
-    print()
+    print(6)
 
     sql = "show create table test"
     sql_recognizer = SQLVisitorFactory.get(sql, JdbcConstants.MYSQL)
-    print()
+    print(7)
 
 

@@ -8,10 +8,9 @@ import time
 from seata.core.protocol.HeartbeatMessage import HeartbeatMessage
 from seata.core.rpc.v1.RemotingClient import RemotingClient
 
-factory = None
 
-
-def do_heart(remote_client):  # 每隔 5秒 向服务器发送消息
+def do_heart(remote_client):
+    # 每隔 5秒 向服务器发送消息
     while True:
         try:
             hb = HeartbeatMessage(True)
@@ -50,7 +49,6 @@ class RMClient(object):
         self.application_id = application_id
 
     def init_client(self, host="localhost", port=8091):
-        # 程序启动
         from seata.rm.RMHandlerAT import RMHandlerAT
         message_handler = RMHandlerAT()
         self.remote_client = RemotingClient(host, port, message_handler)

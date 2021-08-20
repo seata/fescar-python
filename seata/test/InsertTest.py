@@ -8,7 +8,7 @@ import pymysql
 from dbutils.pooled_db import PooledDB
 
 from seata.boot.GlobalTransactionScanner import GlobalTransactionScanner
-from seata.rm.datasource.PooledDBProxy import PooledDBProxy
+from seata.rm.datasource.DataSourceProxy import DataSourceProxy
 from seata.sqlparser.util.JdbcConstants import JdbcConstants
 from seata.test import pool_config
 from seata.tm.api.GlobalTransactionContext import GlobalTransactionContext
@@ -27,9 +27,9 @@ def test_insert():
     GlobalTransactionScanner("test", "my_test_tx_group")
 
     pool = get_pool()
-    pool_proxy = PooledDBProxy(pool, JdbcConstants.MYSQL)
+    data_source_proxy = DataSourceProxy(pool, JdbcConstants.MYSQL)
 
-    cp = pool_proxy.connection()
+    cp = data_source_proxy.connection()
 
     tx = GlobalTransactionContext.get_current_or_create()
     tx.begin()
@@ -42,9 +42,9 @@ def test_insert():
     cursor2.execute("insert into test values(null, '1')")
     cp.commit()
 
-    tx.commit()
-    # tx.rollback()
-    time.sleep(1000)
+    # tx.commit()
+    tx.rollback()
+    time.sleep(30)
     print('success')
 
 

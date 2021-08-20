@@ -2,8 +2,7 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-
-from seata.exception import NotSupportYetException
+from seata.exception.NotSupportYetException import NotSupportYetException
 from seata.exception.ShouldNeverHappenException import ShouldNeverHappenException
 from seata.sqlparser.SQLType import SQLType
 from seata.sqlparser.mysql.MySQLDeleteSQLRecognizer import MySQLDeleteSQLRecognizer
@@ -42,6 +41,8 @@ class SQLVisitorFactory(object):
         sql_recognizers = []
         for i in range(len(stmts)):
             dml_stmt = stmts[i].dmlStatement()
+            if dml_stmt is None:
+                continue
             if dml_stmt.insertStatement() is not None:
                 sql_recognizer = MySQLInsertRecognizer()
                 sql_recognizer.sql_type = SQLType.INSERT

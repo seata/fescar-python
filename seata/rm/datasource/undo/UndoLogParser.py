@@ -5,16 +5,15 @@
 from seata.exception.NeedSubclassImplemented import NeedSubclassImplemented
 
 
-class SQLRecognizer(object):
-
-    def get_sql_type(self):
+class UndoLogParser:
+    def get_name(self):
         raise NeedSubclassImplemented()
 
-    def get_table_alias(self):
+    def get_default_content(self):
         raise NeedSubclassImplemented()
 
-    def get_table_name(self):
+    def encode(self, branch_undo_log):
         raise NeedSubclassImplemented()
 
-    def get_original_sql(self):
+    def decode(self, bytes_):
         raise NeedSubclassImplemented()

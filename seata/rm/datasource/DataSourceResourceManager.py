@@ -17,42 +17,40 @@ from seata.exception.TransactionExceptionCode import TransactionExceptionCode
 from seata.rm.datasource.AsyncWorker import AsyncWorker, Phase2Context
 from seata.rm.datasource.undo.UndoLogManagerFactory import UndoLogManagerFactory
 
-manager = None
-
 
 class DataSourceResourceManager(object):
+    manager = None
 
     def __init__(self):
-        self.pool_db_proxy_cache = dict()
+        self.data_source_proxy_cache = dict()
         self.async_work = AsyncWorker(self)
         pass
 
-    @staticmethod
-    def get():
-        global manager
-        if manager is None:
-            manager = DataSourceResourceManager()
-        return manager
+    @classmethod
+    def get(cls):
+        if cls.manager is None:
+            cls.manager = DataSourceResourceManager()
+        return cls.manager
 
-    def register_resource(self, pooled_db_proxy):
-        from seata.rm.datasource.PooledDBProxy import PooledDBProxy
-        if not isinstance(pooled_db_proxy, PooledDBProxy):
+    def register_resource(self, data_source_proxy):
+        from seata.rm.datasource.DataSourceProxy import DataSourceProxy
+        if not isinstance(data_source_proxy, DataSourceProxy):
             raise TypeError("Register resource type error.")
-        self.pool_db_proxy_cache[pooled_db_proxy.get_resource_id()] = pooled_db_proxy
+        self.data_source_proxy_cache[data_source_proxy.get_resource_id()] = data_source_proxy
 
         from seata.rm.RMClient import RMClient
         request = RegisterRMRequest()
         request.transaction_service_group = RMClient.get().transaction_service_group
         request.application_id = RMClient.get().application_id
-        request.resource_ids = pooled_db_proxy.get_resource_id()
+        request.resource_ids = data_source_proxy.get_resource_id()
         RMClient.get().send_sync_request(request)
         print("========== rm register ==========")
 
     def get_resource(self, resource_id):
-        return self.pool_db_proxy_cache.get(resource_id, None)
+        return self.data_source_proxy_cache.get(resource_id, None)
 
     def get_manager_resources(self):
-        return self.pool_db_proxy_cache
+        return self.data_source_proxy_cache
 
     def get_branch_type(self):
         return BranchType.AT
@@ -113,11 +111,12 @@ class DataSourceResourceManager(object):
             raise RmTransactionException(TransactionExceptionCode.BranchReportFailed, "Runtime", e)
 
     def branch_rollback(self, branch_type, xid, branch_id, resource_id, application_data):
-        pool_db_proxy = self.pool_db_proxy_cache.get(resource_id)
-        if pool_db_proxy is None:
+        data_source_proxy = self.data_source_proxy_cache.get(resource_id)
+        if data_source_proxy is None:
             raise ShouldNeverHappenException()
         try:
-            UndoLogManagerFactory.get_undo_log_manager(pool_db_proxy.db_type).undo(pool_db_proxy, xid, branch_id)
+            UndoLogManagerFactory.get_undo_log_manager(data_source_proxy.db_type).undo(data_source_proxy, xid,
+                                                                                       branch_id)
         except TransactionException as e:
             print("branchRollback failed. branch_type:[{}], xid:[{}], branch_id:[{}], resource_id:[{}], "
                   "application_data:[{}], reason:[{}]".format(branch_type, xid, branch_id, resource_id,

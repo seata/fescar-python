@@ -3,7 +3,8 @@
 # @author jsbxyyx
 # @since 1.0
 from seata.boot.GlobalTransactionScanner import GlobalTransactionScanner
-from seata.tm.api.GlobalTransaction import DefaultGlobalTransaction, GlobalTransactionRole
+from seata.tm.api.DefaultGlobalTransaction import DefaultGlobalTransaction
+from seata.tm.api.GlobalTransactionRole import GlobalTransactionRole
 
 if __name__ == '__main__':
 

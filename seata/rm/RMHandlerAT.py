@@ -41,6 +41,9 @@ class RMHandlerAT:
             try:
                 self.__do_branch_commit(msg, response)
                 response.result_code = ResultCode.Success
+                print('commit branch xid : [{}] branch_id : [{}] branch_status : [{}]'.format(response.xid,
+                                                                                              response.branch_id,
+                                                                                              response.branch_status))
             except TransactionException as e:
                 print('do branch commit transaction exception error', e)
                 response.result_code = ResultCode.Failed
@@ -58,6 +61,9 @@ class RMHandlerAT:
             try:
                 self.__do_branch_rollback(msg, response)
                 response.result_code = ResultCode.Success
+                print('rollback branch xid : [{}] branch_id : [{}] : branch_status : [{}]'.format(response.xid,
+                                                                                                  response.branch_id,
+                                                                                                  response.branch_status))
             except TransactionException as e:
                 print('do branch rollback transaction exception error', e)
                 response.result_code = ResultCode.Failed
@@ -126,9 +132,9 @@ class RMHandlerAT:
 
     def __do_undo_log_delete(self, msg):
         resource_manager = self.get_resource_manager()
-        pooled_db_proxy = resource_manager.get_resource(msg.resource_id)
-        if pooled_db_proxy is None:
-            print('failed get pooled db proxy for delete undo log on [{}]'.format(msg.resource_id))
+        data_source_proxy = resource_manager.get_resource(msg.resource_id)
+        if data_source_proxy is None:
+            print('failed get data source proxy for delete undo log on [{}]'.format(msg.resource_id))
             return
         log_created = (datetime.datetime.now() + datetime.timedelta(days=-msg.save_days)).strftime('%Y-%m-%d')
         delete_rows = 0
@@ -137,10 +143,10 @@ class RMHandlerAT:
         try:
             while True:
                 try:
-                    cp = pooled_db_proxy.connection()
+                    cp = data_source_proxy.connection()
                     con = cp.target_connection
                     delete_rows = UndoLogManagerFactory.get_undo_log_manager(
-                        pooled_db_proxy.db_type).delete_undo_log_by_log_created(log_created, self.LIMIT_ROWS, con)
+                        data_source_proxy.db_type).delete_undo_log_by_log_created(log_created, self.LIMIT_ROWS, con)
                     if delete_rows > 0 and not cp.get_autocommit():
                         con.commit()
                 except Exception as e:

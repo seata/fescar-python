@@ -6,7 +6,7 @@ from google.protobuf import json_format
 
 from seata.core.util.ClassUtil import ClassUtil
 from seata.rm.datasource.undo.BranchUndoLog import BranchUndoLog
-from seata.rm.datasource.undo.UndoLogParserFactory import UndoLogParser
+from seata.rm.datasource.undo.UndoLogParser import UndoLogParser
 from seata.rm.datasource.undo.parser.proto import branch_undolog_pb2
 
 

@@ -16,15 +16,6 @@ class CursorProxy(object):
 
     @property
     def description(self):
-        """
-        * name
-        * type_code
-        display_size
-        internal_size
-        precision
-        scale
-        null_ok
-        """
         return self.target_cursor.description
 
     @property

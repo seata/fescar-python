@@ -13,7 +13,6 @@ from seata.rm.datasource.undo.UndoLogManagerFactory import UndoLogManagerFactory
 class AsyncWorker:
     ASYNC_COMMIT_BUFFER_LIMIT = 10000
 
-
     def __init__(self, data_source_manager):
         self.data_source_manager = data_source_manager
         self.commit_queue = queue.Queue(self.ASYNC_COMMIT_BUFFER_LIMIT)
@@ -41,13 +40,13 @@ class AsyncWorker:
                         grouped_contexts[context.resource_id].append(context)
 
                     for resource_id, contexts in grouped_contexts.items():
-                        self.deal_with_groupd_contexts(resource_id, contexts)
+                        self.deal_with_grouped_contexts(resource_id, contexts)
 
                 time.sleep(1)
             except Exception:
                 pass
 
-    def deal_with_groupd_contexts(self, resource_id, contexts):
+    def deal_with_grouped_contexts(self, resource_id, contexts):
         data_source_proxy = self.data_source_manager.get_resource(resource_id)
         if data_source_proxy is None:
             print('failed to find resource for [{}]'.format(resource_id))
@@ -83,8 +82,6 @@ class AsyncWorker:
                 connection.close()
             except Exception:
                 pass
-
-
 
 
 class Phase2Context:

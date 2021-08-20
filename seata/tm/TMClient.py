@@ -2,7 +2,6 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-
 import threading
 import time
 
@@ -11,7 +10,8 @@ from seata.core.protocol.RegisterTMRequestResponse import RegisterTMRequest
 from seata.core.rpc.v1.RemotingClient import RemotingClient
 
 
-def do_heart(remote_client):  # 每隔 5秒 向服务器发送消息
+def do_heart(remote_client):
+    # 每隔 5秒 向服务器发送消息
     while True:
         try:
             hb = HeartbeatMessage(True)

@@ -15,16 +15,20 @@ class MySQLUpdateSQLRecognizer(SQLRecognizer):
         self.stmt = stmt
 
     def init(self):
+        # TODO
         pass
 
     def get_sql_type(self):
         return self.sql_type
 
     def get_table_name(self):
+        # TODO
         pass
 
     def get_table_alias(self):
+        # TODO
         pass
 
     def get_original_sql(self):
+        # TODO
         pass

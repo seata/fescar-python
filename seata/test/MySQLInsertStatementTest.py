@@ -38,6 +38,6 @@ def test_insert_values():
 
 
 if __name__ == '__main__':
-    # test_insert_sql()
-    test_insert_values()
+    test_insert_sql()
+    # test_insert_values()
     print()

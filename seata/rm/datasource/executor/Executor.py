@@ -15,7 +15,8 @@ from seata.sqlparser.util.SQLUtil import SQLUtil
 
 class Executor:
     def execute(self, args):
-        pass
+        from seata.exception.NeedSubclassImplemented import NeedSubclassImplemented
+        raise NeedSubclassImplemented()
 
 
 class BaseTransactionalExecutor(Executor):
@@ -37,7 +38,8 @@ class BaseTransactionalExecutor(Executor):
         self.do_execute(args)
 
     def do_execute(self, args):
-        pass
+        from seata.exception.NeedSubclassImplemented import NeedSubclassImplemented
+        raise NeedSubclassImplemented()
 
     def get_table_meta(self, table_name: str = None):
         if table_name is None:
@@ -46,7 +48,7 @@ class BaseTransactionalExecutor(Executor):
             return self.table_meta
         cp = self.cursor_proxy.connection_proxy
         self.table_meta = TableMetaCacheFactory.get_table_meta_cache(cp.get_db_type()) \
-            .get_table_meta(cp.target_connection, table_name, cp.pooled_db_proxy.get_resource_id())
+            .get_table_meta(cp.target_connection, table_name, cp.data_source_proxy.get_resource_id())
         return self.table_meta
 
     def prepare_undo_log(self, before_image, after_image):
@@ -151,18 +153,22 @@ class DMLBaseExecutor(BaseTransactionalExecutor):
         return result
 
     def before_image(self):
-        pass
+        from seata.exception.NeedSubclassImplemented import NeedSubclassImplemented
+        raise NeedSubclassImplemented()
 
     def after_image(self, before_image: TableRecords):
-        pass
+        from seata.exception.NeedSubclassImplemented import NeedSubclassImplemented
+        raise NeedSubclassImplemented()
 
 
 class InsertExecutor(Executor):
     def get_pk_values(self):
-        pass
+        from seata.exception.NeedSubclassImplemented import NeedSubclassImplemented
+        raise NeedSubclassImplemented()
 
     def get_pk_values_by_column(self):
-        pass
+        from seata.exception.NeedSubclassImplemented import NeedSubclassImplemented
+        raise NeedSubclassImplemented()
 
 
 class BaseInsertExecutor(DMLBaseExecutor, InsertExecutor):

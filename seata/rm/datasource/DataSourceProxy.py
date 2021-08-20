@@ -8,7 +8,7 @@ from seata.core.model.BranchType import BranchType
 from seata.rm.datasource.ConnectionProxy import ConnectionProxy
 
 
-class PooledDBProxy(object):
+class DataSourceProxy(object):
 
     def __init__(self, pool, db_type, resource_group_id="DEFAULT"):
         if not isinstance(pool, PooledDB):

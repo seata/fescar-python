@@ -65,14 +65,14 @@ class UndoLogManager(object):
     def can_undo(self, state):
         return state == State.Normal.value
 
-    def undo(self, pooled_db_proxy, xid, branch_id):
+    def undo(self, data_source_proxy, xid, branch_id):
         cp = None
         con = None
         cursor = None
         original_auto_commit = True
         while True:
             try:
-                cp = pooled_db_proxy.connection()
+                cp = data_source_proxy.connection()
                 con = cp.target_connection
                 if cp.get_autocommit() == original_auto_commit:
                     cp.set_origin_autocommit(False)
@@ -107,10 +107,10 @@ class UndoLogManager(object):
                         sql_undo_logs.reverse()
                     for j in range(len(sql_undo_logs)):
                         sql_undo_log = sql_undo_logs[j]
-                        table_meta = TableMetaCacheFactory.get_table_meta_cache(pooled_db_proxy.db_type) \
-                            .get_table_meta(con, sql_undo_log.table_name, pooled_db_proxy.get_resource_id())
+                        table_meta = TableMetaCacheFactory.get_table_meta_cache(data_source_proxy.db_type) \
+                            .get_table_meta(con, sql_undo_log.table_name, data_source_proxy.get_resource_id())
                         sql_undo_log.set_table_meta(table_meta)
-                        undo_executor = UndoExecutorFactory.get_undo_executor(pooled_db_proxy.db_type, sql_undo_log)
+                        undo_executor = UndoExecutorFactory.get_undo_executor(data_source_proxy.db_type, sql_undo_log)
                         undo_executor.execute_on(con)
                 # ********** execute on end **********
 
