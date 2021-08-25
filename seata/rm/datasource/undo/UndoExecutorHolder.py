@@ -6,13 +6,10 @@
 
 class UndoExecutorHolder:
     def get_insert_executor(self, sql_undo_log):
-        from seata.exception.NeedSubclassImplemented import NeedSubclassImplemented
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
     def get_update_executor(self, sql_undo_log):
-        from seata.exception.NeedSubclassImplemented import NeedSubclassImplemented
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
     def get_delete_executor(self, sql_undo_log):
-        from seata.exception.NeedSubclassImplemented import NeedSubclassImplemented
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")

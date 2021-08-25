@@ -24,6 +24,7 @@ class BranchCommitRequest(MessageTypeAware):
 class BranchCommitResponse(ResultMessage, MessageTypeAware):
 
     def __init__(self):
+        super(BranchCommitResponse, self).__init__()
         self.xid = None
         self.branch_id = 0
         self.branch_status = None

@@ -24,6 +24,7 @@ class BranchRollbackRequest(MessageTypeAware):
 class BranchRollbackResponse(ResultMessage, MessageTypeAware):
 
     def __init__(self):
+        super(BranchRollbackResponse, self).__init__()
         self.xid = None
         self.branch_id = 0
         self.branch_status = None

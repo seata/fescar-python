@@ -5,7 +5,6 @@
 from seata.core.context.RootContext import RootContext
 from seata.core.model.BranchStatus import BranchStatus
 from seata.core.model.BranchType import BranchType
-from seata.core.protocol.RegisterRMRequestResponse import RegisterRMRequest
 from seata.core.protocol.ResultCode import ResultCode
 from seata.core.protocol.transaction.BranchRegisterRequestResponse import BranchRegisterRequest
 from seata.core.protocol.transaction.BranchReportRequestResponse import BranchReportRequest
@@ -38,13 +37,9 @@ class DataSourceResourceManager(object):
             raise TypeError("Register resource type error.")
         self.data_source_proxy_cache[data_source_proxy.get_resource_id()] = data_source_proxy
 
-        from seata.rm.RMClient import RMClient
-        request = RegisterRMRequest()
-        request.transaction_service_group = RMClient.get().transaction_service_group
-        request.application_id = RMClient.get().application_id
-        request.resource_ids = data_source_proxy.get_resource_id()
-        RMClient.get().send_sync_request(request)
-        print("========== rm register ==========")
+        from seata.core.rpc.v1.RmRemotingClient import RmRemotingClient
+        RmRemotingClient.get_client().register_resource(data_source_proxy.resource_group_id,
+                                                        data_source_proxy.get_resource_id())
 
     def get_resource(self, resource_id):
         return self.data_source_proxy_cache.get(resource_id, None)
@@ -62,9 +57,10 @@ class DataSourceResourceManager(object):
             request.branch_type = branch_type
             request.lock_key = lock_keys
             request.resource_id = resource_id
-            from seata.rm.RMClient import RMClient
+
+            from seata.core.rpc.v1.RmRemotingClient import RmRemotingClient
             if RootContext.in_global_transaction() or RootContext.require_global_lock():
-                response = RMClient.get().send_sync_request(request)
+                response = RmRemotingClient.get_client().send_sync_request(request)
             else:
                 raise RuntimeError("unknow situation!")
             if response.result_code == ResultCode.Failed:
@@ -83,8 +79,8 @@ class DataSourceResourceManager(object):
             request.resource_id = resource_id
             request.lock_key = lock_keys
             request.application_data = application_data
-            from seata.rm.RMClient import RMClient
-            response = RMClient.get().send_sync_request(request)
+            from seata.core.rpc.v1.RmRemotingClient import RmRemotingClient
+            response = RmRemotingClient.get_client().send_sync_request(request)
             if response.result_code == ResultCode.Failed:
                 raise RmTransactionException("response {} {}".format(response.transaction_exception_code, response.msg))
             return response.branch_id
@@ -101,8 +97,8 @@ class DataSourceResourceManager(object):
             request.branch_type = branch_type
             request.status = status
             request.application_data = application_data
-            from seata.rm.RMClient import RMClient
-            response = RMClient.get().send_sync_request(request)
+            from seata.core.rpc.v1.RmRemotingClient import RmRemotingClient
+            response = RmRemotingClient.get_client().send_sync_request(request)
             if response.result_code == ResultCode.Failed:
                 raise RmTransactionException(response.transaction_exception_code, "response [{}]".format(response.msg))
         except TimeoutError as e:

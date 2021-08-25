@@ -5,55 +5,33 @@
 import threading
 import time
 
-from seata.core.protocol.HeartbeatMessage import HeartbeatMessage
 from seata.core.protocol.RegisterTMRequestResponse import RegisterTMRequest
-from seata.core.rpc.v1.RemotingClient import RemotingClient
-
-
-def do_heart(remote_client):
-    # 每隔 5秒 向服务器发送消息
-    while True:
-        try:
-            hb = HeartbeatMessage(True)
-            remote_client.send_async_request(hb)
-            # print("tm client do heart...")
-            time.sleep(5)
-        except Exception:
-            pass
-
-
-client = None
-lock = threading.RLock()
+from seata.core.rpc.v1.TmRemotingClient import TmRemotingClient
 
 
 class TMClient(object):
-    @staticmethod
-    def get():
-        global client, lock
-        if client is None:
-            with lock:
-                if client is None:
-                    client = TMClient(None, None)
-        return client
+    client = None
+    lock = threading.RLock()
+
+    @classmethod
+    def get(cls, application_id=None, transaction_service_group=None):
+        if cls.client is None:
+            try:
+                cls.lock.acquire()
+                if cls.client is None:
+                    cls.client = TMClient(application_id, transaction_service_group)
+            finally:
+                cls.lock.release()
+        return cls.client
 
     def __init__(self, application_id=None, transaction_service_group=None):
         self.application_id = application_id
         self.transaction_service_group = transaction_service_group
         self.remote_client = None
 
-    def init_client(self, host="localhost", port=8091):
+    def init_client(self):
         # 程序启动
         from seata.tm.TMHandler import TMHandler
         message_handler = TMHandler()
-        self.remote_client = RemotingClient(host, port, message_handler)
-        self.remote_client.start()
-        threading.Thread(target=do_heart, args=(self.remote_client,)).start()
-        self.reg()
-
-    def reg(self):
-        request = RegisterTMRequest(self.application_id, self.transaction_service_group, None)
-        self.send_sync_request(request)
-        print("========== tm register ==========")
-
-    def send_sync_request(self, msg):
-        return self.remote_client.send_sync_request(msg)
+        self.remote_client = TmRemotingClient.get_client(self.application_id, self.transaction_service_group,
+                                                         message_handler)

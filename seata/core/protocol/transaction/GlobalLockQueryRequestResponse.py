@@ -24,6 +24,7 @@ class GlobalLockQueryRequest(MessageTypeAware):
 class GlobalLockQueryResponse(ResultMessage, MessageTypeAware):
 
     def __init__(self):
+        super(GlobalLockQueryResponse, self).__init__()
         self.lockable = False
 
         self.transaction_exception_code = TransactionExceptionCode.Unknown

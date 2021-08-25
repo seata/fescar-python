@@ -2,18 +2,16 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-from seata.exception.NeedSubclassImplemented import NeedSubclassImplemented
-
 
 class UndoLogParser:
     def get_name(self):
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
     def get_default_content(self):
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
     def encode(self, branch_undo_log):
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
     def decode(self, bytes_):
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")

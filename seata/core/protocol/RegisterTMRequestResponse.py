@@ -27,6 +27,7 @@ class RegisterTMRequest(MessageTypeAware):
 class RegisterTMResponse(ResultMessage, MessageTypeAware):
 
     def __init__(self, result=True):
+        super(RegisterTMResponse, self).__init__()
         self.result = result
 
         self.version = Version.CURRENT
