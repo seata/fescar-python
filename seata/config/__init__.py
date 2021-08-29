@@ -2,6 +2,3 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-
-class NeedSubclassImplemented(RuntimeError):
-    pass

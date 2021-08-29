@@ -17,15 +17,8 @@ class GlobalTransactionScanner:
             self._init_client()
 
     def _init_client(self):
-        host = "127.0.0.1"
-        port = 8091
+        tm = TMClient.get(self.application_id, self.transaction_service_group)
+        tm.init_client()
 
-        tm = TMClient.get()
-        tm.application_id = self.application_id
-        tm.transaction_service_group = self.transaction_service_group
-        tm.init_client(host=host, port=port)
-
-        rm = RMClient.get()
-        rm.application_id = self.application_id
-        rm.transaction_service_group = self.transaction_service_group
-        rm.init_client(host=host, port=port)
+        rm = RMClient.get(self.application_id, self.transaction_service_group)
+        rm.init_client()

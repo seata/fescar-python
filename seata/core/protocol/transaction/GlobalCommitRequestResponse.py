@@ -20,6 +20,7 @@ class GlobalCommitRequest(MessageTypeAware):
 class GlobalCommitResponse(ResultMessage, MessageTypeAware):
 
     def __init__(self):
+        super(GlobalCommitResponse, self).__init__()
         self.global_status = None
 
         self.transaction_exception_code = TransactionExceptionCode.Unknown

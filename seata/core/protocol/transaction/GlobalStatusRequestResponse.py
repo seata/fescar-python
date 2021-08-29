@@ -17,9 +17,10 @@ class GlobalStatusRequest(ResultMessage, MessageTypeAware):
         return MessageType.TYPE_GLOBAL_STATUS
 
 
-class GlobalStatusResponse(MessageTypeAware):
+class GlobalStatusResponse(ResultMessage, MessageTypeAware):
 
     def __init__(self):
+        super(GlobalStatusResponse, self).__init__()
         self.global_status = None
 
         self.transaction_exception_code = TransactionExceptionCode.Unknown

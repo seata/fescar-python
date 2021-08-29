@@ -18,12 +18,10 @@ class UndoExecutor:
         self.sql_undo_log = sql_undo_log
 
     def build_undo_sql(self):
-        from seata.exception.NeedSubclassImplemented import NeedSubclassImplemented
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
     def get_undo_rows(self):
-        from seata.exception.NeedSubclassImplemented import NeedSubclassImplemented
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
     def execute_on(self, connection):
         if self.IS_UNDO_DATA_VALIDATION_ENABLE and not self.data_validation_and_go_on(connection):

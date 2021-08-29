@@ -15,8 +15,7 @@ from seata.sqlparser.util.SQLUtil import SQLUtil
 
 class Executor:
     def execute(self, args):
-        from seata.exception.NeedSubclassImplemented import NeedSubclassImplemented
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
 
 class BaseTransactionalExecutor(Executor):
@@ -38,8 +37,7 @@ class BaseTransactionalExecutor(Executor):
         self.do_execute(args)
 
     def do_execute(self, args):
-        from seata.exception.NeedSubclassImplemented import NeedSubclassImplemented
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
     def get_table_meta(self, table_name: str = None):
         if table_name is None:
@@ -153,22 +151,18 @@ class DMLBaseExecutor(BaseTransactionalExecutor):
         return result
 
     def before_image(self):
-        from seata.exception.NeedSubclassImplemented import NeedSubclassImplemented
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
     def after_image(self, before_image: TableRecords):
-        from seata.exception.NeedSubclassImplemented import NeedSubclassImplemented
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
 
 class InsertExecutor(Executor):
     def get_pk_values(self):
-        from seata.exception.NeedSubclassImplemented import NeedSubclassImplemented
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
     def get_pk_values_by_column(self):
-        from seata.exception.NeedSubclassImplemented import NeedSubclassImplemented
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
 
 class BaseInsertExecutor(DMLBaseExecutor, InsertExecutor):

@@ -20,6 +20,7 @@ class GlobalRollbackRequest(MessageTypeAware):
 class GlobalRollbackResponse(ResultMessage, MessageTypeAware):
 
     def __init__(self):
+        super(GlobalRollbackResponse, self).__init__()
         self.global_status = None
 
         self.transaction_exception_code = TransactionExceptionCode.Unknown

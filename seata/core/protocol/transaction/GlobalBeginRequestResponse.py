@@ -20,6 +20,7 @@ class GlobalBeginRequest(MessageTypeAware):
 class GlobalBeginResponse(ResultMessage, MessageTypeAware):
 
     def __init__(self):
+        super(GlobalBeginResponse, self).__init__()
         self.xid = None
         self.extra_data = None
 

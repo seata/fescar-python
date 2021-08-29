@@ -10,7 +10,6 @@ from seata.core.protocol.transaction.GlobalRollbackRequestResponse import Global
 from seata.core.protocol.transaction.GlobalStatusRequestResponse import GlobalStatusRequest
 from seata.exception.TmTransactionException import TmTransactionException
 from seata.exception.TransactionExceptionCode import TransactionExceptionCode
-from seata.tm.TMClient import TMClient
 
 
 class DefaultTransactionManager:
@@ -49,4 +48,5 @@ class DefaultTransactionManager:
         return response.global_status
 
     def __sync_call(self, request):
-        return TMClient.get().send_sync_request(request)
+        from seata.core.rpc.v1.TmRemotingClient import TmRemotingClient
+        return TmRemotingClient.get_client().send_sync_request(request)

@@ -112,7 +112,7 @@ class AbstractIdentifyResponseCodec(object):
     def decode(t, in_buffer):
         if not isinstance(in_buffer, ByteBuffer):
             raise TypeError("in_buffer is not ByteBuffer class")
-        t.identified = in_buffer.get_int8()
+        t.identified = in_buffer.get_int8() == 1
         version_len = in_buffer.get_int16()
         if version_len <= 0:
             return

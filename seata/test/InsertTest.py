@@ -2,12 +2,15 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+import os
 import time
 
 import pymysql
 from dbutils.pooled_db import PooledDB
 
 from seata.boot.GlobalTransactionScanner import GlobalTransactionScanner
+from seata.config.Config import ConfigFactory
+from seata.config.Configuration import Configuration
 from seata.rm.datasource.DataSourceProxy import DataSourceProxy
 from seata.sqlparser.util.JdbcConstants import JdbcConstants
 from seata.test import pool_config
@@ -24,7 +27,12 @@ def get_pool():
 
 
 def test_insert():
-    GlobalTransactionScanner("test", "my_test_tx_group")
+    BASEDIR = os.path.dirname(os.path.dirname(__file__))
+    Configuration(BASEDIR + '/script/client.yml')
+    config = ConfigFactory.get_config()
+    application_id = config.get('application-id')
+    tx_service_group = config.get('tx-service-group')
+    GlobalTransactionScanner(application_id, tx_service_group)
 
     pool = get_pool()
     data_source_proxy = DataSourceProxy(pool, JdbcConstants.MYSQL)

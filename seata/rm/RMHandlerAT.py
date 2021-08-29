@@ -20,11 +20,11 @@ class RMHandlerAT:
 
     def __init__(self):
         self.remote_client = None
-        self.req_msg_map = None
+        self.futures = None
 
-    def set_remote_client(self, remote_client):
+    def set_remote_client(self, remote_client, futures):
         self.remote_client = remote_client
-        self.req_msg_map = self.remote_client.req_msg_map
+        self.futures = futures
 
     def process(self, rpc_message):
         msg = rpc_message.body
@@ -81,27 +81,31 @@ class RMHandlerAT:
             pass
         # BranchRegisterResponse
         elif msg_type == MessageType.TYPE_BRANCH_REGISTER_RESULT:
-            if self.req_msg_map.get(rpc_message.id, None) == -1:
-                self.req_msg_map[rpc_message.id] = msg
+            if self.futures.get(rpc_message.id, None) == -1:
+                self.futures[rpc_message.id] = msg
             else:
+                print('BranchRegisterResponse', self.futures.get(rpc_message.id))
                 pass
         # BranchReportResponse
         elif msg_type == MessageType.TYPE_BRANCH_STATUS_REPORT_RESULT:
-            if self.req_msg_map.get(rpc_message.id, None) == -1:
-                self.req_msg_map[rpc_message.id] = msg
+            if self.futures.get(rpc_message.id, None) == -1:
+                self.futures[rpc_message.id] = msg
             else:
+                print('BranchReportResponse', self.futures.get(rpc_message.id))
                 pass
         # GlobalLockQueryResponse
         elif msg_type == MessageType.TYPE_GLOBAL_LOCK_QUERY_RESULT:
-            if self.req_msg_map.get(rpc_message.id, None) == -1:
-                self.req_msg_map[rpc_message.id] = msg
+            if self.futures.get(rpc_message.id, None) == -1:
+                self.futures[rpc_message.id] = msg
             else:
+                print('GlobalLockQueryResponse', self.futures.get(rpc_message.id))
                 pass
         # RegisterRMResponse
         elif msg_type == MessageType.TYPE_REG_RM_RESULT:
-            if self.req_msg_map.get(rpc_message.id, None) == -1:
-                self.req_msg_map[rpc_message.id] = msg
+            if self.futures.get(rpc_message.id, None) == -1:
+                self.futures[rpc_message.id] = msg
             else:
+                print('RegisterRMResponse', self.futures.get(rpc_message.id))
                 pass
 
     def __do_branch_commit(self, msg, response):

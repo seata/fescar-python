@@ -2,33 +2,31 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-from seata.exception.NeedSubclassImplemented import NeedSubclassImplemented
-
 
 class GlobalTransaction:
     def begin(self, timeout=None, name="default"):
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
     def commit(self):
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
     def rollback(self):
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
     def suspend(self):
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
     def resume(self, suspend_resource_holder):
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
     def get_status(self):
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
     def get_xid(self):
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
     def global_report(self, global_status):
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
     def get_local_status(self):
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")

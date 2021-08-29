@@ -2,19 +2,18 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-from seata.exception.NeedSubclassImplemented import NeedSubclassImplemented
 
 
 class SQLRecognizer(object):
 
     def get_sql_type(self):
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
     def get_table_alias(self):
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
     def get_table_name(self):
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")
 
     def get_original_sql(self):
-        raise NeedSubclassImplemented()
+        raise NotImplemented("need subclass implemented")

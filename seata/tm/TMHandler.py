@@ -6,14 +6,13 @@ from seata.core.protocol.MessageType import MessageType
 
 
 class TMHandler:
-
     def __init__(self):
         self.remote_client = None
-        self.req_msg_map = None
+        self.futures = None
 
-    def set_remote_client(self, remote_client):
+    def set_remote_client(self, remote_client, futures):
         self.remote_client = remote_client
-        self.req_msg_map = self.remote_client.req_msg_map
+        self.futures = futures
 
     def process(self, rpc_message):
         msg = rpc_message.body
@@ -31,44 +30,52 @@ class TMHandler:
 
         # RegisterTMResponse
         elif msg_type == MessageType.TYPE_REG_CLT_RESULT:
-            if self.req_msg_map.get(rpc_message.id, None) == -1:
-                self.req_msg_map[rpc_message.id] = msg
+            if self.futures.get(rpc_message.id, None) == -1:
+                self.futures[rpc_message.id] = msg
             else:
+                print('RegisterTMResponse', self.futures.get(rpc_message.id))
                 pass
 
         # GlobalBeginResponse
         elif msg_type == MessageType.TYPE_GLOBAL_BEGIN_RESULT:
-            if self.req_msg_map.get(rpc_message.id, None) == -1:
-                self.req_msg_map[rpc_message.id] = msg
+            if self.futures.get(rpc_message.id, None) == -1:
+                self.futures[rpc_message.id] = msg
             else:
+                print('GlobalBeginResponse', self.futures.get(rpc_message.id))
                 pass
         # GlobalCommitResponse
         elif msg_type == MessageType.TYPE_GLOBAL_COMMIT_RESULT:
-            if self.req_msg_map.get(rpc_message.id, None) == -1:
-                self.req_msg_map[rpc_message.id] = msg
+            if self.futures.get(rpc_message.id, None) == -1:
+                self.futures[rpc_message.id] = msg
             else:
+                print('GlobalCommitResponse', self.futures.get(rpc_message.id))
                 pass
         # GlobalReportResponse
         elif msg_type == MessageType.TYPE_GLOBAL_REPORT_RESULT:
-            if self.req_msg_map.get(rpc_message.id, None) == -1:
-                self.req_msg_map[rpc_message.id] = msg
+            if self.futures.get(rpc_message.id, None) == -1:
+                self.futures[rpc_message.id] = msg
             else:
+                print('GlobalReportResponse', self.futures.get(rpc_message.id))
                 pass
         # GlobalRollbackResponse
         elif msg_type == MessageType.TYPE_GLOBAL_ROLLBACK_RESULT:
-            if self.req_msg_map.get(rpc_message.id, None) == -1:
-                self.req_msg_map[rpc_message.id] = msg
+            if self.futures.get(rpc_message.id, None) == -1:
+                self.futures[rpc_message.id] = msg
             else:
+                print('GlobalRollbackResponse', self.futures.get(rpc_message.id))
                 pass
         # GlobalStatusResponse
         elif msg_type == MessageType.TYPE_GLOBAL_STATUS_RESULT:
-            if self.req_msg_map.get(rpc_message.id, None) == -1:
-                self.req_msg_map[rpc_message.id] = msg
+            if self.futures.get(rpc_message.id, None) == -1:
+                self.futures[rpc_message.id] = msg
             else:
+                print('GlobalStatusResponse', self.futures.get(rpc_message.id))
                 pass
         # RegisterTMResponse
         elif msg_type == MessageType.TYPE_REG_CLT_RESULT:
-            if self.req_msg_map.get(rpc_message.id, None) == -1:
-                self.req_msg_map[rpc_message.id] = msg
+            if self.futures.get(rpc_message.id, None) == -1:
+                self.futures[rpc_message.id] = msg
             else:
+                print('RegisterTMResponse', self.futures.get(rpc_message.id))
                 pass
+

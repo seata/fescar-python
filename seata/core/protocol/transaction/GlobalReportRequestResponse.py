@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-from seata.core.protocol import MessageType
+from seata.core.protocol.MessageType import MessageType
 from seata.core.protocol.MessageTypeAware import MessageTypeAware, ResultMessage
 from seata.exception.TransactionExceptionCode import TransactionExceptionCode
 
@@ -21,6 +21,7 @@ class GlobalReportRequest(MessageTypeAware):
 class GlobalReportResponse(ResultMessage, MessageTypeAware):
 
     def __init__(self):
+        super(GlobalReportResponse, self).__init__()
         self.global_status = None
 
         self.transaction_exception_code = TransactionExceptionCode.Unknown
