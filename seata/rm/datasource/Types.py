@@ -9,7 +9,6 @@ class Types:
     TINYINT = -6
     SMALLINT = 5
     INTEGER = 4
-    INT = 4  # mysql
     BIGINT = -5
     FLOAT = 6
     REAL = 7
@@ -48,6 +47,15 @@ class Types:
 
     TIME_WITH_TIMEZONE = 2013
     TIMESTAMP_WITH_TIMEZONE = 2014
+
+    # mysql
+    INT = 4
+    DATETIME = 93
+    TINYTEXT = 2005
+    TEXT = 2005
+    MEDIUMTEXT = 2005
+    LONGTEXT = 2005
+    JSON = 2005
 
     @classmethod
     def get(cls, name: str):

@@ -64,7 +64,7 @@ class ConnectionProxy(object):
             self.do_commit()
             return None
         except RuntimeError as e:
-            if self.target_connection is not None and not self.target_connection.get_autocommit():
+            if self.target_connection is not None and not self.get_autocommit():
                 self.rollback()
             raise e
         except Exception as e:

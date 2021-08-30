@@ -4,6 +4,7 @@
 # @since 1.0
 import os
 import time
+import datetime
 
 import pymysql
 from dbutils.pooled_db import PooledDB
@@ -27,12 +28,9 @@ def get_pool():
 
 
 def test_insert():
-    BASEDIR = os.path.dirname(os.path.dirname(__file__))
-    Configuration(BASEDIR + '/script/client.yml')
-    config = ConfigFactory.get_config()
-    application_id = config.get('application-id')
-    tx_service_group = config.get('tx-service-group')
-    GlobalTransactionScanner(application_id, tx_service_group)
+    base_dir = os.path.dirname(os.path.dirname(__file__))
+    Configuration(base_dir + '/script/client.yml')
+    GlobalTransactionScanner()
 
     pool = get_pool()
     data_source_proxy = DataSourceProxy(pool, JdbcConstants.MYSQL)
@@ -43,15 +41,16 @@ def test_insert():
     tx.begin()
 
     cursor = cp.cursor()
-    cursor.execute("insert into test(id, name) values(%s, %s)", (None, "name1"))
+    cursor.execute("insert into test(id, name, created) values(%s, %s, %s)",
+                   (None, "name1", datetime.datetime.now()))
     cp.commit()
 
     cursor2 = cp.cursor()
-    cursor2.execute("insert into test values(null, '1')")
+    cursor2.execute("insert into test values(null, '1', '2021-08-30 12:01:01.001')")
     cp.commit()
 
-    # tx.commit()
-    tx.rollback()
+    tx.commit()
+    # tx.rollback()
     time.sleep(30)
     print('success')
 

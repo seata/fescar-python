@@ -4,6 +4,7 @@
 # @since 1.0
 
 from seata.core.compressor.CompressorType import CompressorType
+from seata.exception.ShouldNeverHappenException import ShouldNeverHappenException
 from seata.exception.TransactionException import BranchTransactionException
 from seata.exception.TransactionExceptionCode import TransactionExceptionCode
 from seata.rm.datasource.sql.TableMetaCacheFactory import TableMetaCacheFactory
@@ -81,17 +82,25 @@ class UndoLogManager(object):
                 cursor.execute(self.SELECT_UNDO_LOG_SQL, (branch_id, xid))
                 rs_all = cursor.fetchall()
                 exists = False
+
+                description = cursor.description
+                col_map = {}
+                for idx, d in enumerate(description):
+                    # 0 name 1 type_code
+                    col_map[d[0]] = idx
+                if len(col_map) == 0:
+                    raise ShouldNeverHappenException()
                 # ********** execute on begin **********
                 for i in range(len(rs_all)):
                     rs = rs_all[i]
                     exists = True
-                    state = rs[4]
+                    state = rs[col_map['log_status']]
                     if not self.can_undo(state):
                         print("xid [{}] branch [{}], ignore [{}] undo_log".format(xid, branch_id, State(state)))
                         return
-                    context_string = rs[2]
+                    context_string = rs[col_map['context']]
                     context_map = self.parse_context(context_string)
-                    rollback_info = self.get_rollback_info(rs[3])
+                    rollback_info = self.get_rollback_info(rs[col_map['rollback_info']])
                     serializer = None
                     if context_map is not None:
                         serializer = context_map[self.CONTEXT_SERIALIZER]
@@ -153,6 +162,7 @@ class UndoLogManager(object):
                         pass
 
     def delete_undo_log(self, xid, branch_id, connection):
+        cursor = None
         try:
             cursor = connection.cursor()
             cursor.execute(self.DELETE_UNDO_LOG_SQL, (branch_id, xid))
@@ -161,20 +171,20 @@ class UndoLogManager(object):
             if cursor is not None:
                 try:
                     cursor.close()
-                except Exception as ignored:
+                except Exception:
                     pass
 
     def get_rollback_info(self, rollback_info):
         return rollback_info
 
     def batch_delete_undo_log(self, xids, branch_ids, connection):
-        pass
+        raise NotImplemented('need subclass implemented')
 
     def delete_undo_log_by_log_created(self, log_created, limit_rows, connection):
-        pass
+        raise NotImplemented('need subclass implemented')
 
     def insert_undo_log_with_global_finished(self, xid, branch_id, undo_log_parser, connection):
-        pass
+        raise NotImplemented('need subclass implemented')
 
     def insert_undo_log_with_normal(self, xid, branch_id, rollback_context, undo_log_content, connection):
-        pass
+        raise NotImplemented('need subclass implemented')

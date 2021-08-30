@@ -65,14 +65,20 @@ class BranchUndoLog:
                 if fields_dic is not None and len(fields_dic) > 0:
                     for j in range(len(fields_dic)):
                         f_dic = fields_dic[j]
-                        f = Field()
-                        f.name = f_dic.get('name', None)
-                        f.key_type = KeyType(f_dic.get('key_type', None))
-                        f.type = f_dic.get('type', None)
-                        f.value = f_dic.get('value', None)
+                        f = self.__dic_to_field(f_dic)
                         row.fields.append(f)
                 rows.append(row)
         return rows
+
+    def __dic_to_field(self, f_dic):
+        if f_dic is None:
+            return None
+        f = Field()
+        f.name = f_dic.get('name', None)
+        f.key_type = KeyType(f_dic.get('key_type', None))
+        f.type = f_dic.get('type', None)
+        f.value = f_dic.get('value', None)
+        return f
 
     def __dic_to_table_meta(self, tm_dic):
         if tm_dic is None:

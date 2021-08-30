@@ -41,13 +41,13 @@ class RemotingClient:
         else:
             rpc_message = RpcMessage.build_request_message(msg, ProtocolConstants.MSGTYPE_RESQUEST_SYNC)
 
-        channel.put_data(rpc_message)
+        channel.write(rpc_message)
 
         self.futures[rpc_message.id] = -1
         timeout = 0
         while self.futures.get(rpc_message.id) == -1 and timeout <= self.RPC_TIMEOUT:
-            timeout += 0.01
-            time.sleep(0.01)
+            timeout += 0.001
+            time.sleep(0.001)
         response = self.futures.get(rpc_message.id)
         if response == -1 and timeout > self.RPC_TIMEOUT:
             raise TimeoutError()
@@ -63,13 +63,13 @@ class RemotingClient:
         server_address = self.load_balance(self.transaction_service_group, msg)
         channel = self.channel_manager.acquire_channel(server_address)
 
-        channel.put_data(rpc_message)
+        channel.write(rpc_message)
 
     def send_async_response(self, rpc_message, msg):
         rpc_msg = RpcMessage.build_response_message(rpc_message, msg, ProtocolConstants.MSGTYPE_RESPONSE)
         server_address = self.load_balance(self.transaction_service_group, msg)
         channel = self.channel_manager.acquire_channel(server_address)
-        channel.put_data(rpc_msg)
+        channel.write(rpc_msg)
 
     def load_balance(self, transaction_service_group, msg):
         # TODO
