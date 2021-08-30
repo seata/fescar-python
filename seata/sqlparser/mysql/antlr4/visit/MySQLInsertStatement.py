@@ -12,20 +12,20 @@ class MySQLInsertStatement:
 
     def __init__(self, ctx: MySqlParser.InsertStatementContext):
         self.table_name = None
-        self.insert_columns = None
+        self.columns = None
         self.values_list = []
         self.__ctx = ctx
         self.parse()
 
     def parse(self):
         self.__parse_table_name()
-        self.__parse_insert_columns()
+        self.__parse_columns()
         self.__parse_value_list()
 
     def __parse_table_name(self):
         self.table_name = self.__ctx.tableName().getText()
 
-    def __parse_insert_columns(self):
+    def __parse_columns(self):
         columns = self.__ctx.columns
         if columns is None:
             return
@@ -33,7 +33,7 @@ class MySQLInsertStatement:
         columns_list = []
         for i in range(len(uids)):
             columns_list.append(uids[i].getText())
-        self.insert_columns = columns_list
+        self.columns = columns_list
 
     def __parse_value_list(self):
         ewds = self.__ctx.insertStatementValue().expressionsWithDefaults()

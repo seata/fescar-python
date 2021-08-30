@@ -3,6 +3,7 @@
 # @author jsbxyyx
 # @since 1.0
 from seata.core.context.RootContext import RootContext
+from seata.exception.NotSupportYetException import NotSupportYetException
 from seata.exception.ShouldNeverHappenException import ShouldNeverHappenException
 from seata.rm.datasource.ColumnUtils import ColumnUtils
 from seata.rm.datasource.exception.SQLException import SQLException
@@ -116,6 +117,40 @@ class BaseTransactionalExecutor(Executor):
         else:
             return table_alias + "." + table_name
 
+    def build_where_condition(self, recognizer, param_list):
+        where_condition = None
+        if self.cursor_proxy.parameters is not None:
+            where_condition = recognizer.get_where_condition(self.deal_parameters(self.cursor_proxy.parameters),
+                                                             param_list)
+        else:
+            where_condition = recognizer.get_where_condition()
+        if where_condition is not None and len(where_condition.strip()) == 0 and len(param_list) > 1:
+            where_str = " ( " + where_condition + " ) "
+            for i in range(len(param_list)):
+                where_str += (" or ( " + where_condition + " ) ")
+            where_condition = where_str
+        return where_condition
+
+
+    def deal_parameters(self, parameters):
+        if isinstance(parameters, tuple):
+            params = {}
+            for index, p in enumerate(parameters):
+                params[index] = [p]
+            return params
+        elif isinstance(parameters, list):
+            params = {}
+            for i in range(len(parameters)):
+                parameter = parameters[i]
+                for index, p in enumerate(parameter):
+                    if params.get(index, None) is None:
+                        params[index] = [p]
+                    else:
+                        params[index].append(p)
+            return params
+        else:
+            raise NotSupportYetException('not support parameters type : {}'.format(type(parameters)))
+
 
 class DMLBaseExecutor(BaseTransactionalExecutor):
     def __init__(self, cursor_proxy, cursor_callback, sql_recognizer):
@@ -217,3 +252,18 @@ class BaseInsertExecutor(DMLBaseExecutor, InsertExecutor):
                     cursor.close()
                 except Exception:
                     pass
+
+
+class UpdateExecutor(DMLBaseExecutor):
+    def before_image(self):
+        param_list = []
+        tm = self.get_table_meta()
+        select_sql = self.__build_before_image_sql(tm, param_list)
+        return self.__build_table_records(tm, select_sql, param_list)
+
+    def __build_before_image_sql(self, tm, param_list):
+        recognizer = self.sql_recognizer
+        update_columns = recognizer.get_update_columns()
+        prefix = "SELECT "
+        suffix = " FROM " + self.get_from_table_in_sql()
+        where_condition = self.build_where_condition(recognizer, param_list)

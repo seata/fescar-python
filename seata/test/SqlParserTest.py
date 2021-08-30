@@ -94,4 +94,4 @@ if __name__ == '__main__':
     select id, name from test where id = 1;
     """
     # test1(sql)
-    test2(sql)
+    test2(sql3)

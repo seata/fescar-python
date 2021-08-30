@@ -33,8 +33,11 @@ class SQLVisitorFactory(object):
         sql_recognizers = cls.get_sql_recognizer(target_sql, stmts)
         if sql_recognizers is None or len(sql_recognizers) <= 0:
             return None
-        else:
-            return sql_recognizers[0]
+
+        if len(sql_recognizers) > 1:
+            raise NotSupportYetException()
+
+        return sql_recognizers[0]
 
     @classmethod
     def get_sql_recognizer(cls, target_sql, stmts):
@@ -50,7 +53,7 @@ class SQLVisitorFactory(object):
                     sql_recognizer.sql_type = SQLType.INSERT_IGNORE
                 if dml_stmt.insertStatement().DUPLICATE() is not None:
                     sql_recognizer.sql_type = SQLType.INSERT_ON_DUPLICATE_UPDATE
-                sql_recognizer.stmt = dml_stmt
+                sql_recognizer.dml_stmt = dml_stmt
                 sql_recognizer.original_sql = target_sql
                 sql_recognizer.init()
                 sql_recognizers.append(sql_recognizer)
@@ -64,7 +67,7 @@ class SQLVisitorFactory(object):
             elif dml_stmt.updateStatement() is not None:
                 sql_recognizer = MySQLUpdateSQLRecognizer()
                 sql_recognizer.sql_type = SQLType.UPDATE
-                sql_recognizer.stmt = dml_stmt
+                sql_recognizer.dml_stmt = dml_stmt
                 sql_recognizer.original_sql = target_sql
                 sql_recognizer.init()
                 sql_recognizers.append(sql_recognizer)
