@@ -9,7 +9,7 @@ class DefaultValue:
         self.value = value
 
 
-class InsertNotSupportValue:
+class NotSupportValue:
     def __init__(self):
         self.value = "NOT SUPPORT"
 

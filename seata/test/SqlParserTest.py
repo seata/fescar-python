@@ -9,6 +9,7 @@ from seata.sqlparser.mysql.antlr4.gen.MySqlLexer import MySqlLexer
 from seata.sqlparser.mysql.antlr4.gen.MySqlParser import MySqlParser
 from seata.sqlparser.mysql.antlr4.gen.MySqlParserListener import MySqlParserListener
 from seata.sqlparser.mysql.antlr4.stream.NoCaseStringStream import NoCaseStringStream
+from seata.sqlparser.mysql.antlr4.gen.MySqlParserVisitor import MySqlParserVisitor
 
 
 class PrintListener(MySqlParserListener):
@@ -65,6 +66,9 @@ def test2(sql):
             print("delete")
         elif stmt.dmlStatement().selectStatement() is not None:
             print("select")
+
+    a = MySqlParserVisitor().visitUpdateStatement(stmts[4].dmlStatement().updateStatement())
+    print(a)
     pass
 
 
@@ -87,6 +91,12 @@ if __name__ == '__main__':
     update test set id = 1, name = ? where id = 1;
     update test set id = 1, name = '1' where id = 1;
     update test t set id = ?, name = ? where t.id = ?;
+    update test t set t.id = ?, t.name = ? where t.id = ? and t.name = ?;
+    update test t set t.id = ?, t.name = ? where t.id not in (?, 1);
+    update test t set t.id = ?, t.name = ? where t.id is null;
+    update test t set t.id = ?, t.name = ? where t.id > ?;
+    update test t set t.id = ?, t.name = ? where t.id > (select 1);
+    update test t set t.id = ?, t.name = ? where t.id like '?';
     """
     sql4 = """
     select * from test t where t.id = ?;

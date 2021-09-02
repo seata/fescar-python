@@ -6185,6 +6185,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitRoot" ):
                 listener.exitRoot(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRoot" ):
+                return visitor.visitRoot(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -6265,6 +6271,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSqlStatements" ):
                 listener.exitSqlStatements(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSqlStatements" ):
+                return visitor.visitSqlStatements(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -6400,6 +6412,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSqlStatement" ):
                 listener.exitSqlStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSqlStatement" ):
+                return visitor.visitSqlStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -6483,6 +6501,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitEmptyStatement" ):
                 listener.exitEmptyStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitEmptyStatement" ):
+                return visitor.visitEmptyStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -6661,6 +6685,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDdlStatement" ):
                 listener.exitDdlStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDdlStatement" ):
+                return visitor.visitDdlStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -6951,6 +6981,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDmlStatement" ):
                 listener.exitDmlStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDmlStatement" ):
+                return visitor.visitDmlStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -7085,6 +7121,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTransactionStatement" ):
                 listener.exitTransactionStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTransactionStatement" ):
+                return visitor.visitTransactionStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -7239,6 +7281,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitReplicationStatement" ):
                 listener.exitReplicationStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitReplicationStatement" ):
+                return visitor.visitReplicationStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -7380,6 +7428,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitPreparedStatement" ):
                 listener.exitPreparedStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPreparedStatement" ):
+                return visitor.visitPreparedStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -7475,6 +7529,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitCompoundStatement" ):
                 listener.exitCompoundStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCompoundStatement" ):
+                return visitor.visitCompoundStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -7674,6 +7734,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAdministrationStatement" ):
                 listener.exitAdministrationStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAdministrationStatement" ):
+                return visitor.visitAdministrationStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -7892,6 +7958,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitUtilityStatement" ):
                 listener.exitUtilityStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUtilityStatement" ):
+                return visitor.visitUtilityStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -7997,6 +8069,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitCreateDatabase" ):
                 listener.exitCreateDatabase(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCreateDatabase" ):
+                return visitor.visitCreateDatabase(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -8121,6 +8199,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitCreateEvent" ):
                 listener.exitCreateEvent(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCreateEvent" ):
+                return visitor.visitCreateEvent(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -8333,6 +8417,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitCreateIndex" ):
                 listener.exitCreateIndex(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCreateIndex" ):
+                return visitor.visitCreateIndex(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -8555,6 +8645,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCreateLogfileGroup" ):
                 listener.exitCreateLogfileGroup(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCreateLogfileGroup" ):
+                return visitor.visitCreateLogfileGroup(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -8760,6 +8856,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCreateProcedure" ):
                 listener.exitCreateProcedure(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCreateProcedure" ):
+                return visitor.visitCreateProcedure(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -8902,6 +9004,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitCreateFunction" ):
                 listener.exitCreateFunction(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCreateFunction" ):
+                return visitor.visitCreateFunction(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -9055,6 +9163,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCreateServer" ):
                 listener.exitCreateServer(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCreateServer" ):
+                return visitor.visitCreateServer(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -9168,6 +9282,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCopyCreateTable" ):
                 listener.exitCopyCreateTable(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCopyCreateTable" ):
+                return visitor.visitCopyCreateTable(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ColumnCreateTableContext(CreateTableContext):
 
@@ -9212,6 +9332,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitColumnCreateTable" ):
                 listener.exitColumnCreateTable(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitColumnCreateTable" ):
+                return visitor.visitColumnCreateTable(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class QueryCreateTableContext(CreateTableContext):
@@ -9267,6 +9393,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitQueryCreateTable" ):
                 listener.exitQueryCreateTable(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitQueryCreateTable" ):
+                return visitor.visitQueryCreateTable(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -9554,6 +9686,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCreateTablespaceInnodb" ):
                 listener.exitCreateTablespaceInnodb(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCreateTablespaceInnodb" ):
+                return visitor.visitCreateTablespaceInnodb(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -9713,6 +9851,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitCreateTablespaceNdb" ):
                 listener.exitCreateTablespaceNdb(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCreateTablespaceNdb" ):
+                return visitor.visitCreateTablespaceNdb(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -9962,6 +10106,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCreateTrigger" ):
                 listener.exitCreateTrigger(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCreateTrigger" ):
+                return visitor.visitCreateTrigger(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -10139,6 +10289,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCreateView" ):
                 listener.exitCreateView(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCreateView" ):
+                return visitor.visitCreateView(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -10307,6 +10463,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCreateDatabaseOption" ):
                 listener.exitCreateDatabaseOption(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCreateDatabaseOption" ):
+                return visitor.visitCreateDatabaseOption(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -10440,6 +10602,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitOwnerStatement" ):
                 listener.exitOwnerStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitOwnerStatement" ):
+                return visitor.visitOwnerStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -10530,6 +10698,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitPreciseSchedule" ):
                 listener.exitPreciseSchedule(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPreciseSchedule" ):
+                return visitor.visitPreciseSchedule(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class IntervalScheduleContext(ScheduleExpressionContext):
 
@@ -10577,6 +10751,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitIntervalSchedule" ):
                 listener.exitIntervalSchedule(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIntervalSchedule" ):
+                return visitor.visitIntervalSchedule(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -10716,6 +10896,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitTimestampValue" ):
                 listener.exitTimestampValue(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTimestampValue" ):
+                return visitor.visitTimestampValue(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -10796,6 +10982,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitIntervalExpr" ):
                 listener.exitIntervalExpr(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIntervalExpr" ):
+                return visitor.visitIntervalExpr(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -10892,6 +11084,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitIntervalType" ):
                 listener.exitIntervalType(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIntervalType" ):
+                return visitor.visitIntervalType(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -11011,6 +11209,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitEnableType" ):
                 listener.exitEnableType(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitEnableType" ):
+                return visitor.visitEnableType(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -11080,6 +11284,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitIndexType" ):
                 listener.exitIndexType(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIndexType" ):
+                return visitor.visitIndexType(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -11162,6 +11372,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitIndexOption" ):
                 listener.exitIndexOption(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIndexOption" ):
+                return visitor.visitIndexOption(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -11269,6 +11485,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitProcedureParameter" ):
                 listener.exitProcedureParameter(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitProcedureParameter" ):
+                return visitor.visitProcedureParameter(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -11332,6 +11554,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitFunctionParameter" ):
                 listener.exitFunctionParameter(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFunctionParameter" ):
+                return visitor.visitFunctionParameter(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -11390,6 +11618,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitRoutineBehavior" ):
                 listener.exitRoutineBehavior(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRoutineBehavior" ):
+                return visitor.visitRoutineBehavior(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class RoutineLanguageContext(RoutineOptionContext):
 
@@ -11410,6 +11644,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitRoutineLanguage" ):
                 listener.exitRoutineLanguage(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRoutineLanguage" ):
+                return visitor.visitRoutineLanguage(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class RoutineCommentContext(RoutineOptionContext):
 
@@ -11429,6 +11669,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitRoutineComment" ):
                 listener.exitRoutineComment(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRoutineComment" ):
+                return visitor.visitRoutineComment(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class RoutineSecurityContext(RoutineOptionContext):
@@ -11454,6 +11700,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitRoutineSecurity" ):
                 listener.exitRoutineSecurity(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRoutineSecurity" ):
+                return visitor.visitRoutineSecurity(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class RoutineDataContext(RoutineOptionContext):
@@ -11482,6 +11734,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitRoutineData" ):
                 listener.exitRoutineData(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRoutineData" ):
+                return visitor.visitRoutineData(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -11636,6 +11894,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitServerOption" ):
                 listener.exitServerOption(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitServerOption" ):
+                return visitor.visitServerOption(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -11745,6 +12009,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCreateDefinitions" ):
                 listener.exitCreateDefinitions(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCreateDefinitions" ):
+                return visitor.visitCreateDefinitions(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -11820,6 +12090,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitColumnDeclaration" ):
                 listener.exitColumnDeclaration(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitColumnDeclaration" ):
+                return visitor.visitColumnDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ConstraintDeclarationContext(CreateDefinitionContext):
 
@@ -11839,6 +12115,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitConstraintDeclaration" ):
                 listener.exitConstraintDeclaration(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitConstraintDeclaration" ):
+                return visitor.visitConstraintDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class IndexDeclarationContext(CreateDefinitionContext):
 
@@ -11857,6 +12139,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitIndexDeclaration" ):
                 listener.exitIndexDeclaration(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIndexDeclaration" ):
+                return visitor.visitIndexDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -11928,6 +12216,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitColumnDefinition" ):
                 listener.exitColumnDefinition(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitColumnDefinition" ):
+                return visitor.visitColumnDefinition(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -12001,6 +12295,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitStorageColumnConstraint" ):
                 listener.exitStorageColumnConstraint(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStorageColumnConstraint" ):
+                return visitor.visitStorageColumnConstraint(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class VisibilityColumnConstraintContext(ColumnConstraintContext):
 
@@ -12020,6 +12320,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitVisibilityColumnConstraint" ):
                 listener.exitVisibilityColumnConstraint(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitVisibilityColumnConstraint" ):
+                return visitor.visitVisibilityColumnConstraint(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class AutoIncrementColumnConstraintContext(ColumnConstraintContext):
@@ -12046,6 +12352,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAutoIncrementColumnConstraint" ):
                 listener.exitAutoIncrementColumnConstraint(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAutoIncrementColumnConstraint" ):
+                return visitor.visitAutoIncrementColumnConstraint(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class CommentColumnConstraintContext(ColumnConstraintContext):
 
@@ -12066,6 +12378,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCommentColumnConstraint" ):
                 listener.exitCommentColumnConstraint(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCommentColumnConstraint" ):
+                return visitor.visitCommentColumnConstraint(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class UniqueKeyColumnConstraintContext(ColumnConstraintContext):
 
@@ -12085,6 +12403,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitUniqueKeyColumnConstraint" ):
                 listener.exitUniqueKeyColumnConstraint(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUniqueKeyColumnConstraint" ):
+                return visitor.visitUniqueKeyColumnConstraint(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class SerialDefaultColumnConstraintContext(ColumnConstraintContext):
@@ -12107,6 +12431,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSerialDefaultColumnConstraint" ):
                 listener.exitSerialDefaultColumnConstraint(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSerialDefaultColumnConstraint" ):
+                return visitor.visitSerialDefaultColumnConstraint(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class GeneratedColumnConstraintContext(ColumnConstraintContext):
@@ -12141,6 +12471,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitGeneratedColumnConstraint" ):
                 listener.exitGeneratedColumnConstraint(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitGeneratedColumnConstraint" ):
+                return visitor.visitGeneratedColumnConstraint(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class FormatColumnConstraintContext(ColumnConstraintContext):
 
@@ -12166,6 +12502,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitFormatColumnConstraint" ):
                 listener.exitFormatColumnConstraint(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFormatColumnConstraint" ):
+                return visitor.visitFormatColumnConstraint(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class CollateColumnConstraintContext(ColumnConstraintContext):
 
@@ -12187,6 +12529,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCollateColumnConstraint" ):
                 listener.exitCollateColumnConstraint(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCollateColumnConstraint" ):
+                return visitor.visitCollateColumnConstraint(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class PrimaryKeyColumnConstraintContext(ColumnConstraintContext):
 
@@ -12206,6 +12554,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPrimaryKeyColumnConstraint" ):
                 listener.exitPrimaryKeyColumnConstraint(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrimaryKeyColumnConstraint" ):
+                return visitor.visitPrimaryKeyColumnConstraint(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class CheckColumnConstraintContext(ColumnConstraintContext):
@@ -12238,6 +12592,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCheckColumnConstraint" ):
                 listener.exitCheckColumnConstraint(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCheckColumnConstraint" ):
+                return visitor.visitCheckColumnConstraint(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class NullColumnConstraintContext(ColumnConstraintContext):
 
@@ -12256,6 +12616,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitNullColumnConstraint" ):
                 listener.exitNullColumnConstraint(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNullColumnConstraint" ):
+                return visitor.visitNullColumnConstraint(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class DefaultColumnConstraintContext(ColumnConstraintContext):
@@ -12278,6 +12644,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDefaultColumnConstraint" ):
                 listener.exitDefaultColumnConstraint(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDefaultColumnConstraint" ):
+                return visitor.visitDefaultColumnConstraint(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ReferenceColumnConstraintContext(ColumnConstraintContext):
 
@@ -12296,6 +12668,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitReferenceColumnConstraint" ):
                 listener.exitReferenceColumnConstraint(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitReferenceColumnConstraint" ):
+                return visitor.visitReferenceColumnConstraint(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -12580,6 +12958,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitUniqueKeyTableConstraint" ):
                 listener.exitUniqueKeyTableConstraint(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUniqueKeyTableConstraint" ):
+                return visitor.visitUniqueKeyTableConstraint(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class CheckTableConstraintContext(TableConstraintContext):
 
@@ -12610,6 +12994,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitCheckTableConstraint" ):
                 listener.exitCheckTableConstraint(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCheckTableConstraint" ):
+                return visitor.visitCheckTableConstraint(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class PrimaryKeyTableConstraintContext(TableConstraintContext):
@@ -12653,6 +13043,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitPrimaryKeyTableConstraint" ):
                 listener.exitPrimaryKeyTableConstraint(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrimaryKeyTableConstraint" ):
+                return visitor.visitPrimaryKeyTableConstraint(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ForeignKeyTableConstraintContext(TableConstraintContext):
 
@@ -12688,6 +13084,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitForeignKeyTableConstraint" ):
                 listener.exitForeignKeyTableConstraint(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitForeignKeyTableConstraint" ):
+                return visitor.visitForeignKeyTableConstraint(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -12940,6 +13342,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitReferenceDefinition" ):
                 listener.exitReferenceDefinition(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitReferenceDefinition" ):
+                return visitor.visitReferenceDefinition(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -13033,6 +13441,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitReferenceAction" ):
                 listener.exitReferenceAction(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitReferenceAction" ):
+                return visitor.visitReferenceAction(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -13135,6 +13549,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitReferenceControlType" ):
                 listener.exitReferenceControlType(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitReferenceControlType" ):
+                return visitor.visitReferenceControlType(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -13235,6 +13655,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSpecialIndexDeclaration" ):
                 listener.exitSpecialIndexDeclaration(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSpecialIndexDeclaration" ):
+                return visitor.visitSpecialIndexDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class SimpleIndexDeclarationContext(IndexColumnDefinitionContext):
 
@@ -13270,6 +13696,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSimpleIndexDeclaration" ):
                 listener.exitSimpleIndexDeclaration(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSimpleIndexDeclaration" ):
+                return visitor.visitSimpleIndexDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -13418,6 +13850,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitTableOptionEngine" ):
                 listener.exitTableOptionEngine(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionEngine" ):
+                return visitor.visitTableOptionEngine(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class TableOptionMaxRowsContext(TableOptionContext):
 
@@ -13440,6 +13878,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTableOptionMaxRows" ):
                 listener.exitTableOptionMaxRows(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionMaxRows" ):
+                return visitor.visitTableOptionMaxRows(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class TableOptionCollateContext(TableOptionContext):
@@ -13465,6 +13909,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTableOptionCollate" ):
                 listener.exitTableOptionCollate(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionCollate" ):
+                return visitor.visitTableOptionCollate(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class TableOptionPersistentContext(TableOptionContext):
@@ -13493,6 +13943,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitTableOptionPersistent" ):
                 listener.exitTableOptionPersistent(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionPersistent" ):
+                return visitor.visitTableOptionPersistent(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class TableOptionTablespaceContext(TableOptionContext):
 
@@ -13516,6 +13972,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTableOptionTablespace" ):
                 listener.exitTableOptionTablespace(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionTablespace" ):
+                return visitor.visitTableOptionTablespace(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class TableOptionPackKeysContext(TableOptionContext):
@@ -13544,6 +14006,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitTableOptionPackKeys" ):
                 listener.exitTableOptionPackKeys(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionPackKeys" ):
+                return visitor.visitTableOptionPackKeys(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class TableOptionPasswordContext(TableOptionContext):
 
@@ -13565,6 +14033,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTableOptionPassword" ):
                 listener.exitTableOptionPassword(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionPassword" ):
+                return visitor.visitTableOptionPassword(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class TableOptionUnionContext(TableOptionContext):
@@ -13593,6 +14067,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitTableOptionUnion" ):
                 listener.exitTableOptionUnion(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionUnion" ):
+                return visitor.visitTableOptionUnion(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class TableOptionSamplePageContext(TableOptionContext):
 
@@ -13615,6 +14095,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTableOptionSamplePage" ):
                 listener.exitTableOptionSamplePage(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionSamplePage" ):
+                return visitor.visitTableOptionSamplePage(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class TableOptionCharsetContext(TableOptionContext):
@@ -13648,6 +14134,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitTableOptionCharset" ):
                 listener.exitTableOptionCharset(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionCharset" ):
+                return visitor.visitTableOptionCharset(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class TableOptionIndexDirectoryContext(TableOptionContext):
 
@@ -13672,6 +14164,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitTableOptionIndexDirectory" ):
                 listener.exitTableOptionIndexDirectory(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionIndexDirectory" ):
+                return visitor.visitTableOptionIndexDirectory(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class TableOptionTableTypeContext(TableOptionContext):
 
@@ -13694,6 +14192,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTableOptionTableType" ):
                 listener.exitTableOptionTableType(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionTableType" ):
+                return visitor.visitTableOptionTableType(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class TableOptionKeyBlockSizeContext(TableOptionContext):
@@ -13718,6 +14222,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitTableOptionKeyBlockSize" ):
                 listener.exitTableOptionKeyBlockSize(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionKeyBlockSize" ):
+                return visitor.visitTableOptionKeyBlockSize(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class TableOptionEncryptionContext(TableOptionContext):
 
@@ -13739,6 +14249,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTableOptionEncryption" ):
                 listener.exitTableOptionEncryption(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionEncryption" ):
+                return visitor.visitTableOptionEncryption(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class TableOptionDataDirectoryContext(TableOptionContext):
@@ -13763,6 +14279,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTableOptionDataDirectory" ):
                 listener.exitTableOptionDataDirectory(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionDataDirectory" ):
+                return visitor.visitTableOptionDataDirectory(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class TableOptionRecalculationContext(TableOptionContext):
@@ -13791,6 +14313,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitTableOptionRecalculation" ):
                 listener.exitTableOptionRecalculation(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionRecalculation" ):
+                return visitor.visitTableOptionRecalculation(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class TableOptionAutoIncrementContext(TableOptionContext):
 
@@ -13813,6 +14341,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTableOptionAutoIncrement" ):
                 listener.exitTableOptionAutoIncrement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionAutoIncrement" ):
+                return visitor.visitTableOptionAutoIncrement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class TableOptionChecksumContext(TableOptionContext):
@@ -13841,6 +14375,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitTableOptionChecksum" ):
                 listener.exitTableOptionChecksum(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionChecksum" ):
+                return visitor.visitTableOptionChecksum(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class TableOptionDelayContext(TableOptionContext):
 
@@ -13866,6 +14406,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitTableOptionDelay" ):
                 listener.exitTableOptionDelay(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionDelay" ):
+                return visitor.visitTableOptionDelay(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class TableOptionConnectionContext(TableOptionContext):
 
@@ -13887,6 +14433,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTableOptionConnection" ):
                 listener.exitTableOptionConnection(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionConnection" ):
+                return visitor.visitTableOptionConnection(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class TableOptionCommentContext(TableOptionContext):
@@ -13910,6 +14462,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitTableOptionComment" ):
                 listener.exitTableOptionComment(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionComment" ):
+                return visitor.visitTableOptionComment(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class TableOptionAverageContext(TableOptionContext):
 
@@ -13932,6 +14490,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTableOptionAverage" ):
                 listener.exitTableOptionAverage(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionAverage" ):
+                return visitor.visitTableOptionAverage(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class TableOptionRowFormatContext(TableOptionContext):
@@ -13968,6 +14532,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitTableOptionRowFormat" ):
                 listener.exitTableOptionRowFormat(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionRowFormat" ):
+                return visitor.visitTableOptionRowFormat(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class TableOptionCompressionContext(TableOptionContext):
 
@@ -13991,6 +14561,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTableOptionCompression" ):
                 listener.exitTableOptionCompression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionCompression" ):
+                return visitor.visitTableOptionCompression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class TableOptionInsertMethodContext(TableOptionContext):
@@ -14019,6 +14595,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitTableOptionInsertMethod" ):
                 listener.exitTableOptionInsertMethod(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionInsertMethod" ):
+                return visitor.visitTableOptionInsertMethod(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class TableOptionMinRowsContext(TableOptionContext):
 
@@ -14041,6 +14623,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTableOptionMinRows" ):
                 listener.exitTableOptionMinRows(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableOptionMinRows" ):
+                return visitor.visitTableOptionMinRows(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -14638,6 +15226,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitTableType" ):
                 listener.exitTableType(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableType" ):
+                return visitor.visitTableType(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -14693,6 +15287,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTablespaceStorage" ):
                 listener.exitTablespaceStorage(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTablespaceStorage" ):
+                return visitor.visitTablespaceStorage(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -14793,6 +15393,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPartitionDefinitions" ):
                 listener.exitPartitionDefinitions(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPartitionDefinitions" ):
+                return visitor.visitPartitionDefinitions(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -14927,6 +15533,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitPartitionFunctionKey" ):
                 listener.exitPartitionFunctionKey(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPartitionFunctionKey" ):
+                return visitor.visitPartitionFunctionKey(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class PartitionFunctionHashContext(PartitionFunctionDefinitionContext):
 
@@ -14953,6 +15565,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPartitionFunctionHash" ):
                 listener.exitPartitionFunctionHash(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPartitionFunctionHash" ):
+                return visitor.visitPartitionFunctionHash(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class PartitionFunctionListContext(PartitionFunctionDefinitionContext):
@@ -14984,6 +15602,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitPartitionFunctionList" ):
                 listener.exitPartitionFunctionList(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPartitionFunctionList" ):
+                return visitor.visitPartitionFunctionList(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class PartitionFunctionRangeContext(PartitionFunctionDefinitionContext):
 
@@ -15013,6 +15637,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPartitionFunctionRange" ):
                 listener.exitPartitionFunctionRange(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPartitionFunctionRange" ):
+                return visitor.visitPartitionFunctionRange(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -15200,6 +15830,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSubPartitionFunctionHash" ):
                 listener.exitSubPartitionFunctionHash(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSubPartitionFunctionHash" ):
+                return visitor.visitSubPartitionFunctionHash(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class SubPartitionFunctionKeyContext(SubpartitionFunctionDefinitionContext):
 
@@ -15235,6 +15871,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSubPartitionFunctionKey" ):
                 listener.exitSubPartitionFunctionKey(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSubPartitionFunctionKey" ):
+                return visitor.visitSubPartitionFunctionKey(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -15393,6 +16035,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitPartitionComparison" ):
                 listener.exitPartitionComparison(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPartitionComparison" ):
+                return visitor.visitPartitionComparison(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class PartitionListAtomContext(PartitionDefinitionContext):
 
@@ -15450,6 +16098,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPartitionListAtom" ):
                 listener.exitPartitionListAtom(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPartitionListAtom" ):
+                return visitor.visitPartitionListAtom(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class PartitionListVectorContext(PartitionDefinitionContext):
@@ -15509,6 +16163,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitPartitionListVector" ):
                 listener.exitPartitionListVector(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPartitionListVector" ):
+                return visitor.visitPartitionListVector(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class PartitionSimpleContext(PartitionDefinitionContext):
 
@@ -15550,6 +16210,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPartitionSimple" ):
                 listener.exitPartitionSimple(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPartitionSimple" ):
+                return visitor.visitPartitionSimple(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -15892,6 +16558,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitPartitionDefinerAtom" ):
                 listener.exitPartitionDefinerAtom(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPartitionDefinerAtom" ):
+                return visitor.visitPartitionDefinerAtom(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -15968,6 +16640,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitPartitionDefinerVector" ):
                 listener.exitPartitionDefinerVector(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPartitionDefinerVector" ):
+                return visitor.visitPartitionDefinerVector(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -16038,6 +16716,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSubpartitionDefinition" ):
                 listener.exitSubpartitionDefinition(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSubpartitionDefinition" ):
+                return visitor.visitSubpartitionDefinition(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -16111,6 +16795,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitPartitionOptionComment" ):
                 listener.exitPartitionOptionComment(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPartitionOptionComment" ):
+                return visitor.visitPartitionOptionComment(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class PartitionOptionNodeGroupContext(PartitionOptionContext):
 
@@ -16134,6 +16824,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPartitionOptionNodeGroup" ):
                 listener.exitPartitionOptionNodeGroup(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPartitionOptionNodeGroup" ):
+                return visitor.visitPartitionOptionNodeGroup(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class PartitionOptionIndexDirectoryContext(PartitionOptionContext):
@@ -16160,6 +16856,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitPartitionOptionIndexDirectory" ):
                 listener.exitPartitionOptionIndexDirectory(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPartitionOptionIndexDirectory" ):
+                return visitor.visitPartitionOptionIndexDirectory(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class PartitionOptionMaxRowsContext(PartitionOptionContext):
 
@@ -16184,6 +16886,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitPartitionOptionMaxRows" ):
                 listener.exitPartitionOptionMaxRows(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPartitionOptionMaxRows" ):
+                return visitor.visitPartitionOptionMaxRows(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class PartitionOptionTablespaceContext(PartitionOptionContext):
 
@@ -16207,6 +16915,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPartitionOptionTablespace" ):
                 listener.exitPartitionOptionTablespace(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPartitionOptionTablespace" ):
+                return visitor.visitPartitionOptionTablespace(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class PartitionOptionEngineContext(PartitionOptionContext):
@@ -16235,6 +16949,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitPartitionOptionEngine" ):
                 listener.exitPartitionOptionEngine(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPartitionOptionEngine" ):
+                return visitor.visitPartitionOptionEngine(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class PartitionOptionMinRowsContext(PartitionOptionContext):
 
@@ -16258,6 +16978,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPartitionOptionMinRows" ):
                 listener.exitPartitionOptionMinRows(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPartitionOptionMinRows" ):
+                return visitor.visitPartitionOptionMinRows(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class PartitionOptionDataDirectoryContext(PartitionOptionContext):
@@ -16283,6 +17009,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPartitionOptionDataDirectory" ):
                 listener.exitPartitionOptionDataDirectory(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPartitionOptionDataDirectory" ):
+                return visitor.visitPartitionOptionDataDirectory(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -16505,6 +17237,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterUpgradeName" ):
                 listener.exitAlterUpgradeName(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterUpgradeName" ):
+                return visitor.visitAlterUpgradeName(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterSimpleDatabaseContext(AlterDatabaseContext):
 
@@ -16536,6 +17274,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterSimpleDatabase" ):
                 listener.exitAlterSimpleDatabase(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterSimpleDatabase" ):
+                return visitor.visitAlterSimpleDatabase(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -16698,6 +17442,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterEvent" ):
                 listener.exitAlterEvent(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterEvent" ):
+                return visitor.visitAlterEvent(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -16838,6 +17588,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterFunction" ):
                 listener.exitAlterFunction(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterFunction" ):
+                return visitor.visitAlterFunction(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -16908,6 +17664,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterInstance" ):
                 listener.exitAlterInstance(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterInstance" ):
+                return visitor.visitAlterInstance(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -17001,6 +17763,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterLogfileGroup" ):
                 listener.exitAlterLogfileGroup(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterLogfileGroup" ):
+                return visitor.visitAlterLogfileGroup(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -17108,6 +17876,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterProcedure" ):
                 listener.exitAlterProcedure(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterProcedure" ):
+                return visitor.visitAlterProcedure(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -17192,6 +17966,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterServer" ):
                 listener.exitAlterServer(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterServer" ):
+                return visitor.visitAlterServer(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -17292,6 +18072,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterTable" ):
                 listener.exitAlterTable(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterTable" ):
+                return visitor.visitAlterTable(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -17431,6 +18217,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterTablespace" ):
                 listener.exitAlterTablespace(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterTablespace" ):
+                return visitor.visitAlterTablespace(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -17595,6 +18387,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterView" ):
                 listener.exitAlterView(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterView" ):
+                return visitor.visitAlterView(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -17742,6 +18540,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterByDisableKeys" ):
                 listener.exitAlterByDisableKeys(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByDisableKeys" ):
+                return visitor.visitAlterByDisableKeys(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterByDefaultCharsetContext(AlterSpecificationContext):
 
@@ -17777,6 +18581,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterByDefaultCharset" ):
                 listener.exitAlterByDefaultCharset(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByDefaultCharset" ):
+                return visitor.visitAlterByDefaultCharset(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterByRenameColumnContext(AlterSpecificationContext):
 
@@ -17806,6 +18616,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterByRenameColumn" ):
                 listener.exitAlterByRenameColumn(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByRenameColumn" ):
+                return visitor.visitAlterByRenameColumn(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class AlterByConvertCharsetContext(AlterSpecificationContext):
@@ -17838,6 +18654,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterByConvertCharset" ):
                 listener.exitAlterByConvertCharset(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByConvertCharset" ):
+                return visitor.visitAlterByConvertCharset(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class AlterByAddPartitionContext(AlterSpecificationContext):
@@ -17873,6 +18695,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterByAddPartition" ):
                 listener.exitAlterByAddPartition(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByAddPartition" ):
+                return visitor.visitAlterByAddPartition(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class AlterByAddForeignKeyContext(AlterSpecificationContext):
@@ -17912,6 +18740,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterByAddForeignKey" ):
                 listener.exitAlterByAddForeignKey(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByAddForeignKey" ):
+                return visitor.visitAlterByAddForeignKey(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterByRenameIndexContext(AlterSpecificationContext):
 
@@ -17943,6 +18777,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterByRenameIndex" ):
                 listener.exitAlterByRenameIndex(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByRenameIndex" ):
+                return visitor.visitAlterByRenameIndex(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterByRemovePartitioningContext(AlterSpecificationContext):
 
@@ -17962,6 +18802,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterByRemovePartitioning" ):
                 listener.exitAlterByRemovePartitioning(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByRemovePartitioning" ):
+                return visitor.visitAlterByRemovePartitioning(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class AlterByRenameContext(AlterSpecificationContext):
@@ -17992,6 +18838,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterByRename" ):
                 listener.exitAlterByRename(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByRename" ):
+                return visitor.visitAlterByRename(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterByOptimizePartitionContext(AlterSpecificationContext):
 
@@ -18017,6 +18869,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterByOptimizePartition" ):
                 listener.exitAlterByOptimizePartition(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByOptimizePartition" ):
+                return visitor.visitAlterByOptimizePartition(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterByImportTablespaceContext(AlterSpecificationContext):
 
@@ -18036,6 +18894,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterByImportTablespace" ):
                 listener.exitAlterByImportTablespace(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByImportTablespace" ):
+                return visitor.visitAlterByImportTablespace(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class AlterByCoalescePartitionContext(AlterSpecificationContext):
@@ -18059,6 +18923,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterByCoalescePartition" ):
                 listener.exitAlterByCoalescePartition(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByCoalescePartition" ):
+                return visitor.visitAlterByCoalescePartition(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class AlterByDropConstraintCheckContext(AlterSpecificationContext):
@@ -18084,6 +18954,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterByDropConstraintCheck" ):
                 listener.exitAlterByDropConstraintCheck(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByDropConstraintCheck" ):
+                return visitor.visitAlterByDropConstraintCheck(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class AlterByAddColumnsContext(AlterSpecificationContext):
@@ -18126,6 +19002,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterByAddColumns" ):
                 listener.exitAlterByAddColumns(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByAddColumns" ):
+                return visitor.visitAlterByAddColumns(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterByAlterIndexVisibilityContext(AlterSpecificationContext):
 
@@ -18153,6 +19035,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterByAlterIndexVisibility" ):
                 listener.exitAlterByAlterIndexVisibility(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByAlterIndexVisibility" ):
+                return visitor.visitAlterByAlterIndexVisibility(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterByDropForeignKeyContext(AlterSpecificationContext):
 
@@ -18177,6 +19065,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterByDropForeignKey" ):
                 listener.exitAlterByDropForeignKey(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByDropForeignKey" ):
+                return visitor.visitAlterByDropForeignKey(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class AlterByAddCheckTableConstraintContext(AlterSpecificationContext):
@@ -18211,6 +19105,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterByAddCheckTableConstraint" ):
                 listener.exitAlterByAddCheckTableConstraint(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByAddCheckTableConstraint" ):
+                return visitor.visitAlterByAddCheckTableConstraint(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterByRebuildPartitionContext(AlterSpecificationContext):
 
@@ -18236,6 +19136,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterByRebuildPartition" ):
                 listener.exitAlterByRebuildPartition(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByRebuildPartition" ):
+                return visitor.visitAlterByRebuildPartition(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterByUpgradePartitioningContext(AlterSpecificationContext):
 
@@ -18255,6 +19161,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterByUpgradePartitioning" ):
                 listener.exitAlterByUpgradePartitioning(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByUpgradePartitioning" ):
+                return visitor.visitAlterByUpgradePartitioning(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class AlterByRepairPartitionContext(AlterSpecificationContext):
@@ -18280,6 +19192,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterByRepairPartition" ):
                 listener.exitAlterByRepairPartition(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByRepairPartition" ):
+                return visitor.visitAlterByRepairPartition(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class AlterByExchangePartitionContext(AlterSpecificationContext):
@@ -18319,6 +19237,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterByExchangePartition" ):
                 listener.exitAlterByExchangePartition(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByExchangePartition" ):
+                return visitor.visitAlterByExchangePartition(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterByAddIndexContext(AlterSpecificationContext):
 
@@ -18357,6 +19281,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterByAddIndex" ):
                 listener.exitAlterByAddIndex(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByAddIndex" ):
+                return visitor.visitAlterByAddIndex(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterByDropColumnContext(AlterSpecificationContext):
 
@@ -18381,6 +19311,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterByDropColumn" ):
                 listener.exitAlterByDropColumn(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByDropColumn" ):
+                return visitor.visitAlterByDropColumn(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class AlterByImportPartitionContext(AlterSpecificationContext):
@@ -18408,6 +19344,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterByImportPartition" ):
                 listener.exitAlterByImportPartition(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByImportPartition" ):
+                return visitor.visitAlterByImportPartition(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class AlterByChangeDefaultContext(AlterSpecificationContext):
@@ -18441,6 +19383,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterByChangeDefault" ):
                 listener.exitAlterByChangeDefault(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByChangeDefault" ):
+                return visitor.visitAlterByChangeDefault(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterByForceContext(AlterSpecificationContext):
 
@@ -18458,6 +19406,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterByForce" ):
                 listener.exitAlterByForce(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByForce" ):
+                return visitor.visitAlterByForce(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class AlterByDropPartitionContext(AlterSpecificationContext):
@@ -18481,6 +19435,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterByDropPartition" ):
                 listener.exitAlterByDropPartition(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByDropPartition" ):
+                return visitor.visitAlterByDropPartition(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class AlterByAddSpecialIndexContext(AlterSpecificationContext):
@@ -18522,6 +19482,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterByAddSpecialIndex" ):
                 listener.exitAlterByAddSpecialIndex(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByAddSpecialIndex" ):
+                return visitor.visitAlterByAddSpecialIndex(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterByModifyColumnContext(AlterSpecificationContext):
 
@@ -18555,6 +19521,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterByModifyColumn" ):
                 listener.exitAlterByModifyColumn(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByModifyColumn" ):
+                return visitor.visitAlterByModifyColumn(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterByTableOptionContext(AlterSpecificationContext):
 
@@ -18582,6 +19554,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterByTableOption" ):
                 listener.exitAlterByTableOption(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByTableOption" ):
+                return visitor.visitAlterByTableOption(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterByDropPrimaryKeyContext(AlterSpecificationContext):
 
@@ -18603,6 +19581,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterByDropPrimaryKey" ):
                 listener.exitAlterByDropPrimaryKey(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByDropPrimaryKey" ):
+                return visitor.visitAlterByDropPrimaryKey(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class AlterByLockContext(AlterSpecificationContext):
@@ -18633,6 +19617,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterByLock" ):
                 listener.exitAlterByLock(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByLock" ):
+                return visitor.visitAlterByLock(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterByDiscardPartitionContext(AlterSpecificationContext):
 
@@ -18660,6 +19650,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterByDiscardPartition" ):
                 listener.exitAlterByDiscardPartition(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByDiscardPartition" ):
+                return visitor.visitAlterByDiscardPartition(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterByDiscardTablespaceContext(AlterSpecificationContext):
 
@@ -18679,6 +19675,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterByDiscardTablespace" ):
                 listener.exitAlterByDiscardTablespace(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByDiscardTablespace" ):
+                return visitor.visitAlterByDiscardTablespace(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class AlterByValidateContext(AlterSpecificationContext):
@@ -18702,6 +19704,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterByValidate" ):
                 listener.exitAlterByValidate(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByValidate" ):
+                return visitor.visitAlterByValidate(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class AlterByAddPrimaryKeyContext(AlterSpecificationContext):
@@ -18747,6 +19755,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterByAddPrimaryKey" ):
                 listener.exitAlterByAddPrimaryKey(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByAddPrimaryKey" ):
+                return visitor.visitAlterByAddPrimaryKey(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterByCheckPartitionContext(AlterSpecificationContext):
 
@@ -18772,6 +19786,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterByCheckPartition" ):
                 listener.exitAlterByCheckPartition(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByCheckPartition" ):
+                return visitor.visitAlterByCheckPartition(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterByEnableKeysContext(AlterSpecificationContext):
 
@@ -18791,6 +19811,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterByEnableKeys" ):
                 listener.exitAlterByEnableKeys(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByEnableKeys" ):
+                return visitor.visitAlterByEnableKeys(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class AlterByReorganizePartitionContext(AlterSpecificationContext):
@@ -18832,6 +19858,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterByReorganizePartition" ):
                 listener.exitAlterByReorganizePartition(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByReorganizePartition" ):
+                return visitor.visitAlterByReorganizePartition(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterBySetAlgorithmContext(AlterSpecificationContext):
 
@@ -18859,6 +19891,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterBySetAlgorithm" ):
                 listener.exitAlterBySetAlgorithm(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterBySetAlgorithm" ):
+                return visitor.visitAlterBySetAlgorithm(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterByAnalyzePartitionContext(AlterSpecificationContext):
 
@@ -18883,6 +19921,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterByAnalyzePartition" ):
                 listener.exitAlterByAnalyzePartition(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByAnalyzePartition" ):
+                return visitor.visitAlterByAnalyzePartition(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class AlterByChangeColumnContext(AlterSpecificationContext):
@@ -18919,6 +19963,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterByChangeColumn" ):
                 listener.exitAlterByChangeColumn(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByChangeColumn" ):
+                return visitor.visitAlterByChangeColumn(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class AlterByAddUniqueKeyContext(AlterSpecificationContext):
@@ -18967,6 +20017,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterByAddUniqueKey" ):
                 listener.exitAlterByAddUniqueKey(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByAddUniqueKey" ):
+                return visitor.visitAlterByAddUniqueKey(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterByTruncatePartitionContext(AlterSpecificationContext):
 
@@ -18991,6 +20047,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterByTruncatePartition" ):
                 listener.exitAlterByTruncatePartition(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByTruncatePartition" ):
+                return visitor.visitAlterByTruncatePartition(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class AlterByDropIndexContext(AlterSpecificationContext):
@@ -19017,6 +20079,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterByDropIndex" ):
                 listener.exitAlterByDropIndex(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByDropIndex" ):
+                return visitor.visitAlterByDropIndex(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class AlterByAddColumnContext(AlterSpecificationContext):
@@ -19051,6 +20119,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterByAddColumn" ):
                 listener.exitAlterByAddColumn(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByAddColumn" ):
+                return visitor.visitAlterByAddColumn(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterByOrderContext(AlterSpecificationContext):
 
@@ -19073,6 +20147,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterByOrder" ):
                 listener.exitAlterByOrder(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterByOrder" ):
+                return visitor.visitAlterByOrder(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -20288,6 +21368,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDropDatabase" ):
                 listener.exitDropDatabase(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDropDatabase" ):
+                return visitor.visitDropDatabase(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -20358,6 +21444,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDropEvent" ):
                 listener.exitDropEvent(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDropEvent" ):
+                return visitor.visitDropEvent(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -20489,6 +21581,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDropIndex" ):
                 listener.exitDropIndex(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDropIndex" ):
+                return visitor.visitDropIndex(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -20629,6 +21727,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDropLogfileGroup" ):
                 listener.exitDropLogfileGroup(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDropLogfileGroup" ):
+                return visitor.visitDropLogfileGroup(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -20692,6 +21796,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDropProcedure" ):
                 listener.exitDropProcedure(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDropProcedure" ):
+                return visitor.visitDropProcedure(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -20758,6 +21868,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDropFunction" ):
                 listener.exitDropFunction(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDropFunction" ):
+                return visitor.visitDropFunction(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -20822,6 +21938,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDropServer" ):
                 listener.exitDropServer(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDropServer" ):
+                return visitor.visitDropServer(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -20897,6 +22019,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDropTable" ):
                 listener.exitDropTable(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDropTable" ):
+                return visitor.visitDropTable(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -20991,6 +22119,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDropTablespace" ):
                 listener.exitDropTablespace(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDropTablespace" ):
+                return visitor.visitDropTablespace(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -21065,6 +22199,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDropTrigger" ):
                 listener.exitDropTrigger(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDropTrigger" ):
+                return visitor.visitDropTrigger(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -21146,6 +22286,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDropView" ):
                 listener.exitDropView(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDropView" ):
+                return visitor.visitDropView(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -21243,6 +22389,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitRenameTable" ):
                 listener.exitRenameTable(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRenameTable" ):
+                return visitor.visitRenameTable(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -21308,6 +22460,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitRenameTableClause" ):
                 listener.exitRenameTableClause(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRenameTableClause" ):
+                return visitor.visitRenameTableClause(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -21359,6 +22517,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTruncateTable" ):
                 listener.exitTruncateTable(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTruncateTable" ):
+                return visitor.visitTruncateTable(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -21430,6 +22594,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCallStatement" ):
                 listener.exitCallStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCallStatement" ):
+                return visitor.visitCallStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -21500,6 +22670,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDeleteStatement" ):
                 listener.exitDeleteStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDeleteStatement" ):
+                return visitor.visitDeleteStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -21558,6 +22734,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDoStatement" ):
                 listener.exitDoStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDoStatement" ):
+                return visitor.visitDoStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -21613,6 +22795,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitHandlerStatement" ):
                 listener.exitHandlerStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitHandlerStatement" ):
+                return visitor.visitHandlerStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -21760,6 +22948,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitInsertStatement" ):
                 listener.exitInsertStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitInsertStatement" ):
+                return visitor.visitInsertStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -22052,6 +23246,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitLoadDataStatement" ):
                 listener.exitLoadDataStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLoadDataStatement" ):
+                return visitor.visitLoadDataStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -22389,6 +23589,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitLoadXmlStatement" ):
                 listener.exitLoadXmlStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLoadXmlStatement" ):
+                return visitor.visitLoadXmlStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -22634,6 +23840,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitReplaceStatement" ):
                 listener.exitReplaceStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitReplaceStatement" ):
+                return visitor.visitReplaceStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -22797,6 +24009,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitUnionSelect" ):
                 listener.exitUnionSelect(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUnionSelect" ):
+                return visitor.visitUnionSelect(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class UnionParenthesisSelectContext(SelectStatementContext):
 
@@ -22841,6 +24059,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitUnionParenthesisSelect" ):
                 listener.exitUnionParenthesisSelect(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUnionParenthesisSelect" ):
+                return visitor.visitUnionParenthesisSelect(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class SimpleSelectContext(SelectStatementContext):
 
@@ -22863,6 +24087,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSimpleSelect" ):
                 listener.exitSimpleSelect(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSimpleSelect" ):
+                return visitor.visitSimpleSelect(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ParenthesisSelectContext(SelectStatementContext):
 
@@ -22884,6 +24114,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitParenthesisSelect" ):
                 listener.exitParenthesisSelect(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitParenthesisSelect" ):
+                return visitor.visitParenthesisSelect(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -23112,6 +24348,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitUpdateStatement" ):
                 listener.exitUpdateStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUpdateStatement" ):
+                return visitor.visitUpdateStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -23198,6 +24440,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitInsertStatementValue" ):
                 listener.exitInsertStatementValue(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitInsertStatementValue" ):
+                return visitor.visitInsertStatementValue(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -23305,6 +24553,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitUpdatedElement" ):
                 listener.exitUpdatedElement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUpdatedElement" ):
+                return visitor.visitUpdatedElement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -23365,6 +24619,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAssignmentField" ):
                 listener.exitAssignmentField(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAssignmentField" ):
+                return visitor.visitAssignmentField(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -23434,6 +24694,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitLockClause" ):
                 listener.exitLockClause(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLockClause" ):
+                return visitor.visitLockClause(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -23544,6 +24810,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSingleDeleteStatement" ):
                 listener.exitSingleDeleteStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSingleDeleteStatement" ):
+                return visitor.visitSingleDeleteStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -23708,6 +24980,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitMultipleDeleteStatement" ):
                 listener.exitMultipleDeleteStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMultipleDeleteStatement" ):
+                return visitor.visitMultipleDeleteStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -23887,6 +25165,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitHandlerOpenStatement" ):
                 listener.exitHandlerOpenStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitHandlerOpenStatement" ):
+                return visitor.visitHandlerOpenStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -24001,6 +25285,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitHandlerReadIndexStatement" ):
                 listener.exitHandlerReadIndexStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitHandlerReadIndexStatement" ):
+                return visitor.visitHandlerReadIndexStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -24124,6 +25414,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitHandlerReadStatement" ):
                 listener.exitHandlerReadStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitHandlerReadStatement" ):
+                return visitor.visitHandlerReadStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -24204,6 +25500,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitHandlerCloseStatement" ):
                 listener.exitHandlerCloseStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitHandlerCloseStatement" ):
+                return visitor.visitHandlerCloseStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -24298,6 +25600,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSingleUpdateStatement" ):
                 listener.exitSingleUpdateStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSingleUpdateStatement" ):
+                return visitor.visitSingleUpdateStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -24451,6 +25759,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitMultipleUpdateStatement" ):
                 listener.exitMultipleUpdateStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMultipleUpdateStatement" ):
+                return visitor.visitMultipleUpdateStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -24553,6 +25867,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitOrderByClause" ):
                 listener.exitOrderByClause(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitOrderByClause" ):
+                return visitor.visitOrderByClause(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -24619,6 +25939,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitOrderByExpression" ):
                 listener.exitOrderByExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitOrderByExpression" ):
+                return visitor.visitOrderByExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -24684,6 +26010,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTableSources" ):
                 listener.exitTableSources(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableSources" ):
+                return visitor.visitTableSources(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -24763,6 +26095,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitTableSourceNested" ):
                 listener.exitTableSourceNested(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableSourceNested" ):
+                return visitor.visitTableSourceNested(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class TableSourceBaseContext(TableSourceContext):
 
@@ -24787,6 +26125,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTableSourceBase" ):
                 listener.exitTableSourceBase(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableSourceBase" ):
+                return visitor.visitTableSourceBase(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -24894,6 +26238,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSubqueryTableItem" ):
                 listener.exitSubqueryTableItem(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSubqueryTableItem" ):
+                return visitor.visitSubqueryTableItem(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AtomTableItemContext(TableSourceItemContext):
 
@@ -24939,6 +26289,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAtomTableItem" ):
                 listener.exitAtomTableItem(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAtomTableItem" ):
+                return visitor.visitAtomTableItem(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class TableSourcesItemContext(TableSourceItemContext):
 
@@ -24961,6 +26317,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTableSourcesItem" ):
                 listener.exitTableSourcesItem(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableSourcesItem" ):
+                return visitor.visitTableSourcesItem(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -25137,6 +26499,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitIndexHint" ):
                 listener.exitIndexHint(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIndexHint" ):
+                return visitor.visitIndexHint(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -25217,6 +26585,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitIndexHintType" ):
                 listener.exitIndexHintType(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIndexHintType" ):
+                return visitor.visitIndexHintType(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -25315,6 +26689,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitInnerJoin" ):
                 listener.exitInnerJoin(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitInnerJoin" ):
+                return visitor.visitInnerJoin(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class NaturalJoinContext(JoinPartContext):
 
@@ -25343,6 +26723,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitNaturalJoin" ):
                 listener.exitNaturalJoin(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNaturalJoin" ):
+                return visitor.visitNaturalJoin(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class OuterJoinContext(JoinPartContext):
@@ -25385,6 +26771,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitOuterJoin" ):
                 listener.exitOuterJoin(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitOuterJoin" ):
+                return visitor.visitOuterJoin(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class StraightJoinContext(JoinPartContext):
 
@@ -25410,6 +26802,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitStraightJoin" ):
                 listener.exitStraightJoin(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStraightJoin" ):
+                return visitor.visitStraightJoin(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -25601,6 +26999,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitQueryExpression" ):
                 listener.exitQueryExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitQueryExpression" ):
+                return visitor.visitQueryExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -25673,6 +27077,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitQueryExpressionNointo" ):
                 listener.exitQueryExpressionNointo(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitQueryExpressionNointo" ):
+                return visitor.visitQueryExpressionNointo(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -25770,6 +27180,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitQuerySpecification" ):
                 listener.exitQuerySpecification(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitQuerySpecification" ):
+                return visitor.visitQuerySpecification(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -25979,6 +27395,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitQuerySpecificationNointo" ):
                 listener.exitQuerySpecificationNointo(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitQuerySpecificationNointo" ):
+                return visitor.visitQuerySpecificationNointo(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -26085,6 +27507,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitUnionParenthesis" ):
                 listener.exitUnionParenthesis(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUnionParenthesis" ):
+                return visitor.visitUnionParenthesis(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -26157,6 +27585,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitUnionStatement" ):
                 listener.exitUnionStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUnionStatement" ):
+                return visitor.visitUnionStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -26257,6 +27691,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSelectSpec" ):
                 listener.exitSelectSpec(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSelectSpec" ):
+                return visitor.visitSelectSpec(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -26367,6 +27807,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSelectElements" ):
                 listener.exitSelectElements(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSelectElements" ):
+                return visitor.visitSelectElements(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -26456,6 +27902,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSelectExpressionElement" ):
                 listener.exitSelectExpressionElement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSelectExpressionElement" ):
+                return visitor.visitSelectExpressionElement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class SelectFunctionElementContext(SelectElementContext):
 
@@ -26480,6 +27932,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSelectFunctionElement" ):
                 listener.exitSelectFunctionElement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSelectFunctionElement" ):
+                return visitor.visitSelectFunctionElement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class SelectStarElementContext(SelectElementContext):
 
@@ -26502,6 +27960,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSelectStarElement" ):
                 listener.exitSelectStarElement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSelectStarElement" ):
+                return visitor.visitSelectStarElement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class SelectColumnElementContext(SelectElementContext):
@@ -26526,6 +27990,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSelectColumnElement" ):
                 listener.exitSelectColumnElement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSelectColumnElement" ):
+                return visitor.visitSelectColumnElement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -26683,6 +28153,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSelectIntoVariables" ):
                 listener.exitSelectIntoVariables(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSelectIntoVariables" ):
+                return visitor.visitSelectIntoVariables(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class SelectIntoTextFileContext(SelectIntoExpressionContext):
 
@@ -26733,6 +28209,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSelectIntoTextFile" ):
                 listener.exitSelectIntoTextFile(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSelectIntoTextFile" ):
+                return visitor.visitSelectIntoTextFile(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class SelectIntoDumpFileContext(SelectIntoExpressionContext):
 
@@ -26754,6 +28236,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSelectIntoDumpFile" ):
                 listener.exitSelectIntoDumpFile(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSelectIntoDumpFile" ):
+                return visitor.visitSelectIntoDumpFile(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -26916,6 +28404,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSelectFieldsInto" ):
                 listener.exitSelectFieldsInto(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSelectFieldsInto" ):
+                return visitor.visitSelectFieldsInto(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -27007,6 +28501,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSelectLinesInto" ):
                 listener.exitSelectLinesInto(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSelectLinesInto" ):
+                return visitor.visitSelectLinesInto(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -27080,6 +28580,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitFromClause" ):
                 listener.exitFromClause(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFromClause" ):
+                return visitor.visitFromClause(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -27157,6 +28663,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitGroupByClause" ):
                 listener.exitGroupByClause(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitGroupByClause" ):
+                return visitor.visitGroupByClause(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -27230,6 +28742,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitHavingClause" ):
                 listener.exitHavingClause(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitHavingClause" ):
+                return visitor.visitHavingClause(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -27280,6 +28798,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitGroupByItem" ):
                 listener.exitGroupByItem(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitGroupByItem" ):
+                return visitor.visitGroupByItem(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -27351,6 +28875,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitLimitClause" ):
                 listener.exitLimitClause(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLimitClause" ):
+                return visitor.visitLimitClause(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -27430,6 +28960,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitLimitClauseAtom" ):
                 listener.exitLimitClauseAtom(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLimitClauseAtom" ):
+                return visitor.visitLimitClauseAtom(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -27505,6 +29041,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitStartTransaction" ):
                 listener.exitStartTransaction(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStartTransaction" ):
+                return visitor.visitStartTransaction(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -27571,6 +29113,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitBeginWork" ):
                 listener.exitBeginWork(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBeginWork" ):
+                return visitor.visitBeginWork(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -27641,6 +29189,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitCommitWork" ):
                 listener.exitCommitWork(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCommitWork" ):
+                return visitor.visitCommitWork(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -27746,6 +29300,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitRollbackWork" ):
                 listener.exitRollbackWork(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRollbackWork" ):
+                return visitor.visitRollbackWork(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -27834,6 +29394,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSavepointStatement" ):
                 listener.exitSavepointStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSavepointStatement" ):
+                return visitor.visitSavepointStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -27889,6 +29455,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitRollbackStatement" ):
                 listener.exitRollbackStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRollbackStatement" ):
+                return visitor.visitRollbackStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -27959,6 +29531,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitReleaseStatement" ):
                 listener.exitReleaseStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitReleaseStatement" ):
+                return visitor.visitReleaseStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -28019,6 +29597,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitLockTables" ):
                 listener.exitLockTables(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLockTables" ):
+                return visitor.visitLockTables(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -28081,6 +29665,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitUnlockTables" ):
                 listener.exitUnlockTables(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUnlockTables" ):
+                return visitor.visitUnlockTables(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -28136,6 +29726,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSetAutocommitStatement" ):
                 listener.exitSetAutocommitStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSetAutocommitStatement" ):
+                return visitor.visitSetAutocommitStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -28213,6 +29809,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSetTransactionStatement" ):
                 listener.exitSetTransactionStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSetTransactionStatement" ):
+                return visitor.visitSetTransactionStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -28301,6 +29903,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitTransactionMode" ):
                 listener.exitTransactionMode(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTransactionMode" ):
+                return visitor.visitTransactionMode(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -28381,6 +29989,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitLockTableElement" ):
                 listener.exitLockTableElement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLockTableElement" ):
+                return visitor.visitLockTableElement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -28449,6 +30063,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitLockAction" ):
                 listener.exitLockAction(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLockAction" ):
+                return visitor.visitLockAction(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -28537,6 +30157,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitTransactionOption" ):
                 listener.exitTransactionOption(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTransactionOption" ):
+                return visitor.visitTransactionOption(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -28616,6 +30242,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTransactionLevel" ):
                 listener.exitTransactionLevel(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTransactionLevel" ):
+                return visitor.visitTransactionLevel(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -28712,6 +30344,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitChangeMaster" ):
                 listener.exitChangeMaster(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitChangeMaster" ):
+                return visitor.visitChangeMaster(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -28799,6 +30437,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitChangeReplicationFilter" ):
                 listener.exitChangeReplicationFilter(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitChangeReplicationFilter" ):
+                return visitor.visitChangeReplicationFilter(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -28880,6 +30524,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitPurgeBinaryLogs" ):
                 listener.exitPurgeBinaryLogs(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPurgeBinaryLogs" ):
+                return visitor.visitPurgeBinaryLogs(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -28953,6 +30603,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitResetMaster" ):
                 listener.exitResetMaster(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitResetMaster" ):
+                return visitor.visitResetMaster(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -29005,6 +30661,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitResetSlave" ):
                 listener.exitResetSlave(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitResetSlave" ):
+                return visitor.visitResetSlave(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -29099,6 +30761,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitStartSlave" ):
                 listener.exitStartSlave(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStartSlave" ):
+                return visitor.visitStartSlave(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -29208,6 +30876,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitStopSlave" ):
                 listener.exitStopSlave(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStopSlave" ):
+                return visitor.visitStopSlave(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -29275,6 +30949,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitStartGroupReplication" ):
                 listener.exitStartGroupReplication(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStartGroupReplication" ):
+                return visitor.visitStartGroupReplication(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -29320,6 +31000,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitStopGroupReplication" ):
                 listener.exitStopGroupReplication(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStopGroupReplication" ):
+                return visitor.visitStopGroupReplication(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -29382,6 +31068,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitMasterStringOption" ):
                 listener.exitMasterStringOption(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMasterStringOption" ):
+                return visitor.visitMasterStringOption(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class MasterRealOptionContext(MasterOptionContext):
 
@@ -29403,6 +31095,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitMasterRealOption" ):
                 listener.exitMasterRealOption(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMasterRealOption" ):
+                return visitor.visitMasterRealOption(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class MasterBoolOptionContext(MasterOptionContext):
@@ -29429,6 +31127,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitMasterBoolOption" ):
                 listener.exitMasterBoolOption(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMasterBoolOption" ):
+                return visitor.visitMasterBoolOption(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class MasterUidListOptionContext(MasterOptionContext):
@@ -29465,6 +31169,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitMasterUidListOption" ):
                 listener.exitMasterUidListOption(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMasterUidListOption" ):
+                return visitor.visitMasterUidListOption(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class MasterDecimalOptionContext(MasterOptionContext):
 
@@ -29488,6 +31198,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitMasterDecimalOption" ):
                 listener.exitMasterDecimalOption(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMasterDecimalOption" ):
+                return visitor.visitMasterDecimalOption(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -29650,6 +31366,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitStringMasterOption" ):
                 listener.exitStringMasterOption(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStringMasterOption" ):
+                return visitor.visitStringMasterOption(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -29712,6 +31434,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDecimalMasterOption" ):
                 listener.exitDecimalMasterOption(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDecimalMasterOption" ):
+                return visitor.visitDecimalMasterOption(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -29765,6 +31493,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitBoolMasterOption" ):
                 listener.exitBoolMasterOption(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBoolMasterOption" ):
+                return visitor.visitBoolMasterOption(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -29817,6 +31551,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitChannelOption" ):
                 listener.exitChannelOption(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitChannelOption" ):
+                return visitor.visitChannelOption(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -29885,6 +31625,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitWildIgnoreTableReplication" ):
                 listener.exitWildIgnoreTableReplication(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitWildIgnoreTableReplication" ):
+                return visitor.visitWildIgnoreTableReplication(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class DoTableReplicationContext(ReplicationFilterContext):
 
@@ -29912,6 +31658,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDoTableReplication" ):
                 listener.exitDoTableReplication(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDoTableReplication" ):
+                return visitor.visitDoTableReplication(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class IgnoreTableReplicationContext(ReplicationFilterContext):
 
@@ -29938,6 +31690,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitIgnoreTableReplication" ):
                 listener.exitIgnoreTableReplication(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIgnoreTableReplication" ):
+                return visitor.visitIgnoreTableReplication(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class RewriteDbReplicationContext(ReplicationFilterContext):
@@ -29974,6 +31732,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitRewriteDbReplication" ):
                 listener.exitRewriteDbReplication(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRewriteDbReplication" ):
+                return visitor.visitRewriteDbReplication(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class DoDbReplicationContext(ReplicationFilterContext):
 
@@ -30000,6 +31764,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDoDbReplication" ):
                 listener.exitDoDbReplication(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDoDbReplication" ):
+                return visitor.visitDoDbReplication(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class IgnoreDbReplicationContext(ReplicationFilterContext):
@@ -30028,6 +31798,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitIgnoreDbReplication" ):
                 listener.exitIgnoreDbReplication(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIgnoreDbReplication" ):
+                return visitor.visitIgnoreDbReplication(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class WildDoTableReplicationContext(ReplicationFilterContext):
 
@@ -30054,6 +31830,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitWildDoTableReplication" ):
                 listener.exitWildDoTableReplication(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitWildDoTableReplication" ):
+                return visitor.visitWildDoTableReplication(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -30224,6 +32006,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitTablePair" ):
                 listener.exitTablePair(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTablePair" ):
+                return visitor.visitTablePair(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -30275,6 +32063,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitThreadType" ):
                 listener.exitThreadType(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitThreadType" ):
+                return visitor.visitThreadType(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -30344,6 +32138,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitGtidsUntilOption" ):
                 listener.exitGtidsUntilOption(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitGtidsUntilOption" ):
+                return visitor.visitGtidsUntilOption(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class SqlGapsUntilOptionContext(UntilOptionContext):
 
@@ -30361,6 +32161,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSqlGapsUntilOption" ):
                 listener.exitSqlGapsUntilOption(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSqlGapsUntilOption" ):
+                return visitor.visitSqlGapsUntilOption(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class MasterLogUntilOptionContext(UntilOptionContext):
@@ -30394,6 +32200,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitMasterLogUntilOption" ):
                 listener.exitMasterLogUntilOption(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMasterLogUntilOption" ):
+                return visitor.visitMasterLogUntilOption(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class RelayLogUntilOptionContext(UntilOptionContext):
 
@@ -30425,6 +32237,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitRelayLogUntilOption" ):
                 listener.exitRelayLogUntilOption(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRelayLogUntilOption" ):
+                return visitor.visitRelayLogUntilOption(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -30546,6 +32364,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitPluginDirConnectionOption" ):
                 listener.exitPluginDirConnectionOption(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPluginDirConnectionOption" ):
+                return visitor.visitPluginDirConnectionOption(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class UserConnectionOptionContext(ConnectionOptionContext):
 
@@ -30568,6 +32392,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitUserConnectionOption" ):
                 listener.exitUserConnectionOption(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUserConnectionOption" ):
+                return visitor.visitUserConnectionOption(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class DefaultAuthConnectionOptionContext(ConnectionOptionContext):
@@ -30592,6 +32422,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDefaultAuthConnectionOption" ):
                 listener.exitDefaultAuthConnectionOption(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDefaultAuthConnectionOption" ):
+                return visitor.visitDefaultAuthConnectionOption(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class PasswordConnectionOptionContext(ConnectionOptionContext):
 
@@ -30614,6 +32450,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPasswordConnectionOption" ):
                 listener.exitPasswordConnectionOption(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPasswordConnectionOption" ):
+                return visitor.visitPasswordConnectionOption(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -30711,6 +32553,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitGtuidSet" ):
                 listener.exitGtuidSet(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitGtuidSet" ):
+                return visitor.visitGtuidSet(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -30796,6 +32644,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitXaStartTransaction" ):
                 listener.exitXaStartTransaction(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitXaStartTransaction" ):
+                return visitor.visitXaStartTransaction(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -30878,6 +32732,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitXaEndTransaction" ):
                 listener.exitXaEndTransaction(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitXaEndTransaction" ):
+                return visitor.visitXaEndTransaction(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -30949,6 +32809,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitXaPrepareStatement" ):
                 listener.exitXaPrepareStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitXaPrepareStatement" ):
+                return visitor.visitXaPrepareStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -31006,6 +32872,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitXaCommitWork" ):
                 listener.exitXaCommitWork(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitXaCommitWork" ):
+                return visitor.visitXaCommitWork(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -31070,6 +32942,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitXaRollbackWork" ):
                 listener.exitXaRollbackWork(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitXaRollbackWork" ):
+                return visitor.visitXaRollbackWork(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -31124,6 +33002,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitXaRecoverWork" ):
                 listener.exitXaRecoverWork(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitXaRecoverWork" ):
+                return visitor.visitXaRecoverWork(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -31193,6 +33077,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPrepareStatement" ):
                 listener.exitPrepareStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrepareStatement" ):
+                return visitor.visitPrepareStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -31264,6 +33154,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitExecuteStatement" ):
                 listener.exitExecuteStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExecuteStatement" ):
+                return visitor.visitExecuteStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -31329,6 +33225,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDeallocatePrepare" ):
                 listener.exitDeallocatePrepare(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDeallocatePrepare" ):
+                return visitor.visitDeallocatePrepare(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -31385,6 +33287,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitRoutineBody" ):
                 listener.exitRoutineBody(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRoutineBody" ):
+                return visitor.visitRoutineBody(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -31493,6 +33401,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitBlockStatement" ):
                 listener.exitBlockStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBlockStatement" ):
+                return visitor.visitBlockStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -31655,6 +33569,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCaseStatement" ):
                 listener.exitCaseStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCaseStatement" ):
+                return visitor.visitCaseStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -31780,6 +33700,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitIfStatement" ):
                 listener.exitIfStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIfStatement" ):
+                return visitor.visitIfStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -31882,6 +33808,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitIterateStatement" ):
                 listener.exitIterateStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIterateStatement" ):
+                return visitor.visitIterateStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -31928,6 +33860,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitLeaveStatement" ):
                 listener.exitLeaveStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLeaveStatement" ):
+                return visitor.visitLeaveStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -31994,6 +33932,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitLoopStatement" ):
                 listener.exitLoopStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLoopStatement" ):
+                return visitor.visitLoopStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -32103,6 +34047,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitRepeatStatement" ):
                 listener.exitRepeatStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRepeatStatement" ):
+                return visitor.visitRepeatStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -32189,6 +34139,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitReturnStatement" ):
                 listener.exitReturnStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitReturnStatement" ):
+                return visitor.visitReturnStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -32261,6 +34217,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitWhileStatement" ):
                 listener.exitWhileStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitWhileStatement" ):
+                return visitor.visitWhileStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -32360,6 +34322,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCloseCursor" ):
                 listener.exitCloseCursor(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCloseCursor" ):
+                return visitor.visitCloseCursor(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class OpenCursorContext(CursorStatementContext):
 
@@ -32380,6 +34348,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitOpenCursor" ):
                 listener.exitOpenCursor(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitOpenCursor" ):
+                return visitor.visitOpenCursor(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class FetchCursorContext(CursorStatementContext):
@@ -32410,6 +34384,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitFetchCursor" ):
                 listener.exitFetchCursor(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFetchCursor" ):
+                return visitor.visitFetchCursor(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -32514,6 +34494,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDeclareVariable" ):
                 listener.exitDeclareVariable(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDeclareVariable" ):
+                return visitor.visitDeclareVariable(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -32592,6 +34578,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDeclareCondition" ):
                 listener.exitDeclareCondition(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDeclareCondition" ):
+                return visitor.visitDeclareCondition(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -32679,6 +34671,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDeclareCursor" ):
                 listener.exitDeclareCursor(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDeclareCursor" ):
+                return visitor.visitDeclareCursor(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -32760,6 +34758,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDeclareHandler" ):
                 listener.exitDeclareHandler(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDeclareHandler" ):
+                return visitor.visitDeclareHandler(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -32844,6 +34848,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitHandlerConditionWarning" ):
                 listener.exitHandlerConditionWarning(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitHandlerConditionWarning" ):
+                return visitor.visitHandlerConditionWarning(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class HandlerConditionCodeContext(HandlerConditionValueContext):
 
@@ -32862,6 +34872,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitHandlerConditionCode" ):
                 listener.exitHandlerConditionCode(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitHandlerConditionCode" ):
+                return visitor.visitHandlerConditionCode(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class HandlerConditionNotfoundContext(HandlerConditionValueContext):
@@ -32882,6 +34898,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitHandlerConditionNotfound" ):
                 listener.exitHandlerConditionNotfound(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitHandlerConditionNotfound" ):
+                return visitor.visitHandlerConditionNotfound(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class HandlerConditionStateContext(HandlerConditionValueContext):
@@ -32905,6 +34927,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitHandlerConditionState" ):
                 listener.exitHandlerConditionState(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitHandlerConditionState" ):
+                return visitor.visitHandlerConditionState(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class HandlerConditionExceptionContext(HandlerConditionValueContext):
 
@@ -32922,6 +34950,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitHandlerConditionException" ):
                 listener.exitHandlerConditionException(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitHandlerConditionException" ):
+                return visitor.visitHandlerConditionException(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class HandlerConditionNameContext(HandlerConditionValueContext):
@@ -32941,6 +34975,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitHandlerConditionName" ):
                 listener.exitHandlerConditionName(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitHandlerConditionName" ):
+                return visitor.visitHandlerConditionName(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -33042,6 +35082,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitProcedureSqlStatement" ):
                 listener.exitProcedureSqlStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitProcedureSqlStatement" ):
+                return visitor.visitProcedureSqlStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -33114,6 +35160,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitCaseAlternative" ):
                 listener.exitCaseAlternative(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCaseAlternative" ):
+                return visitor.visitCaseAlternative(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -33200,6 +35252,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitElifAlternative" ):
                 listener.exitElifAlternative(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitElifAlternative" ):
+                return visitor.visitElifAlternative(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -33285,6 +35343,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAlterUserMysqlV56" ):
                 listener.exitAlterUserMysqlV56(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterUserMysqlV56" ):
+                return visitor.visitAlterUserMysqlV56(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AlterUserMysqlV57Context(AlterUserContext):
 
@@ -33354,6 +35418,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAlterUserMysqlV57" ):
                 listener.exitAlterUserMysqlV57(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlterUserMysqlV57" ):
+                return visitor.visitAlterUserMysqlV57(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -33598,6 +35668,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCreateUserMysqlV57" ):
                 listener.exitCreateUserMysqlV57(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCreateUserMysqlV57" ):
+                return visitor.visitCreateUserMysqlV57(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class CreateUserMysqlV56Context(CreateUserContext):
 
@@ -33628,6 +35704,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitCreateUserMysqlV56" ):
                 listener.exitCreateUserMysqlV56(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCreateUserMysqlV56" ):
+                return visitor.visitCreateUserMysqlV56(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -33827,6 +35909,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDropUser" ):
                 listener.exitDropUser(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDropUser" ):
+                return visitor.visitDropUser(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -33988,6 +36076,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitGrantStatement" ):
                 listener.exitGrantStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitGrantStatement" ):
+                return visitor.visitGrantStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -34266,6 +36360,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitGrantProxy" ):
                 listener.exitGrantProxy(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitGrantProxy" ):
+                return visitor.visitGrantProxy(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -34358,6 +36458,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitRenameUser" ):
                 listener.exitRenameUser(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRenameUser" ):
+                return visitor.visitRenameUser(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -34461,6 +36567,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDetailRevoke" ):
                 listener.exitDetailRevoke(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDetailRevoke" ):
+                return visitor.visitDetailRevoke(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class RoleRevokeContext(RevokeStatementContext):
 
@@ -34497,6 +36609,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitRoleRevoke" ):
                 listener.exitRoleRevoke(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRoleRevoke" ):
+                return visitor.visitRoleRevoke(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class ShortRevokeContext(RevokeStatementContext):
@@ -34536,6 +36654,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitShortRevoke" ):
                 listener.exitShortRevoke(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShortRevoke" ):
+                return visitor.visitShortRevoke(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -34760,6 +36884,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitRevokeProxy" ):
                 listener.exitRevokeProxy(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRevokeProxy" ):
+                return visitor.visitRevokeProxy(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -34845,6 +36975,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSetPasswordStatement" ):
                 listener.exitSetPasswordStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSetPasswordStatement" ):
+                return visitor.visitSetPasswordStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -34920,6 +37056,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitUserSpecification" ):
                 listener.exitUserSpecification(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUserSpecification" ):
+                return visitor.visitUserSpecification(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -34977,6 +37119,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSimpleAuthOption" ):
                 listener.exitSimpleAuthOption(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSimpleAuthOption" ):
+                return visitor.visitSimpleAuthOption(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class PasswordAuthOptionContext(UserAuthOptionContext):
 
@@ -35004,6 +37152,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPasswordAuthOption" ):
                 listener.exitPasswordAuthOption(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPasswordAuthOption" ):
+                return visitor.visitPasswordAuthOption(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class StringAuthOptionContext(UserAuthOptionContext):
@@ -35035,6 +37189,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitStringAuthOption" ):
                 listener.exitStringAuthOption(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStringAuthOption" ):
+                return visitor.visitStringAuthOption(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class HashAuthOptionContext(UserAuthOptionContext):
 
@@ -35064,6 +37224,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitHashAuthOption" ):
                 listener.exitHashAuthOption(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitHashAuthOption" ):
+                return visitor.visitHashAuthOption(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -35190,6 +37356,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitTlsOption" ):
                 listener.exitTlsOption(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTlsOption" ):
+                return visitor.visitTlsOption(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -35277,6 +37449,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitUserResourceOption" ):
                 listener.exitUserResourceOption(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUserResourceOption" ):
+                return visitor.visitUserResourceOption(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -35370,6 +37548,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitUserPasswordOption" ):
                 listener.exitUserPasswordOption(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUserPasswordOption" ):
+                return visitor.visitUserPasswordOption(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -35443,6 +37627,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitUserLockOption" ):
                 listener.exitUserLockOption(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUserLockOption" ):
+                return visitor.visitUserLockOption(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -35503,6 +37693,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPrivelegeClause" ):
                 listener.exitPrivelegeClause(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrivelegeClause" ):
+                return visitor.visitPrivelegeClause(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -35761,6 +37957,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPrivilege" ):
                 listener.exitPrivilege(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrivilege" ):
+                return visitor.visitPrivilege(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -36185,6 +38387,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDefiniteSchemaPrivLevel" ):
                 listener.exitDefiniteSchemaPrivLevel(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDefiniteSchemaPrivLevel" ):
+                return visitor.visitDefiniteSchemaPrivLevel(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class DefiniteFullTablePrivLevel2Context(PrivilegeLevelContext):
 
@@ -36206,6 +38414,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDefiniteFullTablePrivLevel2" ):
                 listener.exitDefiniteFullTablePrivLevel2(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDefiniteFullTablePrivLevel2" ):
+                return visitor.visitDefiniteFullTablePrivLevel2(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class DefiniteFullTablePrivLevelContext(PrivilegeLevelContext):
@@ -36231,6 +38445,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDefiniteFullTablePrivLevel" ):
                 listener.exitDefiniteFullTablePrivLevel(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDefiniteFullTablePrivLevel" ):
+                return visitor.visitDefiniteFullTablePrivLevel(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class GlobalPrivLevelContext(PrivilegeLevelContext):
 
@@ -36254,6 +38474,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitGlobalPrivLevel" ):
                 listener.exitGlobalPrivLevel(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitGlobalPrivLevel" ):
+                return visitor.visitGlobalPrivLevel(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class DefiniteTablePrivLevelContext(PrivilegeLevelContext):
 
@@ -36273,6 +38499,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDefiniteTablePrivLevel" ):
                 listener.exitDefiniteTablePrivLevel(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDefiniteTablePrivLevel" ):
+                return visitor.visitDefiniteTablePrivLevel(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class CurrentSchemaPriviLevelContext(PrivilegeLevelContext):
 
@@ -36290,6 +38522,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitCurrentSchemaPriviLevel" ):
                 listener.exitCurrentSchemaPriviLevel(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCurrentSchemaPriviLevel" ):
+                return visitor.visitCurrentSchemaPriviLevel(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -36397,6 +38635,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitRenameUserClause" ):
                 listener.exitRenameUserClause(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRenameUserClause" ):
+                return visitor.visitRenameUserClause(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -36455,6 +38699,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAnalyzeTable" ):
                 listener.exitAnalyzeTable(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAnalyzeTable" ):
+                return visitor.visitAnalyzeTable(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -36530,6 +38780,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCheckTable" ):
                 listener.exitCheckTable(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCheckTable" ):
+                return visitor.visitCheckTable(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -36599,6 +38855,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitChecksumTable" ):
                 listener.exitChecksumTable(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitChecksumTable" ):
+                return visitor.visitChecksumTable(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -36676,6 +38938,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitOptimizeTable" ):
                 listener.exitOptimizeTable(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitOptimizeTable" ):
+                return visitor.visitOptimizeTable(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -36764,6 +39032,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitRepairTable" ):
                 listener.exitRepairTable(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRepairTable" ):
+                return visitor.visitRepairTable(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -36866,6 +39140,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitCheckTableOption" ):
                 listener.exitCheckTableOption(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCheckTableOption" ):
+                return visitor.visitCheckTableOption(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -36975,6 +39255,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCreateUdfunction" ):
                 listener.exitCreateUdfunction(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCreateUdfunction" ):
+                return visitor.visitCreateUdfunction(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -37056,6 +39342,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitInstallPlugin" ):
                 listener.exitInstallPlugin(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitInstallPlugin" ):
+                return visitor.visitInstallPlugin(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -37111,6 +39403,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitUninstallPlugin" ):
                 listener.exitUninstallPlugin(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUninstallPlugin" ):
+                return visitor.visitUninstallPlugin(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -37171,6 +39469,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSetTransaction" ):
                 listener.exitSetTransaction(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSetTransaction" ):
+                return visitor.visitSetTransaction(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class SetCharsetContext(SetStatementContext):
 
@@ -37200,6 +39504,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSetCharset" ):
                 listener.exitSetCharset(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSetCharset" ):
+                return visitor.visitSetCharset(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class SetNamesContext(SetStatementContext):
@@ -37231,6 +39541,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSetNames" ):
                 listener.exitSetNames(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSetNames" ):
+                return visitor.visitSetNames(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class SetPasswordContext(SetStatementContext):
 
@@ -37250,6 +39566,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSetPassword" ):
                 listener.exitSetPassword(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSetPassword" ):
+                return visitor.visitSetPassword(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class SetAutocommitContext(SetStatementContext):
 
@@ -37268,6 +39590,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSetAutocommit" ):
                 listener.exitSetAutocommit(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSetAutocommit" ):
+                return visitor.visitSetAutocommit(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class SetNewValueInsideTriggerContext(SetStatementContext):
@@ -37314,6 +39642,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSetNewValueInsideTrigger" ):
                 listener.exitSetNewValueInsideTrigger(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSetNewValueInsideTrigger" ):
+                return visitor.visitSetNewValueInsideTrigger(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class SetVariableContext(SetStatementContext):
 
@@ -37358,6 +39692,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSetVariable" ):
                 listener.exitSetVariable(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSetVariable" ):
+                return visitor.visitSetVariable(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -37598,6 +39938,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitShowOpenTables" ):
                 listener.exitShowOpenTables(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShowOpenTables" ):
+                return visitor.visitShowOpenTables(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ShowGlobalInfoContext(ShowStatementContext):
 
@@ -37618,6 +39964,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitShowGlobalInfo" ):
                 listener.exitShowGlobalInfo(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShowGlobalInfo" ):
+                return visitor.visitShowGlobalInfo(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class ShowCreateFullIdObjectContext(ShowStatementContext):
@@ -37655,6 +40007,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitShowCreateFullIdObject" ):
                 listener.exitShowCreateFullIdObject(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShowCreateFullIdObject" ):
+                return visitor.visitShowCreateFullIdObject(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ShowCreateUserContext(ShowStatementContext):
 
@@ -37679,6 +40037,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitShowCreateUser" ):
                 listener.exitShowCreateUser(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShowCreateUser" ):
+                return visitor.visitShowCreateUser(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class ShowErrorsContext(ShowStatementContext):
@@ -37715,6 +40079,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitShowErrors" ):
                 listener.exitShowErrors(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShowErrors" ):
+                return visitor.visitShowErrors(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ShowCountErrorsContext(ShowStatementContext):
 
@@ -37746,6 +40116,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitShowCountErrors" ):
                 listener.exitShowCountErrors(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShowCountErrors" ):
+                return visitor.visitShowCountErrors(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ShowObjectFilterContext(ShowStatementContext):
 
@@ -37769,6 +40145,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitShowObjectFilter" ):
                 listener.exitShowObjectFilter(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShowObjectFilter" ):
+                return visitor.visitShowObjectFilter(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class ShowCreateDbContext(ShowStatementContext):
@@ -37801,6 +40183,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitShowCreateDb" ):
                 listener.exitShowCreateDb(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShowCreateDb" ):
+                return visitor.visitShowCreateDb(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ShowEngineContext(ShowStatementContext):
 
@@ -37828,6 +40216,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitShowEngine" ):
                 listener.exitShowEngine(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShowEngine" ):
+                return visitor.visitShowEngine(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class ShowSchemaFilterContext(ShowStatementContext):
@@ -37860,6 +40254,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitShowSchemaFilter" ):
                 listener.exitShowSchemaFilter(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShowSchemaFilter" ):
+                return visitor.visitShowSchemaFilter(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class ShowIndexesContext(ShowStatementContext):
@@ -37909,6 +40309,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitShowIndexes" ):
                 listener.exitShowIndexes(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShowIndexes" ):
+                return visitor.visitShowIndexes(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ShowLogEventsContext(ShowStatementContext):
 
@@ -37954,6 +40360,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitShowLogEvents" ):
                 listener.exitShowLogEvents(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShowLogEvents" ):
+                return visitor.visitShowLogEvents(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ShowMasterLogsContext(ShowStatementContext):
 
@@ -37979,6 +40391,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitShowMasterLogs" ):
                 listener.exitShowMasterLogs(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShowMasterLogs" ):
+                return visitor.visitShowMasterLogs(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ShowGrantsContext(ShowStatementContext):
 
@@ -38003,6 +40421,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitShowGrants" ):
                 listener.exitShowGrants(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShowGrants" ):
+                return visitor.visitShowGrants(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class ShowSlaveStatusContext(ShowStatementContext):
@@ -38032,6 +40456,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitShowSlaveStatus" ):
                 listener.exitShowSlaveStatus(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShowSlaveStatus" ):
+                return visitor.visitShowSlaveStatus(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ShowRoutineContext(ShowStatementContext):
 
@@ -38059,6 +40489,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitShowRoutine" ):
                 listener.exitShowRoutine(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShowRoutine" ):
+                return visitor.visitShowRoutine(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class ShowProfileContext(ShowStatementContext):
@@ -38106,6 +40542,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitShowProfile" ):
                 listener.exitShowProfile(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShowProfile" ):
+                return visitor.visitShowProfile(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ShowColumnsContext(ShowStatementContext):
 
@@ -38151,6 +40593,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitShowColumns" ):
                 listener.exitShowColumns(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShowColumns" ):
+                return visitor.visitShowColumns(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -38733,6 +41181,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitVariableClause" ):
                 listener.exitVariableClause(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitVariableClause" ):
+                return visitor.visitVariableClause(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -38845,6 +41299,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitShowCommonEntity" ):
                 listener.exitShowCommonEntity(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShowCommonEntity" ):
+                return visitor.visitShowCommonEntity(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -38960,6 +41420,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitShowFilter" ):
                 listener.exitShowFilter(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShowFilter" ):
+                return visitor.visitShowFilter(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -39053,6 +41519,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitShowGlobalInfoClause" ):
                 listener.exitShowGlobalInfoClause(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShowGlobalInfoClause" ):
+                return visitor.visitShowGlobalInfoClause(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -39179,6 +41651,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitShowSchemaEntity" ):
                 listener.exitShowSchemaEntity(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShowSchemaEntity" ):
+                return visitor.visitShowSchemaEntity(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -39287,6 +41765,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitShowProfileType" ):
                 listener.exitShowProfileType(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShowProfileType" ):
+                return visitor.visitShowProfileType(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -39385,6 +41869,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitBinlogStatement" ):
                 listener.exitBinlogStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBinlogStatement" ):
+                return visitor.visitBinlogStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -39467,6 +41957,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitCacheIndexStatement" ):
                 listener.exitCacheIndexStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCacheIndexStatement" ):
+                return visitor.visitCacheIndexStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -39576,6 +42072,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitFlushStatement" ):
                 listener.exitFlushStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFlushStatement" ):
+                return visitor.visitFlushStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -39659,6 +42161,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitKillStatement" ):
                 listener.exitKillStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitKillStatement" ):
+                return visitor.visitKillStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -39750,6 +42258,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitLoadIndexIntoCache" ):
                 listener.exitLoadIndexIntoCache(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLoadIndexIntoCache" ):
+                return visitor.visitLoadIndexIntoCache(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -39818,6 +42332,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitResetStatement" ):
                 listener.exitResetStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitResetStatement" ):
+                return visitor.visitResetStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -39862,6 +42382,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitShutdownStatement" ):
                 listener.exitShutdownStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShutdownStatement" ):
+                return visitor.visitShutdownStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -39921,6 +42447,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTableIndexes" ):
                 listener.exitTableIndexes(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableIndexes" ):
+                return visitor.visitTableIndexes(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -40009,6 +42541,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitTableFlushOption" ):
                 listener.exitTableFlushOption(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableFlushOption" ):
+                return visitor.visitTableFlushOption(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ChannelFlushOptionContext(FlushOptionContext):
 
@@ -40031,6 +42569,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitChannelFlushOption" ):
                 listener.exitChannelFlushOption(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitChannelFlushOption" ):
+                return visitor.visitChannelFlushOption(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class SimpleFlushOptionContext(FlushOptionContext):
@@ -40085,6 +42629,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSimpleFlushOption" ):
                 listener.exitSimpleFlushOption(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSimpleFlushOption" ):
+                return visitor.visitSimpleFlushOption(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -40248,6 +42798,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitFlushTableOption" ):
                 listener.exitFlushTableOption(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFlushTableOption" ):
+                return visitor.visitFlushTableOption(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -40348,6 +42904,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitLoadedTableIndexes" ):
                 listener.exitLoadedTableIndexes(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLoadedTableIndexes" ):
+                return visitor.visitLoadedTableIndexes(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -40473,6 +43035,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSimpleDescribeStatement" ):
                 listener.exitSimpleDescribeStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSimpleDescribeStatement" ):
+                return visitor.visitSimpleDescribeStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -40566,6 +43134,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitFullDescribeStatement" ):
                 listener.exitFullDescribeStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFullDescribeStatement" ):
+                return visitor.visitFullDescribeStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -40643,6 +43217,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitHelpStatement" ):
                 listener.exitHelpStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitHelpStatement" ):
+                return visitor.visitHelpStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -40689,6 +43269,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitUseStatement" ):
                 listener.exitUseStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUseStatement" ):
+                return visitor.visitUseStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -40764,6 +43350,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSignalStatement" ):
                 listener.exitSignalStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSignalStatement" ):
+                return visitor.visitSignalStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -40888,6 +43480,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitResignalStatement" ):
                 listener.exitResignalStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitResignalStatement" ):
+                return visitor.visitResignalStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -41033,6 +43631,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSignalConditionInformation" ):
                 listener.exitSignalConditionInformation(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSignalConditionInformation" ):
+                return visitor.visitSignalConditionInformation(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -41159,6 +43763,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDiagnosticsStatement" ):
                 listener.exitDiagnosticsStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDiagnosticsStatement" ):
+                return visitor.visitDiagnosticsStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -41333,6 +43943,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDiagnosticsConditionInformationName" ):
                 listener.exitDiagnosticsConditionInformationName(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDiagnosticsConditionInformationName" ):
+                return visitor.visitDiagnosticsConditionInformationName(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -41406,6 +44022,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDescribeStatements" ):
                 listener.exitDescribeStatements(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDescribeStatements" ):
+                return visitor.visitDescribeStatements(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class DescribeConnectionContext(DescribeObjectClauseContext):
 
@@ -41428,6 +44050,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDescribeConnection" ):
                 listener.exitDescribeConnection(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDescribeConnection" ):
+                return visitor.visitDescribeConnection(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -41522,6 +44150,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitFullId" ):
                 listener.exitFullId(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFullId" ):
+                return visitor.visitFullId(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -41578,6 +44212,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitTableName" ):
                 listener.exitTableName(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTableName" ):
+                return visitor.visitTableName(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -41626,6 +44266,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitFullColumnName" ):
                 listener.exitFullColumnName(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFullColumnName" ):
+                return visitor.visitFullColumnName(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -41728,6 +44374,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitIndexColumnName" ):
                 listener.exitIndexColumnName(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIndexColumnName" ):
+                return visitor.visitIndexColumnName(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -41814,6 +44466,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitUserName" ):
                 listener.exitUserName(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUserName" ):
+                return visitor.visitUserName(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -41863,6 +44521,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitMysqlVariable" ):
                 listener.exitMysqlVariable(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMysqlVariable" ):
+                return visitor.visitMysqlVariable(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -41920,6 +44584,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitCharsetName" ):
                 listener.exitCharsetName(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCharsetName" ):
+                return visitor.visitCharsetName(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -41988,6 +44658,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitCollationName" ):
                 listener.exitCollationName(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCollationName" ):
+                return visitor.visitCollationName(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -42088,6 +44764,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitEngineName" ):
                 listener.exitEngineName(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitEngineName" ):
+                return visitor.visitEngineName(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -42150,6 +44832,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitUuidSet" ):
                 listener.exitUuidSet(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUuidSet" ):
+                return visitor.visitUuidSet(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -42244,6 +44932,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitXid" ):
                 listener.exitXid(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitXid" ):
+                return visitor.visitXid(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -42314,6 +45008,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitXuidStringId" ):
                 listener.exitXuidStringId(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitXuidStringId" ):
+                return visitor.visitXuidStringId(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -42389,6 +45089,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitAuthPlugin" ):
                 listener.exitAuthPlugin(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAuthPlugin" ):
+                return visitor.visitAuthPlugin(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -42449,6 +45155,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitUid" ):
                 listener.exitUid(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUid" ):
+                return visitor.visitUid(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -42545,6 +45257,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSimpleId" ):
                 listener.exitSimpleId(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSimpleId" ):
+                return visitor.visitSimpleId(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -42655,6 +45373,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDottedId" ):
                 listener.exitDottedId(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDottedId" ):
+                return visitor.visitDottedId(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -42720,6 +45444,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDecimalLiteral" ):
                 listener.exitDecimalLiteral(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDecimalLiteral" ):
+                return visitor.visitDecimalLiteral(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -42770,6 +45500,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitFileSizeLiteral" ):
                 listener.exitFileSizeLiteral(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFileSizeLiteral" ):
+                return visitor.visitFileSizeLiteral(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -42840,6 +45576,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitStringLiteral" ):
                 listener.exitStringLiteral(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStringLiteral" ):
+                return visitor.visitStringLiteral(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -42963,6 +45705,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitBooleanLiteral" ):
                 listener.exitBooleanLiteral(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBooleanLiteral" ):
+                return visitor.visitBooleanLiteral(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -43012,6 +45760,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitHexadecimalLiteral" ):
                 listener.exitHexadecimalLiteral(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitHexadecimalLiteral" ):
+                return visitor.visitHexadecimalLiteral(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -43068,6 +45822,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitNullNotnull" ):
                 listener.exitNullNotnull(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNullNotnull" ):
+                return visitor.visitNullNotnull(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -43159,6 +45919,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitConstant" ):
                 listener.exitConstant(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitConstant" ):
+                return visitor.visitConstant(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -43305,6 +46071,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSpatialDataType" ):
                 listener.exitSpatialDataType(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSpatialDataType" ):
+                return visitor.visitSpatialDataType(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class LongVarbinaryDataTypeContext(DataTypeContext):
 
@@ -43324,6 +46096,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitLongVarbinaryDataType" ):
                 listener.exitLongVarbinaryDataType(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLongVarbinaryDataType" ):
+                return visitor.visitLongVarbinaryDataType(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class CollectionDataTypeContext(DataTypeContext):
@@ -43361,6 +46139,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCollectionDataType" ):
                 listener.exitCollectionDataType(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCollectionDataType" ):
+                return visitor.visitCollectionDataType(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class NationalVaryingStringDataTypeContext(DataTypeContext):
 
@@ -43390,6 +46174,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitNationalVaryingStringDataType" ):
                 listener.exitNationalVaryingStringDataType(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNationalVaryingStringDataType" ):
+                return visitor.visitNationalVaryingStringDataType(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class DimensionDataTypeContext(DataTypeContext):
@@ -43483,6 +46273,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDimensionDataType" ):
                 listener.exitDimensionDataType(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDimensionDataType" ):
+                return visitor.visitDimensionDataType(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class StringDataTypeContext(DataTypeContext):
 
@@ -43545,6 +46341,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitStringDataType" ):
                 listener.exitStringDataType(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStringDataType" ):
+                return visitor.visitStringDataType(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class LongVarcharDataTypeContext(DataTypeContext):
 
@@ -43582,6 +46384,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitLongVarcharDataType" ):
                 listener.exitLongVarcharDataType(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLongVarcharDataType" ):
+                return visitor.visitLongVarcharDataType(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class NationalStringDataTypeContext(DataTypeContext):
 
@@ -43611,6 +46419,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitNationalStringDataType" ):
                 listener.exitNationalStringDataType(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNationalStringDataType" ):
+                return visitor.visitNationalStringDataType(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class SimpleDataTypeContext(DataTypeContext):
@@ -43642,6 +46456,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSimpleDataType" ):
                 listener.exitSimpleDataType(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSimpleDataType" ):
+                return visitor.visitSimpleDataType(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -44188,6 +47008,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCollectionOptions" ):
                 listener.exitCollectionOptions(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCollectionOptions" ):
+                return visitor.visitCollectionOptions(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -44297,6 +47123,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitConvertedDataType" ):
                 listener.exitConvertedDataType(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitConvertedDataType" ):
+                return visitor.visitConvertedDataType(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -44448,6 +47280,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitLengthOneDimension" ):
                 listener.exitLengthOneDimension(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLengthOneDimension" ):
+                return visitor.visitLengthOneDimension(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -44505,6 +47343,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitLengthTwoDimension" ):
                 listener.exitLengthTwoDimension(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLengthTwoDimension" ):
+                return visitor.visitLengthTwoDimension(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -44567,6 +47411,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitLengthTwoOptionalDimension" ):
                 listener.exitLengthTwoOptionalDimension(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLengthTwoOptionalDimension" ):
+                return visitor.visitLengthTwoOptionalDimension(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -44634,6 +47484,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitUidList" ):
                 listener.exitUidList(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUidList" ):
+                return visitor.visitUidList(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -44697,6 +47553,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTables" ):
                 listener.exitTables(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTables" ):
+                return visitor.visitTables(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -44768,6 +47630,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitIndexColumnNames" ):
                 listener.exitIndexColumnNames(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIndexColumnNames" ):
+                return visitor.visitIndexColumnNames(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -44836,6 +47704,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitExpressions" ):
                 listener.exitExpressions(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExpressions" ):
+                return visitor.visitExpressions(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -44899,6 +47773,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitExpressionsWithDefaults" ):
                 listener.exitExpressionsWithDefaults(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExpressionsWithDefaults" ):
+                return visitor.visitExpressionsWithDefaults(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -44964,6 +47844,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitConstants" ):
                 listener.exitConstants(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitConstants" ):
+                return visitor.visitConstants(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -45027,6 +47913,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSimpleStrings" ):
                 listener.exitSimpleStrings(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSimpleStrings" ):
+                return visitor.visitSimpleStrings(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -45089,6 +47981,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitUserVariables" ):
                 listener.exitUserVariables(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUserVariables" ):
+                return visitor.visitUserVariables(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -45174,6 +48072,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDefaultValue" ):
                 listener.exitDefaultValue(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDefaultValue" ):
+                return visitor.visitDefaultValue(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -45281,6 +48185,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCurrentTimestamp" ):
                 listener.exitCurrentTimestamp(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCurrentTimestamp" ):
+                return visitor.visitCurrentTimestamp(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -45374,6 +48284,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitExpressionOrDefault" ):
                 listener.exitExpressionOrDefault(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExpressionOrDefault" ):
+                return visitor.visitExpressionOrDefault(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -45431,6 +48347,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitIfExists" ):
                 listener.exitIfExists(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIfExists" ):
+                return visitor.visitIfExists(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -45479,6 +48401,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitIfNotExists" ):
                 listener.exitIfNotExists(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIfNotExists" ):
+                return visitor.visitIfNotExists(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -45539,6 +48467,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSpecificFunctionCall" ):
                 listener.exitSpecificFunctionCall(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSpecificFunctionCall" ):
+                return visitor.visitSpecificFunctionCall(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class PasswordFunctionCallContext(FunctionCallContext):
 
@@ -45557,6 +48491,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPasswordFunctionCall" ):
                 listener.exitPasswordFunctionCall(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPasswordFunctionCall" ):
+                return visitor.visitPasswordFunctionCall(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class UdfFunctionCallContext(FunctionCallContext):
@@ -45584,6 +48524,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitUdfFunctionCall" ):
                 listener.exitUdfFunctionCall(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUdfFunctionCall" ):
+                return visitor.visitUdfFunctionCall(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AggregateFunctionCallContext(FunctionCallContext):
 
@@ -45602,6 +48548,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAggregateFunctionCall" ):
                 listener.exitAggregateFunctionCall(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAggregateFunctionCall" ):
+                return visitor.visitAggregateFunctionCall(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class ScalarFunctionCallContext(FunctionCallContext):
@@ -45628,6 +48580,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitScalarFunctionCall" ):
                 listener.exitScalarFunctionCall(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitScalarFunctionCall" ):
+                return visitor.visitScalarFunctionCall(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -45764,6 +48722,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitPositionFunctionCall" ):
                 listener.exitPositionFunctionCall(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPositionFunctionCall" ):
+                return visitor.visitPositionFunctionCall(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class TrimFunctionCallContext(SpecificFunctionContext):
 
@@ -45810,6 +48774,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTrimFunctionCall" ):
                 listener.exitTrimFunctionCall(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTrimFunctionCall" ):
+                return visitor.visitTrimFunctionCall(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class JsonValueFunctionCallContext(SpecificFunctionContext):
@@ -45874,6 +48844,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitJsonValueFunctionCall" ):
                 listener.exitJsonValueFunctionCall(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitJsonValueFunctionCall" ):
+                return visitor.visitJsonValueFunctionCall(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class CaseFunctionCallContext(SpecificFunctionContext):
 
@@ -45905,6 +48881,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitCaseFunctionCall" ):
                 listener.exitCaseFunctionCall(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCaseFunctionCall" ):
+                return visitor.visitCaseFunctionCall(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class ExtractFunctionCallContext(SpecificFunctionContext):
@@ -45940,6 +48922,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitExtractFunctionCall" ):
                 listener.exitExtractFunctionCall(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExtractFunctionCall" ):
+                return visitor.visitExtractFunctionCall(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class DataTypeFunctionCallContext(SpecificFunctionContext):
@@ -45981,6 +48969,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitDataTypeFunctionCall" ):
                 listener.exitDataTypeFunctionCall(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDataTypeFunctionCall" ):
+                return visitor.visitDataTypeFunctionCall(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ValuesFunctionCallContext(SpecificFunctionContext):
 
@@ -46005,6 +48999,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitValuesFunctionCall" ):
                 listener.exitValuesFunctionCall(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitValuesFunctionCall" ):
+                return visitor.visitValuesFunctionCall(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class CaseExpressionFunctionCallContext(SpecificFunctionContext):
@@ -46041,6 +49041,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCaseExpressionFunctionCall" ):
                 listener.exitCaseExpressionFunctionCall(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCaseExpressionFunctionCall" ):
+                return visitor.visitCaseExpressionFunctionCall(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class SimpleFunctionCallContext(SpecificFunctionContext):
 
@@ -46071,6 +49077,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSimpleFunctionCall" ):
                 listener.exitSimpleFunctionCall(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSimpleFunctionCall" ):
+                return visitor.visitSimpleFunctionCall(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class CharFunctionCallContext(SpecificFunctionContext):
 
@@ -46100,6 +49112,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitCharFunctionCall" ):
                 listener.exitCharFunctionCall(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCharFunctionCall" ):
+                return visitor.visitCharFunctionCall(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class WeightFunctionCallContext(SpecificFunctionContext):
@@ -46148,6 +49166,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitWeightFunctionCall" ):
                 listener.exitWeightFunctionCall(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitWeightFunctionCall" ):
+                return visitor.visitWeightFunctionCall(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class GetFormatFunctionCallContext(SpecificFunctionContext):
 
@@ -46181,6 +49205,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitGetFormatFunctionCall" ):
                 listener.exitGetFormatFunctionCall(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitGetFormatFunctionCall" ):
+                return visitor.visitGetFormatFunctionCall(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class SubstrFunctionCallContext(SpecificFunctionContext):
@@ -46230,6 +49260,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSubstrFunctionCall" ):
                 listener.exitSubstrFunctionCall(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSubstrFunctionCall" ):
+                return visitor.visitSubstrFunctionCall(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -46849,6 +49885,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCaseFuncAlternative" ):
                 listener.exitCaseFuncAlternative(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCaseFuncAlternative" ):
+                return visitor.visitCaseFuncAlternative(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -46919,6 +49961,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitLevelWeightRange" ):
                 listener.exitLevelWeightRange(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLevelWeightRange" ):
+                return visitor.visitLevelWeightRange(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class LevelWeightListContext(LevelsInWeightStringContext):
 
@@ -46947,6 +49995,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitLevelWeightList" ):
                 listener.exitLevelWeightList(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLevelWeightList" ):
+                return visitor.visitLevelWeightList(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -47034,6 +50088,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitLevelInWeightListElement" ):
                 listener.exitLevelInWeightListElement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLevelInWeightListElement" ):
+                return visitor.visitLevelInWeightListElement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -47186,6 +50246,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAggregateWindowedFunction" ):
                 listener.exitAggregateWindowedFunction(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAggregateWindowedFunction" ):
+                return visitor.visitAggregateWindowedFunction(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -47453,6 +50519,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitScalarFunctionName" ):
                 listener.exitScalarFunctionName(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitScalarFunctionName" ):
+                return visitor.visitScalarFunctionName(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -47626,6 +50698,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitPasswordFunctionClause" ):
                 listener.exitPasswordFunctionClause(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPasswordFunctionClause" ):
+                return visitor.visitPasswordFunctionClause(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -47710,6 +50788,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitFunctionArgs" ):
                 listener.exitFunctionArgs(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFunctionArgs" ):
+                return visitor.visitFunctionArgs(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -47822,6 +50906,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitFunctionArg" ):
                 listener.exitFunctionArg(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFunctionArg" ):
+                return visitor.visitFunctionArg(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -47912,6 +51002,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitIsExpression" ):
                 listener.exitIsExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIsExpression" ):
+                return visitor.visitIsExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class NotExpressionContext(ExpressionContext):
 
@@ -47935,6 +51031,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitNotExpression" ):
                 listener.exitNotExpression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNotExpression" ):
+                return visitor.visitNotExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class LogicalExpressionContext(ExpressionContext):
@@ -47961,6 +51063,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitLogicalExpression" ):
                 listener.exitLogicalExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLogicalExpression" ):
+                return visitor.visitLogicalExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class PredicateExpressionContext(ExpressionContext):
 
@@ -47979,6 +51087,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPredicateExpression" ):
                 listener.exitPredicateExpression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPredicateExpression" ):
+                return visitor.visitPredicateExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -48120,6 +51234,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSoundsLikePredicate" ):
                 listener.exitSoundsLikePredicate(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSoundsLikePredicate" ):
+                return visitor.visitSoundsLikePredicate(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ExpressionAtomPredicateContext(PredicateContext):
 
@@ -48142,6 +51262,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitExpressionAtomPredicate" ):
                 listener.exitExpressionAtomPredicate(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExpressionAtomPredicate" ):
+                return visitor.visitExpressionAtomPredicate(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class SubqueryComparisonPredicateContext(PredicateContext):
@@ -48179,6 +51305,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSubqueryComparisonPredicate" ):
                 listener.exitSubqueryComparisonPredicate(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSubqueryComparisonPredicate" ):
+                return visitor.visitSubqueryComparisonPredicate(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class JsonMemberOfPredicateContext(PredicateContext):
 
@@ -48209,6 +51341,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitJsonMemberOfPredicate" ):
                 listener.exitJsonMemberOfPredicate(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitJsonMemberOfPredicate" ):
+                return visitor.visitJsonMemberOfPredicate(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class BinaryComparisonPredicateContext(PredicateContext):
 
@@ -48235,6 +51373,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitBinaryComparisonPredicate" ):
                 listener.exitBinaryComparisonPredicate(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBinaryComparisonPredicate" ):
+                return visitor.visitBinaryComparisonPredicate(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class InPredicateContext(PredicateContext):
@@ -48269,6 +51413,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitInPredicate" ):
                 listener.exitInPredicate(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitInPredicate" ):
+                return visitor.visitInPredicate(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class BetweenPredicateContext(PredicateContext):
 
@@ -48297,6 +51447,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitBetweenPredicate" ):
                 listener.exitBetweenPredicate(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBetweenPredicate" ):
+                return visitor.visitBetweenPredicate(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class IsNullPredicateContext(PredicateContext):
 
@@ -48320,6 +51476,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitIsNullPredicate" ):
                 listener.exitIsNullPredicate(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIsNullPredicate" ):
+                return visitor.visitIsNullPredicate(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class LikePredicateContext(PredicateContext):
@@ -48351,6 +51513,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitLikePredicate" ):
                 listener.exitLikePredicate(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLikePredicate" ):
+                return visitor.visitLikePredicate(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class RegexpPredicateContext(PredicateContext):
 
@@ -48379,6 +51547,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitRegexpPredicate" ):
                 listener.exitRegexpPredicate(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRegexpPredicate" ):
+                return visitor.visitRegexpPredicate(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -48677,6 +51851,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitUnaryExpressionAtom" ):
                 listener.exitUnaryExpressionAtom(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUnaryExpressionAtom" ):
+                return visitor.visitUnaryExpressionAtom(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class CollateExpressionAtomContext(ExpressionAtomContext):
 
@@ -48701,6 +51881,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCollateExpressionAtom" ):
                 listener.exitCollateExpressionAtom(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCollateExpressionAtom" ):
+                return visitor.visitCollateExpressionAtom(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class MysqlVariableExpressionAtomContext(ExpressionAtomContext):
 
@@ -48719,6 +51905,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitMysqlVariableExpressionAtom" ):
                 listener.exitMysqlVariableExpressionAtom(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMysqlVariableExpressionAtom" ):
+                return visitor.visitMysqlVariableExpressionAtom(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class NestedExpressionAtomContext(ExpressionAtomContext):
@@ -48750,6 +51942,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitNestedExpressionAtom" ):
                 listener.exitNestedExpressionAtom(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNestedExpressionAtom" ):
+                return visitor.visitNestedExpressionAtom(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class NestedRowExpressionAtomContext(ExpressionAtomContext):
@@ -48784,6 +51982,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitNestedRowExpressionAtom" ):
                 listener.exitNestedRowExpressionAtom(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNestedRowExpressionAtom" ):
+                return visitor.visitNestedRowExpressionAtom(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class MathExpressionAtomContext(ExpressionAtomContext):
 
@@ -48811,6 +52015,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitMathExpressionAtom" ):
                 listener.exitMathExpressionAtom(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMathExpressionAtom" ):
+                return visitor.visitMathExpressionAtom(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ExistsExpressionAtomContext(ExpressionAtomContext):
 
@@ -48836,6 +52046,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitExistsExpressionAtom" ):
                 listener.exitExistsExpressionAtom(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExistsExpressionAtom" ):
+                return visitor.visitExistsExpressionAtom(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class IntervalExpressionAtomContext(ExpressionAtomContext):
 
@@ -48859,6 +52075,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitIntervalExpressionAtom" ):
                 listener.exitIntervalExpressionAtom(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIntervalExpressionAtom" ):
+                return visitor.visitIntervalExpressionAtom(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class JsonExpressionAtomContext(ExpressionAtomContext):
@@ -48887,6 +52109,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitJsonExpressionAtom" ):
                 listener.exitJsonExpressionAtom(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitJsonExpressionAtom" ):
+                return visitor.visitJsonExpressionAtom(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class SubqueryExpressionAtomContext(ExpressionAtomContext):
 
@@ -48910,6 +52138,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitSubqueryExpressionAtom" ):
                 listener.exitSubqueryExpressionAtom(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSubqueryExpressionAtom" ):
+                return visitor.visitSubqueryExpressionAtom(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ConstantExpressionAtomContext(ExpressionAtomContext):
 
@@ -48929,6 +52163,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitConstantExpressionAtom" ):
                 listener.exitConstantExpressionAtom(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitConstantExpressionAtom" ):
+                return visitor.visitConstantExpressionAtom(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class FunctionCallExpressionAtomContext(ExpressionAtomContext):
 
@@ -48947,6 +52187,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitFunctionCallExpressionAtom" ):
                 listener.exitFunctionCallExpressionAtom(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFunctionCallExpressionAtom" ):
+                return visitor.visitFunctionCallExpressionAtom(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class BinaryExpressionAtomContext(ExpressionAtomContext):
@@ -48969,6 +52215,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitBinaryExpressionAtom" ):
                 listener.exitBinaryExpressionAtom(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBinaryExpressionAtom" ):
+                return visitor.visitBinaryExpressionAtom(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class FullColumnNameExpressionAtomContext(ExpressionAtomContext):
 
@@ -48987,6 +52239,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitFullColumnNameExpressionAtom" ):
                 listener.exitFullColumnNameExpressionAtom(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFullColumnNameExpressionAtom" ):
+                return visitor.visitFullColumnNameExpressionAtom(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class BitExpressionAtomContext(ExpressionAtomContext):
@@ -49014,6 +52272,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitBitExpressionAtom" ):
                 listener.exitBitExpressionAtom(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBitExpressionAtom" ):
+                return visitor.visitBitExpressionAtom(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -49288,6 +52552,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitUnaryOperator" ):
                 listener.exitUnaryOperator(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUnaryOperator" ):
+                return visitor.visitUnaryOperator(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -49343,6 +52613,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitComparisonOperator" ):
                 listener.exitComparisonOperator(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitComparisonOperator" ):
+                return visitor.visitComparisonOperator(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -49464,6 +52740,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitLogicalOperator" ):
                 listener.exitLogicalOperator(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLogicalOperator" ):
+                return visitor.visitLogicalOperator(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -49554,6 +52836,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitBitOperator" ):
                 listener.exitBitOperator(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBitOperator" ):
+                return visitor.visitBitOperator(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -49649,6 +52937,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitMathOperator" ):
                 listener.exitMathOperator(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMathOperator" ):
+                return visitor.visitMathOperator(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -49701,6 +52995,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitJsonOperator" ):
                 listener.exitJsonOperator(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitJsonOperator" ):
+                return visitor.visitJsonOperator(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -49879,6 +53179,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitCharsetNameBase" ):
                 listener.exitCharsetNameBase(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCharsetNameBase" ):
+                return visitor.visitCharsetNameBase(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -49934,6 +53240,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTransactionLevelBase" ):
                 listener.exitTransactionLevelBase(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTransactionLevelBase" ):
+                return visitor.visitTransactionLevelBase(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -50006,6 +53318,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitPrivilegesBase" ):
                 listener.exitPrivilegesBase(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrivilegesBase" ):
+                return visitor.visitPrivilegesBase(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -50074,6 +53392,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitIntervalTypeBase" ):
                 listener.exitIntervalTypeBase(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIntervalTypeBase" ):
+                return visitor.visitIntervalTypeBase(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -50138,6 +53462,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDataTypeBase" ):
                 listener.exitDataTypeBase(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDataTypeBase" ):
+                return visitor.visitDataTypeBase(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -51299,6 +54629,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitKeywordsCanBeId" ):
                 listener.exitKeywordsCanBeId(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitKeywordsCanBeId" ):
+                return visitor.visitKeywordsCanBeId(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -52396,6 +55732,12 @@ class MySqlParser ( Parser ):
             if hasattr( listener, "exitFunctionNameBase" ):
                 listener.exitFunctionNameBase(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFunctionNameBase" ):
+                return visitor.visitFunctionNameBase(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -52445,6 +55787,12 @@ class MySqlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitParameterMarker" ):
                 listener.exitParameterMarker(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitParameterMarker" ):
+                return visitor.visitParameterMarker(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 

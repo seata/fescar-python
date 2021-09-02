@@ -140,6 +140,12 @@ cython_debug/
 # idea
 .idea/
 
+# sublime
+*.sublime*
+
+# vscode
+.vscode/
+
 # my ignore
 seata/test/pool_config.py
 seata/test/*my_test.py

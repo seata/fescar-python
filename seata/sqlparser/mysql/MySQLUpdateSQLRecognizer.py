@@ -14,9 +14,6 @@ class MySQLUpdateSQLRecognizer(SQLRecognizer):
         self.original_sql = original_sql
         self.sql_type = sql_type
         self.dml_stmt = stmt
-        self.statement = None
-
-    def init(self):
         self.statement = MySQLUpdateStatement(self.dml_stmt.updateStatement())
 
     def get_sql_type(self):

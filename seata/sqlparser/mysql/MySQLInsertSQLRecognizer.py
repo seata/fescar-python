@@ -10,14 +10,11 @@ from seata.sqlparser.mysql.antlr4.visit.MySQLInsertStatement import MySQLInsertS
 
 
 class MySQLInsertRecognizer(SQLInsertRecognizer):
+
     def __int__(self, original_sql=None, sql_type=None, stmt=None):
         self.original_sql = original_sql
         self.sql_type = sql_type
         self.dml_stmt = stmt
-        self.statement = None
-        pass
-
-    def init(self):
         self.statement = MySQLInsertStatement(self.dml_stmt.insertStatement())
 
     def get_sql_type(self):
@@ -28,7 +25,7 @@ class MySQLInsertRecognizer(SQLInsertRecognizer):
 
     def get_table_alias(self):
         # mysql insert not support alias
-        return None
+        return self.statement.table_alias
 
     def get_original_sql(self):
         return self.original_sql
@@ -54,7 +51,8 @@ class MySQLInsertRecognizer(SQLInsertRecognizer):
                     row.append(value)
                 else:
                     if j in pk_index:
-                        raise SQLParsingException("Unknown SQLExpr:" + str(value))
+                        raise SQLParsingException(
+                            "Unknown SQLExpr:" + str(value))
                     row.append(NotPlaceholderValue())
             rows.append(row)
         return rows
