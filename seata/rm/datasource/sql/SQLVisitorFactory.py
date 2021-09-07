@@ -9,9 +9,9 @@ from seata.sqlparser.mysql.MySQLDeleteSQLRecognizer import MySQLDeleteSQLRecogni
 from seata.sqlparser.mysql.MySQLInsertSQLRecognizer import MySQLInsertRecognizer
 from seata.sqlparser.mysql.MySQLSelectSQLRecognizer import MySQLSelectSQLRecognizer
 from seata.sqlparser.mysql.MySQLUpdateSQLRecognizer import MySQLUpdateSQLRecognizer
-from seata.sqlparser.mysql.antlr4.gen.MySqlLexer import MySqlLexer, CommonTokenStream
-from seata.sqlparser.mysql.antlr4.gen.MySqlParser import MySqlParser
-from seata.sqlparser.mysql.antlr4.stream.NoCaseStringStream import NoCaseStringStream
+
+from seata.sqlparser.mysql.antlr4.parser.mysql_base import MySqlBase, MysqlStatementVisitor, InsertStatement, \
+    DeleteStatement, UpdateStatement, SelectStatement
 from seata.sqlparser.util.JdbcConstants import JdbcConstants
 
 
@@ -22,10 +22,7 @@ class SQLVisitorFactory(object):
         if db_type != JdbcConstants.MYSQL:
             raise NotSupportYetException()
 
-        lexer = MySqlLexer(NoCaseStringStream(target_sql))
-        stream = CommonTokenStream(lexer)
-        parser = MySqlParser(stream)
-        stmts = parser.sqlStatements().sqlStatement()
+        stmts = MySqlBase.parserSQLStatement(target_sql)
 
         if stmts is None or len(stmts) <= 0:
             raise ShouldNeverHappenException()
@@ -43,38 +40,41 @@ class SQLVisitorFactory(object):
     def get_sql_recognizer(cls, target_sql, stmts):
         sql_recognizers = []
         for i in range(len(stmts)):
-            dml_stmt = stmts[i].dmlStatement()
+            dml_stmt = stmts[i]
             if dml_stmt is None:
                 continue
-            if dml_stmt.insertStatement() is not None:
+
+            stmt = MysqlStatementVisitor().visit(dml_stmt)
+
+            if isinstance(stmt, InsertStatement):
                 sql_recognizer = MySQLInsertRecognizer()
                 sql_recognizer.sql_type = SQLType.INSERT
-                if dml_stmt.insertStatement().IGNORE() is not None:
+                if stmt.ignore:
                     sql_recognizer.sql_type = SQLType.INSERT_IGNORE
-                if dml_stmt.insertStatement().DUPLICATE() is not None:
-                    sql_recognizer.sql_type = SQLType.INSERT_ON_DUPLICATE_UPDATE
-                sql_recognizer.dml_stmt = dml_stmt
+                sql_recognizer.stmt = stmt
                 sql_recognizer.original_sql = target_sql
                 sql_recognizers.append(sql_recognizer)
-            elif dml_stmt.deleteStatement() is not None:
+            elif isinstance(stmt, DeleteStatement):
                 sql_recognizer = MySQLDeleteSQLRecognizer()
                 sql_recognizer.sql_type = SQLType.DELETE
-                sql_recognizer.stmt = dml_stmt
+                sql_recognizer.stmt = stmt
                 sql_recognizer.original_sql = target_sql
                 sql_recognizers.append(sql_recognizer)
-            elif dml_stmt.updateStatement() is not None:
+            elif isinstance(stmt, UpdateStatement):
                 sql_recognizer = MySQLUpdateSQLRecognizer()
                 sql_recognizer.sql_type = SQLType.UPDATE
-                sql_recognizer.dml_stmt = dml_stmt
+                sql_recognizer.stmt = stmt
                 sql_recognizer.original_sql = target_sql
                 sql_recognizers.append(sql_recognizer)
-            elif dml_stmt.selectStatement() is not None:
+            elif isinstance(stmt, SelectStatement):
                 sql_recognizer = MySQLSelectSQLRecognizer()
                 sql_recognizer.sql_type = SQLType.SELECT
-                if dml_stmt.selectStatement().lockClause() is not None:
+                if stmt.lock is not None:
                     sql_recognizer.sql_type = SQLType.SELECT_FOR_UPDATE
-                sql_recognizer.stmt = dml_stmt
+                sql_recognizer.stmt = stmt
                 sql_recognizer.original_sql = target_sql
                 sql_recognizers.append(sql_recognizer)
+
+            sql_recognizer.init()
 
         return sql_recognizers

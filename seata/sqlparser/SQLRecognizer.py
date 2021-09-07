@@ -18,5 +18,5 @@ class SQLRecognizer(object):
     def get_original_sql(self):
         raise NotImplemented("need subclass implemented")
 
-    def get_where_condition(self, parameters_map, param_list):
+    def get_where_condition(self, parameters_map=None, param_list=None):
         raise NotImplemented("need subclass implemented")

@@ -6,13 +6,6 @@ from seata.rm.datasource.ColumnUtils import ColumnUtils
 
 
 class SQLUtil:
-    __quote = "[]`'\""
-
-    @classmethod
-    def remove_quota(cls, value):
-        for i in range(len(cls.__quote)):
-            value = value.replace(cls.__quote[i], "")
-        return value
 
     @classmethod
     def get_db_type(cls, connection):
@@ -30,13 +23,13 @@ class SQLUtil:
             batch_size = row_size // max_in_size + 1
         for batch in range(batch_size):
             if batch > 0:
-                where_str += " or "
+                where_str += " OR "
             where_str += "("
             for i in range(len(pk_column_name_list)):
                 if i > 0:
                     where_str += ","
                 where_str += ColumnUtils.add_by_dbtype(pk_column_name_list[i], db_type)
-            where_str += ") in ( "
+            where_str += ") IN ( "
             if batch == batch_size - 1:
                 if row_size % max_in_size == 0:
                     each_size = max_in_size
@@ -61,8 +54,17 @@ class SQLUtil:
         where_str = ""
         for i in range(len(pk_name_list)):
             if i > 0:
-                where_str += " and "
+                where_str += " AND "
             pk_name = pk_name_list[i]
             where_str += ColumnUtils.add_by_dbtype(pk_name, db_type)
             where_str += " = %s "
         return where_str
+
+    @classmethod
+    def set_param_for_pk(cls, pk_rows_list, pk_column_name_list):
+        params = []
+        for pk_rows_idx, pk_rows in enumerate(pk_rows_list):
+            for col_idx, column in enumerate(pk_column_name_list):
+                f = pk_rows[column]
+                params.append(f.get_value())
+        return params

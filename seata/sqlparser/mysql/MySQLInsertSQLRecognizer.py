@@ -4,6 +4,7 @@
 # @since 1.0
 from seata.sqlparser.SQLDMLRecognizer import SQLInsertRecognizer
 from seata.sqlparser.SQLParsingException import SQLParsingException
+from seata.sqlparser.mysql.antlr4.parser.mysql_base import InsertStatement
 from seata.sqlparser.mysql.antlr4.value import MySQLValue
 from seata.sqlparser.mysql.antlr4.value.MySQLValue import NotPlaceholderValue
 from seata.sqlparser.mysql.antlr4.visit.MySQLInsertStatement import MySQLInsertStatement
@@ -14,8 +15,13 @@ class MySQLInsertRecognizer(SQLInsertRecognizer):
     def __int__(self, original_sql=None, sql_type=None, stmt=None):
         self.original_sql = original_sql
         self.sql_type = sql_type
-        self.dml_stmt = stmt
-        self.statement = MySQLInsertStatement(self.dml_stmt.insertStatement())
+        self.stmt = stmt
+        self.statement = None
+
+    def init(self):
+        if not isinstance(self.stmt, InsertStatement):
+            raise TypeError('stmt type error.' + type(self.stmt).__name__)
+        self.statement = MySQLInsertStatement(self.stmt)
 
     def get_sql_type(self):
         return self.sql_type

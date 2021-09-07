@@ -2,26 +2,28 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-from seata.sqlparser.mysql.antlr4.gen.MySqlParser import MySqlParser
-from seata.sqlparser.mysql.antlr4.value.MySQLValue import NullValue, StringValue, BoolValue, IntValue, \
-    DoubleValue, ParameterMarkerValue, OtherValue
+from seata.sqlparser.mysql.antlr4.parser.mysql_base import BitString, RealLiteral, DecimalLiteral, BooleanLiteral, \
+    ParameterMarker, StringLiteral, HexadecimalLiteral, NullLiteral
+from seata.sqlparser.mysql.antlr4.value import MySQLValue
 
 
 class MySQLStatementUtil:
 
     @classmethod
-    def parse_constant(cls, ctx: MySqlParser.ConstantContext):
-        if ctx.NULL_LITERAL() is not None:
-            return NullValue()
-        elif ctx.stringLiteral() is not None:
-            return StringValue(ctx.stringLiteral().getText())
-        elif ctx.decimalLiteral() is not None:
-            return IntValue(ctx.decimalLiteral().getText())
-        elif ctx.REAL_LITERAL() is not None:
-            return DoubleValue(ctx.REAL_LITERAL().getText())
-        elif ctx.booleanLiteral() is not None:
-            return BoolValue(ctx.booleanLiteral().getText())
-        elif ctx.parameterMarker() is not None:
-            return ParameterMarkerValue(ctx.parameterMarker().getText())
-        else:
-            return OtherValue(ctx.getText())
+    def parse_constant(cls, val):
+        if isinstance(val, BitString):
+            return MySQLValue.OtherValue(val.value)
+        elif isinstance(val, RealLiteral):
+            return MySQLValue.IntValue(val.value)
+        elif isinstance(val, DecimalLiteral):
+            return MySQLValue.DoubleValue(val.value)
+        elif isinstance(val, BooleanLiteral):
+            return MySQLValue.BoolValue(val.value)
+        elif isinstance(val, ParameterMarker):
+            return MySQLValue.ParameterMarkerValue(val.value)
+        elif isinstance(val, StringLiteral):
+            return MySQLValue.StringValue(val.value)
+        elif isinstance(val, HexadecimalLiteral):
+            return MySQLValue.OtherValue(val.value)
+        elif isinstance(val, NullLiteral):
+            return MySQLValue.NullValue()

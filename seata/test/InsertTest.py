@@ -55,6 +55,30 @@ def test_insert():
     print('success')
 
 
+def test_update():
+    base_dir = os.path.dirname(os.path.dirname(__file__))
+    Configuration(base_dir + '/script/client.yml')
+    GlobalTransactionScanner()
+
+    pool = get_pool()
+    data_source_proxy = DataSourceProxy(pool, JdbcConstants.MYSQL)
+
+    cp = data_source_proxy.connection()
+
+    tx = GlobalTransactionContext.get_current_or_create()
+    tx.begin()
+
+    cursor = cp.cursor()
+    cursor.execute("update test t set t.name = %s, t.created = now() where t.id = %s",
+                   ('name2', 1))
+    cp.commit()
+
+    # tx.commit()
+    tx.rollback()
+    time.sleep(30)
+    print('success')
+
+
 def test_get_table_meta():
     pool = get_pool()
     con = pool.connection()
@@ -106,7 +130,8 @@ def test_IntegrityError():
 
 
 if __name__ == '__main__':
-    test_insert()
+    # test_insert()
+    test_update()
     # test_get_table_meta()
     # test_get_low_case()
     # test_insert_lastrowid()

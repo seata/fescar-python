@@ -11,13 +11,3 @@ class MySQLUpdateExecutor(UpdateExecutor):
         self.cursor_proxy = cursor_proxy
         self.cursor_callback = cursor_callback
         self.sql_recognizer = sql_recognizer
-
-    def before_image(self):
-
-        raise NotImplemented()
-
-    def after_image(self, before_image):
-        raise NotImplemented()
-
-    def execute(self, args):
-        raise NotImplemented()

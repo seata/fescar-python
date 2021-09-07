@@ -50,7 +50,7 @@ class TableMeta(object):
         return name_list
 
     def get_escape_pk_name_list(self, db_type):
-        return ColumnUtils.add_by_dbtype(self.get_primary_key_only_name(), db_type)
+        return ColumnUtils.add_escape_by_cols_dbtype(self.get_primary_key_only_name(), db_type)
 
     def contains_pk(self, cols):
         if cols is None:

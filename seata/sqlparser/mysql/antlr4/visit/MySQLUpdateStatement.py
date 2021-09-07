@@ -2,19 +2,24 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-from seata.sqlparser.mysql.antlr4.gen.MySqlParser import MySqlParser
+from seata.sqlparser.mysql.antlr4.parser.mysql_base import UpdateStatement, Default, Constant
 from seata.sqlparser.mysql.antlr4.util.MySQLStatementUtil import MySQLStatementUtil
+from seata.sqlparser.mysql.antlr4.value import MySQLValue
 
 
-class UpdateSetItem(object):
-    def __init__(self, column=None, value=None):
+class UpdateSetItem:
+
+    def __init__(self, owner=None, column=None, value=None):
+        self.owner = owner
         self.column = column
         self.value = value
 
 
 class MySQLUpdateStatement:
 
-    def __init__(self, ctx: MySqlParser.UpdateStatementContext):
+    def __init__(self, ctx: UpdateStatement):
+        if not isinstance(ctx, UpdateStatement):
+            raise TypeError('ctx type error.' + type(ctx).__name__)
         self.table_name = None
         self.table_alias = None
         self.items = []
@@ -31,45 +36,35 @@ class MySQLUpdateStatement:
         self.__parse_where()
         self.__parse_order_by()
 
-    def __parse_table_alias(self):
-        sus = self.__ctx.singleUpdateStatement()
-        if sus.uid() is not None:
-            self.table_alias = sus.uid().getText()
-
     def __parse_table_name(self):
-        sus = self.__ctx.singleUpdateStatement()
-        table_name = sus.tableName().getText()
-        self.table_name = table_name
+        self.table_name = self.__ctx.tableSource.tableName
+
+    def __parse_table_alias(self):
+        self.table_alias = self.__ctx.tableSource.tableAlias
 
     def __parse_items(self):
-        sus = self.__ctx.singleUpdateStatement()
-        ues = sus.updatedElement()
-        for i in range(len(ues)):
-            ue = ues[i]
-            # like t.id or id
-            column = ue.fullColumnName().getText()
-            # TODO ignore value
-            value = None
-            self.items.append(UpdateSetItem(column, value))
+        items = []
+        for ele_idx, ele in enumerate(self.__ctx.updatedElement):
+            if ele.column.owner is not None:
+                column = ele.column.value
+            else:
+                column = ele.column.value
+
+            if isinstance(ele.value, Default):
+                value = ele.value.value
+            elif isinstance(ele.value, Constant):
+                value = MySQLStatementUtil.parse_constant(ele.value)
+            else:
+                value = MySQLValue.NotSupportValue(type(ele.value))
+
+            items.append(UpdateSetItem(ele.column.owner, column, value))
+        self.items = items
 
     def __parse_where(self):
-        sus = self.__ctx.singleUpdateStatement()
-        where = sus.expression()
-        if isinstance(where, MySqlParser.NotExpressionContext):
-            pass
-        elif isinstance(where, MySqlParser.LogicalExpressionContext):
-            pass
-        elif isinstance(where, MySqlParser.IsExpressionContext):
-            pass
-        elif isinstance(where, MySqlParser.PredicateExpressionContext):
-            pc = where.predicate()
-
-            pass
+        self.where = self.__ctx.where
 
     def __parse_order_by(self):
-        sus = self.__ctx.singleUpdateStatement()
-        self.order_by = sus.orderByClause()
-    
+        self.order_by = self.__ctx.orderBy
+
     def __parse_limit(self):
-        sus = self.__ctx.singleUpdateStatement()
-        self.limit = sus.limitClause()
+        self.limit = self.__ctx.limit
