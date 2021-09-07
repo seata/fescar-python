@@ -3,6 +3,7 @@
 # @author jsbxyyx
 # @since 1.0
 from seata.core.context.RootContext import RootContext
+from seata.exception.NotSupportYetException import NotSupportYetException
 from seata.exception.ShouldNeverHappenException import ShouldNeverHappenException
 from seata.rm.datasource.ColumnUtils import ColumnUtils
 from seata.rm.datasource.exception.SQLException import SQLException
@@ -114,7 +115,83 @@ class BaseTransactionalExecutor(Executor):
         if table_alias is None:
             return table_name
         else:
-            return table_alias + "." + table_name
+            return table_name + " " + table_alias
+
+    def build_where_condition(self, recognizer, param_list):
+        where_condition = None
+        if self.cursor_proxy.parameters is not None:
+            where_condition = recognizer.get_where_condition(self.deal_parameters(self.cursor_proxy.parameters),
+                                                             param_list)
+        else:
+            where_condition = recognizer.get_where_condition()
+        if where_condition is not None and len(where_condition.strip()) == 0 and len(param_list) > 1:
+            where_str = " ( " + where_condition + " ) "
+            for i in range(len(param_list)):
+                where_str += (" or ( " + where_condition + " ) ")
+            where_condition = where_str
+        return where_condition
+
+    def deal_parameters(self, parameters):
+        if isinstance(parameters, tuple):
+            params = {}
+            for index, p in enumerate(parameters):
+                params[index] = [p]
+            return params
+        elif isinstance(parameters, list):
+            params = {}
+            for i in range(len(parameters)):
+                parameter = parameters[i]
+                for index, p in enumerate(parameter):
+                    if params.get(index, None) is None:
+                        params[index] = [p]
+                    else:
+                        params[index].append(p)
+            return params
+        else:
+            raise NotSupportYetException('not support parameters type : {}'.format(type(parameters)))
+
+    def contains_pk(self, columns):
+        if columns is None or len(columns) == 0:
+            return False
+        new_columns = ColumnUtils.del_escape_by_cols_dbtype(columns, self.get_db_type())
+        return self.get_table_meta().contains_pk(new_columns)
+
+    def get_column_names_in_sql(self, column_name_list):
+        if column_name_list is None or len(column_name_list) == 0:
+            return None
+        column_str = ""
+        for col_idx, column in enumerate(column_name_list):
+            if col_idx > 0:
+                column_str += ","
+            column_str += self.get_column_name_in_sql(column)
+        return column_str
+
+    def get_column_name_in_sql(self, column):
+        table_alias = self.sql_recognizer.get_table_alias()
+        if table_alias is None:
+            return column
+        else:
+            return table_alias + "." + column
+
+    def build_table_records(self, tm, select_sql, param_list):
+        cursor = None
+        try:
+            con = self.cursor_proxy.get_connection()
+            cursor = con.cursor()
+            params = []
+            if param_list is not None and len(param_list) > 0:
+                for pl_idx, param in enumerate(param_list):
+                    for p_idx, p in enumerate(param):
+                        params.append(p)
+            cursor.execute(select_sql, tuple(params))
+            rs_all = cursor.fetchall()
+            return TableRecords.build_records(tm, rs_all)
+        finally:
+            if cursor is not None:
+                try:
+                    cursor.close()
+                except Exception:
+                    pass
 
 
 class DMLBaseExecutor(BaseTransactionalExecutor):
@@ -217,3 +294,84 @@ class BaseInsertExecutor(DMLBaseExecutor, InsertExecutor):
                     cursor.close()
                 except Exception:
                     pass
+
+
+class UpdateExecutor(DMLBaseExecutor):
+    ONLY_CARE_UPDATE_COLUMNS = True
+
+    def before_image(self):
+        param_list = []
+        tm = self.get_table_meta()
+        select_sql = self.__build_before_image_sql(tm, param_list)
+        return self.build_table_records(tm, select_sql, param_list)
+
+    def __build_before_image_sql(self, tm, param_list):
+        recognizer = self.sql_recognizer
+        update_columns = recognizer.get_update_columns()
+        prefix = "SELECT "
+        suffix = " FROM " + self.get_from_table_in_sql()
+        where_condition = self.build_where_condition(recognizer, param_list)
+        if len(where_condition.strip()) > 0:
+            suffix += where_condition
+        # TODO order by
+        # TODO limit
+        suffix += " FOR UPDATE"
+
+        column_str = ""
+        if self.ONLY_CARE_UPDATE_COLUMNS:
+            if not self.contains_pk(update_columns):
+                column_str += self.get_column_names_in_sql(tm.get_escape_pk_name_list(self.get_db_type())) + ","
+            for col_idx, column in enumerate(update_columns):
+                if col_idx > 0:
+                    column_str += ","
+                column_str += column
+        else:
+            for col_idx, column in enumerate(tm.all_columns.keys()):
+                if col_idx > 0:
+                    column_str += ","
+                column_str += ColumnUtils.add_by_dbtype(column, self.get_db_type())
+
+        return prefix + column_str + suffix
+
+    def after_image(self, before_image: TableRecords):
+        tm = self.get_table_meta()
+        if before_image is None or before_image.size() == 0:
+            return TableRecords.empty(tm)
+        select_sql = self.__build_after_image_sql(tm, before_image)
+
+        cursor = None
+        try:
+            con = self.cursor_proxy.get_connection()
+            cursor = con.cursor()
+            params = SQLUtil.set_param_for_pk(before_image.pk_rows(), tm.get_primary_key_only_name())
+            cursor.execute(select_sql, tuple(params))
+            rs_all = cursor.fetchall()
+            return TableRecords.build_records(tm, rs_all)
+        finally:
+            if cursor is not None:
+                try:
+                    cursor.close()
+                except Exception:
+                    pass
+
+    def __build_after_image_sql(self, tm, before_image):
+        prefix = "SELECT "
+        where_sql = SQLUtil.build_where_condition_by_pks(tm.get_primary_key_only_name(), len(before_image.rows),
+                                                         self.get_db_type())
+        suffix = " FROM " + self.get_from_table_in_sql() + " WHERE " + where_sql
+        column_str = ""
+        if self.ONLY_CARE_UPDATE_COLUMNS:
+            update_columns = self.sql_recognizer.get_update_columns()
+            if not self.contains_pk(update_columns):
+                column_str += self.get_column_names_in_sql(tm.get_escape_pk_name_list(self.get_db_type())) + ","
+            for col_idx, column in enumerate(update_columns):
+                if col_idx > 0:
+                    column_str += ","
+                column_str += column
+        else:
+            for col_idx, column in enumerate(tm.all_columns.keys()):
+                if col_idx > 0:
+                    column_str += ","
+                column_str += ColumnUtils.add_by_dbtype(column, self.get_db_type())
+
+        return prefix + column_str + suffix

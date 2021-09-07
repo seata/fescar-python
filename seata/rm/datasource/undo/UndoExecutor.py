@@ -55,10 +55,10 @@ class UndoExecutor:
     def undo_prepare(self, cursor, undo_values, pk_value_list):
         params = []
         for undo_value in undo_values:
-            params.append(undo_value.value)
+            params.append(undo_value.get_value())
 
         for pk_field in pk_value_list:
-            params.append(pk_field.value)
+            params.append(pk_field.get_value())
         return params
 
     def data_validation_and_go_on(self, connection):

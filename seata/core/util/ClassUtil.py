@@ -28,6 +28,8 @@ class ClassUtil:
                         isinstance(value, int) or \
                         isinstance(value, str):
                     pr[name] = value
+                elif isinstance(value, bytes):
+                    pr[name] = value
                 elif isinstance(value, enum.Enum):
                     pr[name] = value.value
                 else:

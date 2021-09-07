@@ -2,99 +2,51 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-from seata.sqlparser.mysql.antlr4.gen.MySqlParser import MySqlParser
+from seata.sqlparser.mysql.antlr4.parser.mysql_base import InsertStatement, Constant, FunctionCall
 from seata.sqlparser.mysql.antlr4.util.MySQLStatementUtil import MySQLStatementUtil
-from seata.sqlparser.mysql.antlr4.value.MySQLValue import DefaultValue, InsertNotSupportValue, FunctionNameValue, \
-    ParameterMarkerValue
+from seata.sqlparser.mysql.antlr4.value import MySQLValue
 
 
 class MySQLInsertStatement:
 
-    def __init__(self, ctx: MySqlParser.InsertStatementContext):
+    def __init__(self, ctx: InsertStatement):
         self.table_name = None
-        self.insert_columns = None
+        self.table_alias = None
+        self.columns = None
         self.values_list = []
         self.__ctx = ctx
         self.parse()
 
     def parse(self):
         self.__parse_table_name()
-        self.__parse_insert_columns()
+        self.__parse_columns()
         self.__parse_value_list()
 
     def __parse_table_name(self):
-        self.table_name = self.__ctx.tableName().getText()
+        self.table_name = self.__ctx.tableSource.tableName
 
-    def __parse_insert_columns(self):
+    def __parse_columns(self):
         columns = self.__ctx.columns
         if columns is None:
             return
-        uids = columns.uid()
         columns_list = []
-        for i in range(len(uids)):
-            columns_list.append(uids[i].getText())
-        self.insert_columns = columns_list
+        for i in range(len(columns)):
+            columns_list.append(columns[i])
+        self.columns = columns_list
 
     def __parse_value_list(self):
-        ewds = self.__ctx.insertStatementValue().expressionsWithDefaults()
+        values = self.__ctx.value_list
         rows = []
-        for i in range(len(ewds)):
-            ewd = ewds[i]
+        for i in range(len(values)):
+            vals = values[i]
             row = []
-            eds = ewd.expressionOrDefault()
-            for j in range(len(eds)):
-                ed = eds[j]
-                if ed.DEFAULT() is not None:
-                    row.append(DefaultValue(ed.DEFAULT().getText()))
+            for j in range(len(vals)):
+                val = vals[j]
+                if isinstance(val, Constant):
+                    row.append(MySQLStatementUtil.parse_constant(val))
+                elif isinstance(val, FunctionCall):
+                    row.append(MySQLValue.FunctionNameValue(val.function_name, val.args_list))
                 else:
-                    # MySqlParser.ExpressionContext
-                    expr = ed.expression()
-                    if isinstance(expr, MySqlParser.PredicateExpressionContext):
-                        p = expr.predicate()
-                        if isinstance(p, MySqlParser.ExpressionAtomPredicateContext):
-                            ea = p.expressionAtom()
-                            if isinstance(ea, MySqlParser.ConstantExpressionAtomContext):
-                                row.append(MySQLStatementUtil.parse_constant(ea.constant()))
-                            elif isinstance(ea, MySqlParser.FullColumnNameExpressionAtomContext):
-                                fcn = ea.fullColumnName()
-                                if fcn.uid() is not None:
-                                    uid = fcn.uid()
-                                    if uid.simpleId() is not None:
-                                        si = uid.simpleId()
-                                        if si.parameterMarker() is not None:
-                                            row.append(ParameterMarkerValue(si.parameterMarker().getText()))
-                                        elif si.functionNameBase() is not None:
-                                            row.append(si.functionNameBase().getText())
-                                        else:
-                                            # see MySqlParser.SimpleIdContext other
-                                            row.append(InsertNotSupportValue())
-                                    else:
-                                        # MySqlParser.REVERSE_QUOTE_ID
-                                        # MySqlParser.CHARSET_REVERSE_QOUTE_STRING
-                                        row.append(InsertNotSupportValue())
-                                else:
-                                    # MySqlParser.DottedIdContext
-                                    row.append(InsertNotSupportValue())
-                            elif isinstance(ea, MySqlParser.FunctionCallExpressionAtomContext):
-                                fc = ea.functionCall()
-                                function_name = fc.getChild(0).getText()
-                                args_ = fc.getChild(2).getText()
-                                row.append(FunctionNameValue(function_name, args_))
-                        else:
-                            # MySqlParser.InPredicateContex
-                            # MySqlParser.IsNullPredicateContext
-                            # MySqlParser.BinaryComparisonPredicateContext
-                            # MySqlParser.SubqueryComparisonPredicateContext
-                            # MySqlParser.BetweenPredicateContext
-                            # MySqlParser.SoundsLikePredicateContext
-                            # MySqlParser.LikePredicateContext
-                            # MySqlParser.RegexpPredicateContext
-                            # MySqlParser.JsonMemberOfPredicateContext
-                            row.append(InsertNotSupportValue())
-                    else:
-                        # MySqlParser.NotExpressionContext,
-                        # MySqlParser.LogicalExpressionContext,
-                        # MySqlParser.IsExpressionContext
-                        row.append(InsertNotSupportValue())
+                    row.append(MySQLValue.NotSupportValue(type(val)))
             rows.append(row)
         self.values_list = rows

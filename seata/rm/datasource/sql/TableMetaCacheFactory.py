@@ -55,10 +55,10 @@ class TableMetaCache:
                     print('table meta refresh error', e)
 
     def get_cache_key(self, connection, table_name, resource_id):
-        pass
+        raise NotImplemented('need subclass implemented')
 
     def fetch_schema(self, connection, table_name):
-        pass
+        raise NotImplemented('need subclass implemented')
 
 
 class MySQLTableMetaCache(TableMetaCache):
@@ -94,49 +94,62 @@ class MySQLTableMetaCache(TableMetaCache):
         columns_all = cursor.fetchall()
         table_meta = TableMeta()
         table_meta.table_name = table_name
+
+        col_description = cursor.description
+        col_desc_map = {}
+        for idx, d in enumerate(col_description):
+            col_desc_map[d[0].upper()] = idx
+
         for i in range(len(columns_all)):
-            r = columns_all[i]
+            rs = columns_all[i]
             col = ColumnMeta()
-            col.table_cat = r[0]  # TABLE_CATALOG
-            col.table_schema_name = r[1]  # TABLE_SCHEMA
-            col.table_name = r[2]  # TABLE_NAME
-            col.column_name = r[3]  # COLUMN_NAME
-            col.ordinal_position = r[4]  # ORDINAL_POSITION
-            # col. = r[5] # COLUMN_DEFAULT
-            col.is_nullable = r[6]  # IS_NULLABLE
-            col.data_type_name = r[7]  # DATA_TYPE
+            col.table_cat = rs[col_desc_map['TABLE_CATALOG']]  # TABLE_CATALOG
+            col.table_schema_name = rs[col_desc_map['TABLE_SCHEMA']]  # TABLE_SCHEMA
+            col.table_name = rs[col_desc_map['TABLE_NAME']]  # TABLE_NAME
+            col.column_name = rs[col_desc_map['COLUMN_NAME']]  # COLUMN_NAME
+            col.ordinal_position = rs[col_desc_map['ORDINAL_POSITION']]  # ORDINAL_POSITION
+            # col. = rs[desc_map['COLUMN_DEFAULT']] # COLUMN_DEFAULT
+            col.is_nullable = rs[col_desc_map['IS_NULLABLE']]  # IS_NULLABLE
+            col.data_type_name = rs[col_desc_map['DATA_TYPE']]  # DATA_TYPE
             col.data_type = Types.get(col.data_type_name.upper())
-            # col. = r[8] # CHARACTER_MAXIMUM_LENGTH
-            col.char_octet_length = r[9]  # character_octet_length
-            col.num_prec_radix = r[10]  # NUMERIC_PRECISION
-            # col. = r[11] # NUMERIC_SCALE
-            # col. = r[12] # DATETIME_PRECISION
-            # col. = r[13] # CHARACTER_SET_NAME
-            # col. = r[14] # COLLATION_NAME
-            # col. = r[15] # COLUMN_TYPE
-            # col. = r[16] # COLUMN_KEY
-            # r[17] # EXTRA
-            if 'auto_increment' in r[17]:
+            # col. = r[desc_map['CHARACTER_MAXIMUM_LENGTH']] # CHARACTER_MAXIMUM_LENGTH
+            col.char_octet_length = rs[col_desc_map['CHARACTER_OCTET_LENGTH']]  # CHARACTER_OCTET_LENGTH
+            col.num_prec_radix = rs[col_desc_map['NUMERIC_PRECISION']]  # NUMERIC_PRECISION
+            # col. = r[desc_map['NUMERIC_SCALE']] # NUMERIC_SCALE
+            # col. = r[desc_map['DATETIME_PRECISION']] # DATETIME_PRECISION
+            # col. = r[desc_map['CHARACTER_SET_NAME']] # CHARACTER_SET_NAME
+            # col. = r[desc_map['COLLATION_NAME']] # COLLATION_NAME
+            # col. = r[desc_map['COLUMN_TYPE']] # COLUMN_TYPE
+            # col. = r[desc_map['COLUMN_KEY']] # COLUMN_KEY
+            # EXTRA
+            col_extra = rs[col_desc_map['EXTRA']]
+            if 'auto_increment' in col_extra:
                 col.is_autoincrement = 'YES'
             else:
                 col.is_autoincrement = 'NO'
-            # col. = r[18] # PRIVILEGES
-            # col. = r[19] # COLUMN_COMMENT
-            # col. = r[20] # IS_GENERATED
-            # col. = r[21] # GENERATION_EXPRESSION
+            # col. = r[desc_map['PRIVILEGES']] # PRIVILEGES
+            # col. = r[desc_map['COLUMN_COMMENT']] # COLUMN_COMMENT
+            # col. = r[] # IS_GENERATED
+            # col. = r[] # GENERATION_EXPRESSION
             table_meta.all_columns[col.column_name] = col
 
         # indexs_sql = "select * from information_schema.statistics where table_schema = %s and table_name = %s"
         indexs_sql = "show index from {} from {}".format(table_name, schema)
         cursor.execute(indexs_sql)
         indexs_all = cursor.fetchall()
+
+        idx_description = cursor.description
+        idx_desc_map = {}
+        for idx, d in enumerate(idx_description):
+            idx_desc_map[d[0].upper()] = idx
+
         for i in range(len(indexs_all)):
-            r = indexs_all[i]
-            table_name = r[0]  # Table
-            non_unique = r[1] == 1  # Non_unique
-            index_name = r[2]  # Key_name
-            column_name = r[4]  # Column_name
-            cardinality = r[6]  # Cardinality
+            rs = indexs_all[i]
+            table_name = rs[idx_desc_map['TABLE']]  # Table
+            non_unique = rs[idx_desc_map['NON_UNIQUE']] == 1  # Non_unique
+            index_name = rs[idx_desc_map['KEY_NAME']]  # Key_name
+            column_name = rs[idx_desc_map['COLUMN_NAME']]  # Column_name
+            cardinality = rs[idx_desc_map['CARDINALITY']]  # Cardinality
             col = table_meta.all_columns[column_name]
             if table_meta.all_indexs.get(index_name, None) is not None:
                 table_meta.all_indexs[index_name].values.append(col)

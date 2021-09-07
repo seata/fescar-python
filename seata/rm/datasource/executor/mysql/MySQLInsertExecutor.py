@@ -69,7 +69,7 @@ class MySQLInsertExecutor(BaseInsertExecutor):
         if self.cursor_proxy.parameters is not None:
             insert_rows = recognizer.get_insert_rows(pk_index_map.values())
             if insert_rows is not None and len(insert_rows) > 0:
-                parameters = self.__deal_parameters(self.cursor_proxy.parameters)
+                parameters = self.deal_parameters(self.cursor_proxy.parameters)
                 total_placeholder_num = -1
                 for row in insert_rows:
                     if len(row) == 0:
@@ -120,25 +120,6 @@ class MySQLInsertExecutor(BaseInsertExecutor):
         if not b:
             raise NotSupportYetException('not support sql [{}]'.format(self.sql_recognizer.original_sql))
         return pk_values_map
-
-    def __deal_parameters(self, parameters):
-        if isinstance(parameters, tuple):
-            params = {}
-            for index, p in enumerate(parameters):
-                params[index] = [p]
-            return params
-        elif isinstance(parameters, list):
-            params = {}
-            for i in range(len(parameters)):
-                parameter = parameters[i]
-                for index, p in enumerate(parameter):
-                    if params.get(index, None) is None:
-                        params[index] = [p]
-                    else:
-                        params[index].append(p)
-            return params
-        else:
-            raise NotSupportYetException('not support parameters type : {}'.format(type(parameters)))
 
     def __check_pk_values(self, pk_values_map, ps):
         pk_names = pk_values_map.keys()

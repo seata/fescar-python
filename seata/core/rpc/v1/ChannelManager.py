@@ -2,12 +2,12 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+import sys
 import queue
 import selectors
 import socket
 import threading
 import time
-import types
 from concurrent.futures import ThreadPoolExecutor
 
 from seata.core.ByteBuffer import ByteBuffer
@@ -22,13 +22,14 @@ debug = False
 
 
 class Channel:
-    def __init__(self, sock, data):
+    def __init__(self, sock):
         self.sock = sock
-        self.data = data
+        self.in_data = bytes()
+        self.out_data = queue.Queue()
         self.cond = threading.Condition()
 
-    def put_data(self, rpc_message):
-        self.data.out_data.put_nowait(rpc_message)
+    def write(self, rpc_message):
+        self.out_data.put_nowait(rpc_message)
 
 
 class ChannelManager:
@@ -55,17 +56,19 @@ class ChannelManager:
         sock.setblocking(False)
         sock.connect_ex(server_addr)
         events = selectors.EVENT_READ | selectors.EVENT_WRITE
-        data = types.SimpleNamespace(
-            in_data=bytes(),
-            out_data=queue.Queue()
-        )
-        self.sel.register(sock, events, data=data)
-        channel = Channel(socket, data)
+        channel = Channel(socket)
+        self.sel.register(sock, events, data=channel)
         self.channels[server_address.to_string()] = channel
         return channel
 
     def do_events(self):
         try:
+            if sys.platform == 'win32' and not self.boot:
+                try:
+                    self.__cond.acquire()
+                    self.__cond.wait()
+                finally:
+                    self.__cond.release()
             while True:
                 # TODO
                 events = self.sel.select(timeout=0.001)
@@ -79,14 +82,14 @@ class ChannelManager:
 
     def service_connection(self, key, mask):
         sock = key.fileobj
-        data = key.data
+        channel = key.data
         if mask & selectors.EVENT_READ:
             recv_data = sock.recv(4096)
             if len(recv_data) > 0:
-                data.in_data += recv_data
+                channel.in_data += recv_data
                 if len(recv_data) < 7:
                     return
-                t_bb = ByteBuffer.wrap(bytearray(data.in_data))
+                t_bb = ByteBuffer.wrap(bytearray(channel.in_data))
                 magic = bytearray(len(ProtocolConstants.MAGIC_CODE_BYTES))
                 t_bb.get(magic)
                 if magic != ProtocolConstants.MAGIC_CODE_BYTES:
@@ -94,27 +97,25 @@ class ChannelManager:
                     return
                 t_bb.get_int8()
                 full_length = t_bb.get_int32()
-                if len(data.in_data) >= full_length:
-                    buf = data.in_data[0:full_length]
-                    data.in_data = data.in_data[full_length:]
+                if len(channel.in_data) >= full_length:
+                    buf = channel.in_data[0:full_length]
+                    channel.in_data = channel.in_data[full_length:]
                     in_message = self.protocol.decode(ByteBuffer.wrap(bytearray(buf)))
                     if not isinstance(in_message.body, HeartbeatMessage) or debug:
                         print('in message : <{}> request_id : {} sock : {}'.format(
-                            ClassUtil.get_simple_name(in_message.body),
-                            in_message.id, sock.getpeername()))
+                            ClassUtil.get_simple_name(in_message.body), in_message.id, sock.getpeername()))
                     self.executor.submit(self.remote_client.message_handler.process, in_message)
             else:
                 print('sock unregister...', sock.getpeername())
                 self.sel.unregister(sock)
                 sock.close()
         if mask & selectors.EVENT_WRITE:
-            while not data.out_data.empty():
-                out_message = data.out_data.get_nowait()
+            while not channel.out_data.empty():
+                out_message = channel.out_data.get_nowait()
                 if not isinstance(out_message.body, HeartbeatMessage) or debug:
                     print(
                         'out message : <{}> request_id : {} sock : {}'.format(
-                            ClassUtil.get_simple_name(out_message.body),
-                            out_message.id, sock.getpeername()))
+                            ClassUtil.get_simple_name(out_message.body), out_message.id, sock.getpeername()))
                 try:
                     sock.send(self.protocol.encode(out_message))
                 except ConnectionAbortedError as e:
@@ -160,7 +161,7 @@ class ChannelManager:
                 for idx, channel in enumerate(self.channels.values()):
                     hb = HeartbeatMessage(True)
                     rpc_message = RpcMessage.build_request_message(hb, ProtocolConstants.MSGTYPE_HEARTBEAT_REQUEST)
-                    channel.put_data(rpc_message)
+                    channel.write(rpc_message)
             except Exception as e:
                 print('heart error', e)
             finally:

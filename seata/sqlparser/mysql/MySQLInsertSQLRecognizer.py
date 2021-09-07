@@ -4,40 +4,43 @@
 # @since 1.0
 from seata.sqlparser.SQLDMLRecognizer import SQLInsertRecognizer
 from seata.sqlparser.SQLParsingException import SQLParsingException
+from seata.sqlparser.mysql.antlr4.parser.mysql_base import InsertStatement
 from seata.sqlparser.mysql.antlr4.value import MySQLValue
 from seata.sqlparser.mysql.antlr4.value.MySQLValue import NotPlaceholderValue
 from seata.sqlparser.mysql.antlr4.visit.MySQLInsertStatement import MySQLInsertStatement
 
 
 class MySQLInsertRecognizer(SQLInsertRecognizer):
+
     def __int__(self, original_sql=None, sql_type=None, stmt=None):
         self.original_sql = original_sql
         self.sql_type = sql_type
         self.stmt = stmt
-        self.insert_statement = None
-        pass
+        self.statement = None
 
     def init(self):
-        self.insert_statement = MySQLInsertStatement(self.stmt.insertStatement())
+        if not isinstance(self.stmt, InsertStatement):
+            raise TypeError('stmt type error.' + type(self.stmt).__name__)
+        self.statement = MySQLInsertStatement(self.stmt)
 
     def get_sql_type(self):
         return self.sql_type
 
     def get_table_name(self):
-        return self.insert_statement.table_name
+        return self.statement.table_name
 
     def get_table_alias(self):
         # mysql insert not support alias
-        return None
+        return self.statement.table_alias
 
     def get_original_sql(self):
         return self.original_sql
 
     def get_insert_columns(self):
-        return self.insert_statement.insert_columns
+        return self.statement.columns
 
     def get_insert_rows(self, pk_index: list):
-        values_list = self.insert_statement.values_list
+        values_list = self.statement.values_list
         rows = []
         for i in range(len(values_list)):
             row = []
@@ -54,7 +57,8 @@ class MySQLInsertRecognizer(SQLInsertRecognizer):
                     row.append(value)
                 else:
                     if j in pk_index:
-                        raise SQLParsingException("Unknown SQLExpr:" + str(value))
+                        raise SQLParsingException(
+                            "Unknown SQLExpr:" + str(value))
                     row.append(NotPlaceholderValue())
             rows.append(row)
         return rows

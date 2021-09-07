@@ -11,6 +11,7 @@ class MySQLSelectSQLRecognizer(SQLRecognizer):
         self.original_sql = original_sql
         self.sql_type = sql_type
         self.stmt = stmt
+        self.statement = None
 
     def init(self):
         # TODO

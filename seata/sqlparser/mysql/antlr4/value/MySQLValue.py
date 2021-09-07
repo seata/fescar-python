@@ -9,15 +9,16 @@ class DefaultValue:
         self.value = value
 
 
-class InsertNotSupportValue:
-    def __init__(self):
+class NotSupportValue:
+    def __init__(self, origin_type):
+        self.origin_type = origin_type
         self.value = "NOT SUPPORT"
 
 
 class FunctionNameValue:
-    def __init__(self, function_name, args_):
+    def __init__(self, function_name, args_list):
         self.function_name = function_name
-        self.args_ = args_
+        self.args_list = args_list
 
 
 class ParameterMarkerValue:
@@ -32,20 +33,15 @@ class ValueExpr:
 
 class StringValue(ValueExpr):
     def __init__(self, value: str):
-        self.value = value[1: -1]
+        self.value = value
 
     def get_value(self):
         return self.value
 
 
-class NullValue:
-    def __init__(self):
-        self.value = None
-
-
 class BoolValue(ValueExpr):
     def __init__(self, value: str):
-        self.value = bool(value)
+        self.value = value
 
     def get_value(self):
         return self.value
@@ -53,7 +49,7 @@ class BoolValue(ValueExpr):
 
 class IntValue(ValueExpr):
     def __init__(self, value: str):
-        self.value = int(value)
+        self.value = value
 
     def get_value(self):
         return self.value
@@ -61,7 +57,15 @@ class IntValue(ValueExpr):
 
 class DoubleValue(ValueExpr):
     def __init__(self, value: str):
-        self.value = float(value)
+        self.value = value
+
+    def get_value(self):
+        return self.value
+
+
+class NullValue(ValueExpr):
+    def __init__(self):
+        self.value = None
 
     def get_value(self):
         return self.value

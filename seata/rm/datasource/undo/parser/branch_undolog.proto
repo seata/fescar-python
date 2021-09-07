@@ -3,7 +3,8 @@ syntax = "proto3";
 // https://github.com/protocolbuffers/protobuf/releases
 // https://developers.google.com/protocol-buffers/docs/overview
 // cd seata/rm/datasource/undo/parser
-// protoc --python_out=./proto branch_undolog.proto
+// ..\..\..\..\..\tool\protoc\windows\bin\protoc --python_out=./proto branch_undolog.proto
+// ../../../../../tool/protoc/osx/bin/protoc --python_out=./proto branch_undolog.proto
 
 package seata.rm.datasource.undo.parser.proto;
 
@@ -78,5 +79,5 @@ message Field {
   // KeyType enum value
   int32 key_type = 2;
   int32 type = 3;
-  optional string value = 4;
+  string value = 4;
 }
