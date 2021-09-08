@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-
+from seata.config.Config import ConfigFactory
 from seata.core.compressor.CompressorType import CompressorType
 from seata.exception.ShouldNeverHappenException import ShouldNeverHappenException
 from seata.exception.TransactionException import BranchTransactionException
@@ -28,7 +28,7 @@ from seata.sqlparser.util.CollectionUtil import CollectionUtil
 
 
 class UndoLogManager(object):
-    UNDO_LOG_TABLE_NAME = "undo_log"
+    UNDO_LOG_TABLE_NAME = ConfigFactory.get_config().get("client.undo.log-table")
     DELETE_UNDO_LOG_SQL = "DELETE FROM " + UNDO_LOG_TABLE_NAME + " WHERE branch_id = %s AND xid = %s"
     SELECT_UNDO_LOG_SQL = "SELECT * FROM " + UNDO_LOG_TABLE_NAME + " WHERE branch_id = %s AND xid = %s FOR UPDATE"
 
@@ -36,7 +36,7 @@ class UndoLogManager(object):
     CONTEXT_COMPRESSOR_TYPE = "compressorType"
 
     def get_db_type(self):
-        pass
+        raise NotImplemented('need subclass implemented')
 
     def build_context(self, parse_name, compressor_type):
         context_map = {self.CONTEXT_SERIALIZER: parse_name, self.CONTEXT_COMPRESSOR_TYPE: compressor_type.name}

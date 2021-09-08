@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+from seata.config.Config import ConfigFactory
 from seata.rm.datasource.ColumnUtils import ColumnUtils
 from seata.rm.datasource.DataCompareUtil import DataCompareUtil
 from seata.rm.datasource.exception.SQLException import SQLException
@@ -11,11 +12,14 @@ from seata.sqlparser.util.SQLUtil import SQLUtil
 
 
 class UndoExecutor:
-    IS_UNDO_DATA_VALIDATION_ENABLE = True
+    IS_UNDO_DATA_VALIDATION_ENABLE = None
     CHECK_SQL_TEMPLATE = "SELECT * FROM {} WHERE {} FOR UPDATE"
 
     def __init__(self, sql_undo_log):
         self.sql_undo_log = sql_undo_log
+
+        if self.IS_UNDO_DATA_VALIDATION_ENABLE is None:
+            self.IS_UNDO_DATA_VALIDATION_ENABLE = ConfigFactory.get_config().get_bool('client.undo.data-validation')
 
     def build_undo_sql(self):
         raise NotImplemented("need subclass implemented")
@@ -107,7 +111,8 @@ class UndoExecutor:
             cursor = connection.cursor()
             cursor.execute(check_sql, tuple(params))
             rs_all = cursor.fetchall()
-            current_records = TableRecords.build_records(tm, rs_all)
+            description = cursor.description
+            current_records = TableRecords.build_records(tm, rs_all, description)
         finally:
             if cursor is not None:
                 try:

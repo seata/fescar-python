@@ -3,10 +3,12 @@
 # @author jsbxyyx
 # @since 1.0
 
-from seata.sqlparser.SQLRecognizer import SQLRecognizer
+from seata.sqlparser.mysql.MySQLWhereSQLRecognizer import MySQLWhereSQLRecognizer
+from seata.sqlparser.mysql.antlr4.parser.mysql_base import DeleteStatement
+from seata.sqlparser.mysql.antlr4.visit.MySQLDeleteStatement import MySQLDeleteStatement
 
 
-class MySQLDeleteSQLRecognizer(SQLRecognizer):
+class MySQLDeleteSQLRecognizer(MySQLWhereSQLRecognizer):
 
     def __int__(self, original_sql=None, sql_type=None, stmt=None):
         self.original_sql = original_sql
@@ -15,20 +17,18 @@ class MySQLDeleteSQLRecognizer(SQLRecognizer):
         self.statement = None
 
     def init(self):
-        # TODO
-        pass
+        if not isinstance(self.stmt, DeleteStatement):
+            raise TypeError('stmt type error.' + type(self.stmt).__name__)
+        self.statement = MySQLDeleteStatement(self.stmt)
 
     def get_sql_type(self):
         return self.sql_type
 
     def get_table_name(self):
-        # TODO
-        pass
+        return self.statement.table_name
 
     def get_table_alias(self):
-        # TODO
-        pass
+        return self.statement.table_alias
 
     def get_original_sql(self):
-        # TODO
-        pass
+        return self.original_sql

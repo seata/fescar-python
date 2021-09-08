@@ -49,15 +49,14 @@ class TableRecords(object):
         return pk_rows
 
     @classmethod
-    def build_records(cls, table_meta, result):
+    def build_records(cls, table_meta, result, description):
         records = TableRecords(table_meta)
         fields = []
         for idx in range(len(result)):
             res = result[idx]
-            column_name_list = list(table_meta.all_columns.keys())
-            column_count = len(column_name_list)
+            column_count = len(res)
             for j in range(column_count):
-                column_name = column_name_list[j]
+                column_name = description[j][0]
                 col = table_meta.get_column_meta(column_name)
                 field = Field()
                 field.name = column_name

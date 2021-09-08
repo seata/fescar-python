@@ -70,8 +70,7 @@ class ChannelManager:
                 finally:
                     self.__cond.release()
             while True:
-                # TODO
-                events = self.sel.select(timeout=0.001)
+                events = self.sel.select()
                 if events:
                     for key, mask in events:
                         self.service_connection(key, mask)
