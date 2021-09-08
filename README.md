@@ -12,28 +12,32 @@ seata-python是一个seata分布式事务python版本的客户端，什么是sea
   - [ ] socket优化
 2. 封装Connection, Cursor处理前后置镜像
   - [x] insert
-  - [ ] delete
-  - [ ] update
+  - [x] delete
+  - [x] update
 3. 解析 sql 模块
   - [x] insert
-  - [ ] delete
-  - [ ] update
-  - [ ] select for update
+  - [x] delete
+  - [x] update
+  - [x] select for update
 4. undo 回滚模块
   - [x] insert
-  - [ ] delete
-  - [ ] update
+  - [x] delete
+  - [x] update
 5. 优化代码结构
   - [ ] TMClient 结构
   - [ ] RMClient 结构
   - [ ] 项目整体结构
-6. 其他
+6. 配置集成
+  - [x] file
+  - [ ] nacos
+7. 其他
   - [ ] 其他数据库
   - [ ] GRPC 协议
   - [ ] 等等
 
 ## 项目依赖
 ```
+Python3.7
 DBUtils(PooledDB)==2.0
 antlr4-python3-runtime==4.9.2
 protobuf==3.17.3

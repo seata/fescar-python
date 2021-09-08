@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+from seata.exception.ShouldNeverHappenException import ShouldNeverHappenException
 from seata.rm.datasource.sql.SQLVisitorFactory import SQLVisitorFactory
 from seata.sqlparser.util.JdbcConstants import JdbcConstants
 
@@ -30,8 +31,10 @@ if __name__ == '__main__':
     sql_recognizer = SQLVisitorFactory.get(sql, JdbcConstants.MYSQL)
     print(6)
 
-    sql = "show create table test"
-    sql_recognizer = SQLVisitorFactory.get(sql, JdbcConstants.MYSQL)
-    print(7)
+    try:
+        sql = "show create table test"
+        sql_recognizer = SQLVisitorFactory.get(sql, JdbcConstants.MYSQL)
+    except ShouldNeverHappenException:
+        print(7)
 
 

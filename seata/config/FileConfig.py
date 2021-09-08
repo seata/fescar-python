@@ -30,3 +30,27 @@ class FileConfig(Config):
             if value is None:
                 return value
         return value
+
+    def get_bool(self, data_id):
+        val = self.get(data_id)
+        if val is None:
+            return val
+        if not isinstance(val, bool):
+            return bool(val)
+        return val
+
+    def get_int(self, data_id):
+        val = self.get(data_id)
+        if val is None:
+            return val
+        if not isinstance(val, int):
+            return int(val)
+        return val
+
+    def get_float(self, data_id):
+        val = self.get(data_id)
+        if val is None:
+            return val
+        if not isinstance(val, float):
+            return float(val)
+        return val

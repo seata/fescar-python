@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+from seata.config.Config import ConfigFactory
 from seata.core.model.BranchStatus import BranchStatus
 from seata.core.model.BranchType import BranchType
 from seata.exception.TransactionException import TransactionException
@@ -9,12 +10,13 @@ from seata.exception.TransactionExceptionCode import TransactionExceptionCode
 from seata.rm.DefaultResourceManager import DefaultResourceManager
 from seata.rm.datasource.ConnectionContext import ConnectionContext
 from seata.rm.datasource.CursorProxy import CursorProxy
-
-from seata.rm.datasource.undo.UndoLogManagerFactory import UndoLogManagerFactory
 from seata.rm.datasource.executor.LockConflictException import LockConflictException
+from seata.rm.datasource.undo.UndoLogManagerFactory import UndoLogManagerFactory
 
 
 class ConnectionProxy(object):
+    IS_REPORT_SUCCESS_ENABLE = None
+
     def __init__(self, data_source_proxy, target_connection):
         from seata.rm.datasource.DataSourceProxy import DataSourceProxy
         if not isinstance(data_source_proxy, DataSourceProxy):
@@ -23,6 +25,9 @@ class ConnectionProxy(object):
         self.data_source_proxy = data_source_proxy
         self.target_connection = target_connection
         self.context = ConnectionContext()
+
+        if self.IS_REPORT_SUCCESS_ENABLE is None:
+            self.IS_REPORT_SUCCESS_ENABLE = ConfigFactory.get_config().get_bool('client.rm.report-success-enable')
 
     def get_db_type(self):
         return self.data_source_proxy.db_type
@@ -116,14 +121,14 @@ class ConnectionProxy(object):
             self.recognize_lock_key_conflict_exception(e, self.context.build_lock_keys())
 
         try:
-            if self.context.has_undo_log():
-                UndoLogManagerFactory.get_undo_log_manager(self.get_db_type()).flush_undo_logs(self)
+            UndoLogManagerFactory.get_undo_log_manager(self.get_db_type()).flush_undo_logs(self)
+            self.target_connection.commit()
         except Exception as ex:
             print("process connectionProxy commit error: {}".format(ex))
             self.report(False)
             raise ex
-
-        self.report(True)
+        if self.IS_REPORT_SUCCESS_ENABLE:
+            self.report(True)
         self.context.reset()
 
     def recognize_lock_key_conflict_exception(self, e, lock_keys):

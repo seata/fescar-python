@@ -25,7 +25,7 @@ client:
     table-meta-check-enable: false
     report-success-enable: false
     lock:
-      retry-interval: 10
+      retry-interval: 0.01 # seconds
       retry-times: 30
       retry-policy-branch-rollback-on-conflict: true
   tm:
@@ -34,22 +34,10 @@ client:
     default-global-transaction-timeout: 60000
   undo:
     data-validation: true
-    log-serialization: protobuf
     log-table: undo_log
     only-care-update-columns: true
-    compress:
-      enable: false
-      type: zip
-      threshold: 64k
-  load-balance:
-    type: RandomLoadBalance
-    virtual-nodes: 10
 service:
   vgroupMapping:
     my_test_tx_group: default
   grouplist:
     default: "127.0.0.1:8091"
-transport:
-  heartbeat: true
-  serialization: seata
-  compressor: none

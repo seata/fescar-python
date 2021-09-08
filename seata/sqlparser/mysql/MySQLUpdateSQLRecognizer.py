@@ -2,32 +2,13 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-
-
-from seata.sqlparser.SQLRecognizer import SQLRecognizer
-from seata.sqlparser.mysql.antlr4.parser.mysql_base import MysqlOutputVisitor, UpdateStatement
+from seata.sqlparser.mysql.MySQLDmlRecognizer import MySQLUpdateRecognizer
+from seata.sqlparser.mysql.antlr4.parser.mysql_base import UpdateStatement
 from seata.sqlparser.mysql.antlr4.value import MySQLValue
 from seata.sqlparser.mysql.antlr4.visit.MySQLUpdateStatement import MySQLUpdateStatement
 
 
-class CustomMysqlOutputVisitor(MysqlOutputVisitor):
-
-    def __init__(self, parameters_map, param_list):
-        self.parameters_map = parameters_map
-        self.param_list = param_list
-
-    def visitParameterMarker(self, parameter_marker, output):
-        param_values = self.parameters_map[parameter_marker.index]
-        if self.param_list is None or len(self.param_list) == 0:
-            for i in range(len(param_values)):
-                self.param_list.append([])
-        for i in range(len(param_values)):
-            val = param_values[i]
-            self.param_list[i].append(val)
-        super(CustomMysqlOutputVisitor, self).visitParameterMarker(parameter_marker, output)
-
-
-class MySQLUpdateSQLRecognizer(SQLRecognizer):
+class MySQLUpdateSQLRecognizer(MySQLUpdateRecognizer):
 
     def __int__(self, original_sql=None, sql_type=None, stmt=None):
         self.original_sql = original_sql
@@ -51,19 +32,6 @@ class MySQLUpdateSQLRecognizer(SQLRecognizer):
 
     def get_original_sql(self):
         return self.original_sql
-
-    def get_where_condition(self, parameters_map=None, param_list=None):
-        where = self.statement.where
-        if where is None:
-            return ""
-        if parameters_map is not None:
-            output = list()
-            CustomMysqlOutputVisitor(parameters_map, param_list).visitWhere(where, output)
-            return ''.join(output)
-        else:
-            output = list()
-            MysqlOutputVisitor().visitWhere(where, output)
-            return ''.join(output)
 
     def get_update_columns(self):
         items = self.statement.items

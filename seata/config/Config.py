@@ -53,3 +53,12 @@ class Config:
 
     def get(self, data_id):
         raise NotImplemented("need subclass implemented")
+
+    def get_bool(self, data_id):
+        raise NotImplemented("need subclass implemented")
+
+    def get_int(self, data_id):
+        raise NotImplemented("need subclass implemented")
+
+    def get_float(self, data_id):
+        raise NotImplemented("need subclass implemented")

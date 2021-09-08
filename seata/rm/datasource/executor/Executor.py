@@ -2,11 +2,16 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+import time
+
+from seata.config.Config import ConfigFactory
 from seata.core.context.RootContext import RootContext
 from seata.exception.NotSupportYetException import NotSupportYetException
 from seata.exception.ShouldNeverHappenException import ShouldNeverHappenException
 from seata.rm.datasource.ColumnUtils import ColumnUtils
 from seata.rm.datasource.exception.SQLException import SQLException
+from seata.rm.datasource.executor.LockConflictException import LockConflictException
+from seata.rm.datasource.executor.LockWaitTimeoutException import LockWaitTimeoutException
 from seata.rm.datasource.sql.TableMetaCacheFactory import TableMetaCacheFactory
 from seata.rm.datasource.sql.struct.TableRecords import TableRecords
 from seata.rm.datasource.undo.SQLUndoLog import SQLUndoLog
@@ -131,6 +136,14 @@ class BaseTransactionalExecutor(Executor):
             where_condition = where_str
         return where_condition
 
+    def build_order_by_condition(self, recognizer, param_list):
+        # TODO
+        return ""
+
+    def build_limit_condition(self, recognizer, param_list):
+        # TODO
+        return ""
+
     def deal_parameters(self, parameters):
         if isinstance(parameters, tuple):
             params = {}
@@ -185,7 +198,9 @@ class BaseTransactionalExecutor(Executor):
                         params.append(p)
             cursor.execute(select_sql, tuple(params))
             rs_all = cursor.fetchall()
-            return TableRecords.build_records(tm, rs_all)
+
+            description = cursor.description
+            return TableRecords.build_records(tm, rs_all, description)
         finally:
             if cursor is not None:
                 try:
@@ -287,7 +302,8 @@ class BaseInsertExecutor(DMLBaseExecutor, InsertExecutor):
                     params.append(pk_column_value_list[r])
             cursor.execute(sql, tuple(params))
             result = cursor.fetchall()
-            return TableRecords.build_records(self.get_table_meta(), result)
+            description = cursor.description
+            return TableRecords.build_records(self.get_table_meta(), result, description)
         finally:
             if cursor is not None:
                 try:
@@ -297,7 +313,13 @@ class BaseInsertExecutor(DMLBaseExecutor, InsertExecutor):
 
 
 class UpdateExecutor(DMLBaseExecutor):
-    ONLY_CARE_UPDATE_COLUMNS = True
+    ONLY_CARE_UPDATE_COLUMNS = None
+
+    def __init__(self, cursor_proxy, cursor_callback, sql_recognizer):
+        super(UpdateExecutor, self).__init__(cursor_proxy, cursor_callback, sql_recognizer)
+
+        if self.ONLY_CARE_UPDATE_COLUMNS is None:
+            self.ONLY_CARE_UPDATE_COLUMNS = ConfigFactory.get_config().get_bool('client.undo.only-care-update-columns')
 
     def before_image(self):
         param_list = []
@@ -313,8 +335,13 @@ class UpdateExecutor(DMLBaseExecutor):
         where_condition = self.build_where_condition(recognizer, param_list)
         if len(where_condition.strip()) > 0:
             suffix += where_condition
-        # TODO order by
-        # TODO limit
+
+        order_by_condition = self.build_order_by_condition(recognizer, param_list)
+        if len(order_by_condition.strip()) > 0:
+            suffix += order_by_condition
+        limit_condition = self.build_limit_condition(recognizer, param_list)
+        if len(limit_condition.strip()) > 0:
+            suffix += limit_condition
         suffix += " FOR UPDATE"
 
         column_str = ""
@@ -346,7 +373,8 @@ class UpdateExecutor(DMLBaseExecutor):
             params = SQLUtil.set_param_for_pk(before_image.pk_rows(), tm.get_primary_key_only_name())
             cursor.execute(select_sql, tuple(params))
             rs_all = cursor.fetchall()
-            return TableRecords.build_records(tm, rs_all)
+            description = cursor.description
+            return TableRecords.build_records(tm, rs_all, description)
         finally:
             if cursor is not None:
                 try:
@@ -375,3 +403,87 @@ class UpdateExecutor(DMLBaseExecutor):
                 column_str += ColumnUtils.add_by_dbtype(column, self.get_db_type())
 
         return prefix + column_str + suffix
+
+
+class SelectForUpdateExecutor(BaseTransactionalExecutor):
+    # TODO
+    RETRY_TIMES = None
+    RETRY_INTERNAL = None
+
+    def __init__(self, cursor_proxy, cursor_callback, sql_recognizer):
+        super(SelectForUpdateExecutor, self).__init__(cursor_proxy, cursor_callback, sql_recognizer)
+
+        if self.RETRY_TIMES is None:
+            self.RETRY_TIMES = ConfigFactory.get_config().get_int('client.rm.lock.retry-times')
+
+        if self.RETRY_INTERNAL is None:
+            self.RETRY_INTERNAL = ConfigFactory.get_config().get_float('client.rm.lock.retry-interval')
+
+    def do_execute(self, args):
+        try:
+            param_list = []
+            select_pk_sql = self.__build_select_sql(param_list)
+            while True:
+                try:
+                    self.cursor_callback.execute(self.cursor_proxy.target_cursor, self.cursor_proxy.target_sql, args)
+                    pk_rows = self.build_table_records(self.get_table_meta(), select_pk_sql, param_list)
+                    lock_keys = self.build_lock_key(pk_rows)
+                    if lock_keys is None or len(lock_keys.strip()) == 0:
+                        break
+                    if RootContext.in_global_transaction() or RootContext.require_global_lock():
+                        self.cursor_proxy.connection_proxy.check_lock(lock_keys)
+                    else:
+                        raise RuntimeError('Unknown situation')
+                    break
+                except LockConflictException as e:
+                    retry_times = self.RETRY_TIMES
+                    retry_times -= 1
+                    if retry_times < 0:
+                        raise LockWaitTimeoutException('Global lock wait timeout', e)
+                    try:
+                        time.sleep(self.RETRY_INTERNAL)
+                    except Exception:
+                        pass
+        finally:
+            pass
+
+    def __build_select_sql(self, param_list):
+        recognizer = self.sql_recognizer
+        select_sql = "SELECT "
+        select_sql += self.get_column_names_in_sql(self.get_table_meta().get_escape_pk_name_list(self.get_db_type()))
+        select_sql += (" FROM " + self.get_from_table_in_sql())
+        where_condition = self.build_where_condition(recognizer, param_list)
+        if where_condition is not None and len(where_condition.strip()) > 0:
+            select_sql += where_condition
+        select_sql += " FOR UPDATE"
+        return select_sql
+
+
+class DeleteExecutor(DMLBaseExecutor):
+
+    def before_image(self):
+        recognizer = self.sql_recognizer
+        tm = self.get_table_meta(recognizer.get_table_name())
+        param_list = []
+        select_sql = self.__build_before_image_sql(recognizer, tm, param_list)
+        return self.build_table_records(tm, select_sql, param_list)
+
+    def __build_before_image_sql(self, recognizer, tm, param_list):
+        where_condition = self.build_where_condition(recognizer, param_list)
+        suffix = (" FROM " + self.get_from_table_in_sql())
+        if where_condition is not None and len(where_condition.strip()) > 0:
+            suffix += where_condition
+        order_by = self.build_order_by_condition(recognizer, param_list)
+        if order_by is not None and len(order_by.strip()) > 0:
+            suffix += order_by
+        limit = self.build_limit_condition(recognizer, param_list)
+        if limit is not None and len(limit.strip()) > 0:
+            suffix += limit
+        suffix += " FOR UPDATE"
+        columns = []
+        for col_idx, column in enumerate(tm.all_columns.keys()):
+            columns.append(self.get_column_name_in_sql(ColumnUtils.add_by_dbtype(column, self.get_db_type())))
+        return "SELECT " + (', '.join(columns)) + suffix
+
+    def after_image(self, before_image: TableRecords):
+        return TableRecords.empty(self.get_table_meta())
