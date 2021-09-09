@@ -2,10 +2,10 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-import sys
 import queue
 import selectors
 import socket
+import sys
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
@@ -23,25 +23,50 @@ debug = False
 
 class Channel:
     def __init__(self, sock):
-        self.sock = sock
-        self.in_data = bytes()
-        self.out_data = queue.Queue()
-        self.cond = threading.Condition()
+        if not isinstance(sock, socket.socket):
+            raise TypeError('sock type error')
+        self.__sock = sock
+        self.__in_data = bytes()
+        self.__out_data = queue.Queue()
+
+    def get_sock(self):
+        return self.__sock
+
+    def append_in_data(self, data):
+        if not isinstance(data, bytes):
+            raise TypeError('append in data type error.' + type(data).__name__)
+        self.__in_data += data
+
+    def get_in_data(self):
+        return self.__in_data
+
+    def set_in_data(self, data):
+        if not isinstance(data, bytes):
+            raise TypeError('set data type error.' + type(data).__name__)
+        self.__in_data = data
 
     def write(self, rpc_message):
-        self.out_data.put_nowait(rpc_message)
+        if not isinstance(rpc_message, RpcMessage):
+            raise TypeError('channel write message type error.' + type(rpc_message).__name__)
+        self.__out_data.put_nowait(rpc_message)
+
+    def out_data_is_empty(self):
+        return self.__out_data.empty()
+
+    def poll_out_data(self):
+        return self.__out_data.get_nowait()
 
 
 class ChannelManager:
     def __init__(self, remote_client):
         self.remote_client = remote_client
         self.channels = {}
-        self.sel = selectors.DefaultSelector()
-        self.boot = False
-        self.__cond = threading.Condition()
+        self.__sel = selectors.DefaultSelector()
         self.protocol = ProtocolV1()
         # TODO
         self.executor = ThreadPoolExecutor(max_workers=16, thread_name_prefix="cm")
+        self.__boot = False
+        self.__cond = threading.Condition()
         self.init()
 
     def init(self):
@@ -56,28 +81,28 @@ class ChannelManager:
         sock.setblocking(False)
         sock.connect_ex(server_addr)
         events = selectors.EVENT_READ | selectors.EVENT_WRITE
-        channel = Channel(socket)
-        self.sel.register(sock, events, data=channel)
+        channel = Channel(sock)
+        self.__sel.register(sock, events, data=channel)
         self.channels[server_address.to_string()] = channel
         return channel
 
     def do_events(self):
         try:
-            if sys.platform == 'win32' and not self.boot:
+            if sys.platform == 'win32' and not self.__boot:
                 try:
                     self.__cond.acquire()
                     self.__cond.wait()
                 finally:
                     self.__cond.release()
             while True:
-                events = self.sel.select()
+                events = self.__sel.select()
                 if events:
                     for key, mask in events:
                         self.service_connection(key, mask)
         except KeyboardInterrupt:
             print("caught keyboard interrupt, exiting")
         finally:
-            self.sel.close()
+            self.__sel.close()
 
     def service_connection(self, key, mask):
         sock = key.fileobj
@@ -85,10 +110,10 @@ class ChannelManager:
         if mask & selectors.EVENT_READ:
             recv_data = sock.recv(4096)
             if len(recv_data) > 0:
-                channel.in_data += recv_data
+                channel.append_in_data(recv_data)
                 if len(recv_data) < 7:
                     return
-                t_bb = ByteBuffer.wrap(bytearray(channel.in_data))
+                t_bb = ByteBuffer.wrap(bytearray(channel.get_in_data()))
                 magic = bytearray(len(ProtocolConstants.MAGIC_CODE_BYTES))
                 t_bb.get(magic)
                 if magic != ProtocolConstants.MAGIC_CODE_BYTES:
@@ -96,9 +121,9 @@ class ChannelManager:
                     return
                 t_bb.get_int8()
                 full_length = t_bb.get_int32()
-                if len(channel.in_data) >= full_length:
-                    buf = channel.in_data[0:full_length]
-                    channel.in_data = channel.in_data[full_length:]
+                if len(channel.get_in_data()) >= full_length:
+                    buf = channel.get_in_data()[0:full_length]
+                    channel.set_in_data(channel.get_in_data()[full_length:])
                     in_message = self.protocol.decode(ByteBuffer.wrap(bytearray(buf)))
                     if not isinstance(in_message.body, HeartbeatMessage) or debug:
                         print('in message : <{}> request_id : {} sock : {}'.format(
@@ -106,11 +131,11 @@ class ChannelManager:
                     self.executor.submit(self.remote_client.message_handler.process, in_message)
             else:
                 print('sock unregister...', sock.getpeername())
-                self.sel.unregister(sock)
+                self.__sel.unregister(sock)
                 sock.close()
         if mask & selectors.EVENT_WRITE:
-            while not channel.out_data.empty():
-                out_message = channel.out_data.get_nowait()
+            while not channel.out_data_is_empty():
+                out_message = channel.poll_out_data()
                 if not isinstance(out_message.body, HeartbeatMessage) or debug:
                     print(
                         'out message : <{}> request_id : {} sock : {}'.format(
@@ -144,10 +169,10 @@ class ChannelManager:
         for address in avail_list:
             self.acquire_channel(address)
 
-        if not self.boot:
+        if not self.__boot:
             try:
                 self.__cond.acquire()
-                self.boot = True
+                self.__boot = True
                 self.__cond.notify_all()
             finally:
                 self.__cond.release()
@@ -170,7 +195,7 @@ class ChannelManager:
                     pass
 
     def get_channels(self):
-        if not self.boot:
+        if not self.__boot:
             try:
                 self.__cond.acquire()
                 self.__cond.wait(15)
