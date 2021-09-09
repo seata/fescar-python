@@ -11,22 +11,43 @@ class Future:
     def __init__(self):
         self.lock = threading.Condition()
         self.start = int(round(time.time() * 1000))
-        self.obj = None
+        self.completed = False
+        self.result = None
 
-    def set(self, obj):
-        self.lock.acquire()
+    def set(self, result):
         try:
-            self.obj = obj
+            self.lock.acquire()
+            if self.completed:
+                return False
+            self.completed = True
+            self.result = result
             self.lock.notifyAll()
         finally:
             self.lock.release()
+        return True
 
     def get(self, timeout=1):
-        self.lock.acquire()
+        """
+        get result
+        :param timeout: unit seconds
+        :return:
+        """
         try:
-            w = self.lock.wait(timeout)
-            if not w:
+            self.lock.acquire()
+            ms = timeout * 1000
+            wait_time = ms
+            if self.completed:
+                return self.result
+            elif wait_time <= 0:
                 raise TimeoutError()
+            else:
+                while True:
+                    self.lock.wait(wait_time)
+                    if self.completed:
+                        return self.result
+                    else:
+                        wait_time = ms - (int(round(time.time() * 1000)) - self.start)
+                        if wait_time <= 0:
+                            raise TimeoutError()
         finally:
             self.lock.release()
-        return self.obj
