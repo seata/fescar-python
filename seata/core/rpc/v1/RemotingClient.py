@@ -46,8 +46,8 @@ class RemotingClient:
         self.futures[rpc_message.id] = -1
         timeout = 0
         while self.futures.get(rpc_message.id) == -1 and timeout <= self.RPC_TIMEOUT:
-            timeout += 0.001
-            time.sleep(0.001)
+            timeout += 0.000001
+            time.sleep(0.000001)
         response = self.futures.get(rpc_message.id)
         if response == -1 and timeout > self.RPC_TIMEOUT:
             raise TimeoutError()
