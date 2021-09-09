@@ -81,29 +81,29 @@ class RMHandlerAT:
             pass
         # BranchRegisterResponse
         elif msg_type == MessageType.TYPE_BRANCH_REGISTER_RESULT:
-            if self.futures.get(rpc_message.id, None) == -1:
-                self.futures[rpc_message.id] = msg
+            if self.futures.get(rpc_message.id, None) is not None:
+                self.futures[rpc_message.id].set(msg)
             else:
                 print('BranchRegisterResponse', self.futures.get(rpc_message.id))
                 pass
         # BranchReportResponse
         elif msg_type == MessageType.TYPE_BRANCH_STATUS_REPORT_RESULT:
-            if self.futures.get(rpc_message.id, None) == -1:
-                self.futures[rpc_message.id] = msg
+            if self.futures.get(rpc_message.id, None) is not None:
+                self.futures[rpc_message.id].set(msg)
             else:
                 print('BranchReportResponse', self.futures.get(rpc_message.id))
                 pass
         # GlobalLockQueryResponse
         elif msg_type == MessageType.TYPE_GLOBAL_LOCK_QUERY_RESULT:
-            if self.futures.get(rpc_message.id, None) == -1:
-                self.futures[rpc_message.id] = msg
+            if self.futures.get(rpc_message.id, None) is not None:
+                self.futures[rpc_message.id].set(msg)
             else:
                 print('GlobalLockQueryResponse', self.futures.get(rpc_message.id))
                 pass
         # RegisterRMResponse
         elif msg_type == MessageType.TYPE_REG_RM_RESULT:
-            if self.futures.get(rpc_message.id, None) == -1:
-                self.futures[rpc_message.id] = msg
+            if self.futures.get(rpc_message.id, None) is not None:
+                self.futures[rpc_message.id].set(msg)
             else:
                 print('RegisterRMResponse', self.futures.get(rpc_message.id))
                 pass

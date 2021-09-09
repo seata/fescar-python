@@ -4,6 +4,7 @@
 # @since 1.0
 import time
 
+from seata.core.c.Future import Future
 from seata.core.protocol.HeartbeatMessage import HeartbeatMessage
 from seata.core.protocol.ProtocolConstants import ProtocolConstants
 from seata.core.protocol.RpcMessage import RpcMessage
@@ -43,15 +44,14 @@ class RemotingClient:
 
         channel.write(rpc_message)
 
-        self.futures[rpc_message.id] = -1
-        timeout = 0
-        while self.futures.get(rpc_message.id) == -1 and timeout <= self.RPC_TIMEOUT:
-            timeout += 0.000001
-            time.sleep(0.000001)
-        response = self.futures.get(rpc_message.id)
-        if response == -1 and timeout > self.RPC_TIMEOUT:
-            raise TimeoutError()
-        del self.futures[rpc_message.id]
+        f = Future()
+        self.futures[rpc_message.id] = f
+        try:
+            response = f.get(self.RPC_TIMEOUT)
+        except TimeoutError as e:
+            raise e
+        finally:
+            del self.futures[rpc_message.id]
         return response
 
     def send_async_request(self, msg):
