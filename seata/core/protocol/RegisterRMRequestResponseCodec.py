@@ -27,51 +27,51 @@ class RegisterRMRequestCodec(object):
             raise TypeError("in_buffer is not ByteBuffer class")
         if in_buffer.readable_bytes() < 2:
             return
-        len = in_buffer.get_int16()
-        if len > 0:
-            if in_buffer.readable_bytes() < len:
+        version_len = in_buffer.get_int16()
+        if version_len > 0:
+            if in_buffer.readable_bytes() < version_len:
                 return
-            ba = bytearray(len)
-            in_buffer.get(ba)
-            version = str(ba)
+            version_ba = bytearray(version_len)
+            in_buffer.get(version_ba)
+            t.version = version_ba.decode(encoding="utf-8")
         else:
             return
         if in_buffer.readable_bytes() < 2:
             return
-        len = in_buffer.get_int16()
-        if len > 0:
-            if in_buffer.readable_bytes() < len:
+        application_id_len = in_buffer.get_int16()
+        if application_id_len > 0:
+            if in_buffer.readable_bytes() < application_id_len:
                 return
-            ba = bytearray(len)
-            in_buffer.get(ba)
-            t.application_id = str(ba)
+            application_id_ba = bytearray(application_id_len)
+            in_buffer.get(application_id_ba)
+            t.application_id = application_id_ba.decode(encoding="utf-8")
         if in_buffer.readable_bytes() < 2:
             return
-        len = in_buffer.get_int16()
-        if in_buffer.readable_bytes() < len:
+        tx_service_group_len = in_buffer.get_int16()
+        if in_buffer.readable_bytes() < tx_service_group_len:
             return
-        ba = bytearray(len)
-        in_buffer.get(ba)
-        t.transaction_service_group = str(ba)
+        tx_service_group_ba = bytearray(tx_service_group_len)
+        in_buffer.get(tx_service_group_ba)
+        t.transaction_service_group = tx_service_group_ba.decode(encoding="utf-8")
 
         if in_buffer.readable_bytes() < 2:
             return
-        len = in_buffer.get_int16()
-        if len > 0:
-            if in_buffer.readable_bytes() < len:
+        extra_data_len = in_buffer.get_int16()
+        if extra_data_len > 0:
+            if in_buffer.readable_bytes() < extra_data_len:
                 return
-            ba = bytearray(len)
-            in_buffer.get(ba)
-            t.extra_data = str(ba)
+            extra_data_ba = bytearray(extra_data_len)
+            in_buffer.get(extra_data_ba)
+            t.extra_data = extra_data_ba.decode(encoding="utf-8")
         if in_buffer.readable_bytes() < 4:
             return
-        len = in_buffer.get_int32()
-        if len > 0:
-            if in_buffer.readable_bytes() < len:
+        resource_ids_len = in_buffer.get_int32()
+        if resource_ids_len > 0:
+            if in_buffer.readable_bytes() < resource_ids_len:
                 return
-            ba = bytearray(len)
-            in_buffer.get(ba)
-            t.resource_ids = str(ba)
+            resource_ids_ba = bytearray(resource_ids_len)
+            in_buffer.get(resource_ids_ba)
+            t.resource_ids = resource_ids_ba.decode(encoding="utf-8")
 
 
 class RegisterRMResponseCodec(object):

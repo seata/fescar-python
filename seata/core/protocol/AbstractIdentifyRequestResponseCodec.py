@@ -58,7 +58,7 @@ class AbstractIdentifyRequestCodec(object):
             return
         version_ba = bytearray(version_len)
         in_buffer.get(version_ba)
-        t.version = version_ba
+        t.version = version_ba.decode(encoding="utf-8")
 
         if in_buffer.readable_bytes() < 2:
             return
@@ -120,5 +120,5 @@ class AbstractIdentifyResponseCodec(object):
             return
         version_ba = bytearray(version_len)
         in_buffer.get(version_ba)
-        t.version = version_ba
+        t.version = version_ba.decode(encoding="utf-8")
 
