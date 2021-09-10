@@ -26,7 +26,7 @@ class Future:
             self.lock.release()
         return True
 
-    def get(self, timeout=1):
+    def get(self, timeout=3):
         """
         get result
         :param timeout: unit seconds
@@ -34,8 +34,8 @@ class Future:
         """
         try:
             self.lock.acquire()
-            ms = timeout * 1000
-            wait_time = ms
+            seconds = timeout
+            wait_time = seconds
             if self.completed:
                 return self.result
             elif wait_time <= 0:
@@ -46,7 +46,7 @@ class Future:
                     if self.completed:
                         return self.result
                     else:
-                        wait_time = ms - (int(round(time.time() * 1000)) - self.start)
+                        wait_time = seconds - (int(round(time.time())) - self.start / 1000)
                         if wait_time <= 0:
                             raise TimeoutError()
         finally:

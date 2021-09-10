@@ -68,7 +68,6 @@ class AbstractBranchEndRequestCodec(object):
             return
         t.branch_type = BranchType(in_buffer.get_int8())
 
-        resource_id_len = 0
         if in_buffer.readable_bytes() < 2:
             return
         resource_id_len = in_buffer.get_int16()

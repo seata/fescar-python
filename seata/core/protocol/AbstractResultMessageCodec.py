@@ -39,4 +39,4 @@ class AbstractResultMessageCodec(object):
             if msg_len > 0:
                 msg = bytearray(msg_len)
                 in_buffer.get(msg)
-                t.msg = str(msg)
+                t.msg = msg.decode(encoding="utf-8")
