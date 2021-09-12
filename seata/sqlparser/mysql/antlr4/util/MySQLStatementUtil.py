@@ -20,7 +20,7 @@ class MySQLStatementUtil:
         elif isinstance(val, BooleanLiteral):
             return MySQLValue.BoolValue(val.value)
         elif isinstance(val, ParameterMarker):
-            return MySQLValue.ParameterMarkerValue(val.value)
+            return MySQLValue.ParameterMarkerValue(val.name, val.value)
         elif isinstance(val, StringLiteral):
             return MySQLValue.StringValue(val.value)
         elif isinstance(val, HexadecimalLiteral):
