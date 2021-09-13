@@ -24,7 +24,7 @@ class MySQLUndoDeleteExecutor(UndoExecutor):
         fields.extend(row.non_primary_keys())
         fields.extend(self.get_ordered_pk_list(before_image, row, JdbcConstants.MYSQL))
 
-        columns = ', '.join([ColumnUtils.add_by_dbtype(f.name, JdbcConstants.MYSQL) for f in fields])
+        columns = ', '.join([ColumnUtils.add_by_col_dbtype(f.name, JdbcConstants.MYSQL) for f in fields])
         values = ', '.join(["%s" for f in fields])
         return self.INSERT_SQL_TEMPLATE.format(self.sql_undo_log.table_name, columns, values)
 

@@ -26,7 +26,7 @@ class MySQLUndoUpdateExecutor(UndoExecutor):
         for non_pk_idx, non_pk in enumerate(non_pk_fields):
             if non_pk_idx > 0:
                 update_columns += ","
-            update_columns += (ColumnUtils.add_by_dbtype(non_pk.name, JdbcConstants.MYSQL) + " = %s")
+            update_columns += (ColumnUtils.add_by_col_dbtype(non_pk.name, JdbcConstants.MYSQL) + " = %s")
         pk_list = self.get_ordered_pk_list(before_image, row, JdbcConstants.MYSQL)
         pk_name_list = []
         for pk_idx, pk in enumerate(pk_list):

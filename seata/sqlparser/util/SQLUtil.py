@@ -28,7 +28,7 @@ class SQLUtil:
             for i in range(len(pk_column_name_list)):
                 if i > 0:
                     where_str += ","
-                where_str += ColumnUtils.add_by_dbtype(pk_column_name_list[i], db_type)
+                where_str += ColumnUtils.add_by_col_dbtype(pk_column_name_list[i], db_type)
             where_str += ") IN ( "
             if batch == batch_size - 1:
                 if row_size % max_in_size == 0:
@@ -56,7 +56,7 @@ class SQLUtil:
             if i > 0:
                 where_str += " AND "
             pk_name = pk_name_list[i]
-            where_str += ColumnUtils.add_by_dbtype(pk_name, db_type)
+            where_str += ColumnUtils.add_by_col_dbtype(pk_name, db_type)
             where_str += " = %s "
         return where_str
 

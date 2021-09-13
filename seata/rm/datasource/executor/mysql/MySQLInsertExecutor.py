@@ -99,7 +99,7 @@ class MySQLInsertExecutor(BaseInsertExecutor):
                         else:
                             pk_values.append(pk_value)
 
-                        pk_key_escape = ColumnUtils.del_escape_by_colname_dbtype(pk_key, self.get_db_type())
+                        pk_key_escape = ColumnUtils.del_escape_by_col_dbtype(pk_key, self.get_db_type())
                         if pk_values_map.get(pk_key_escape, None) is None:
                             pk_values_map[pk_key_escape] = pk_values
         else:
@@ -110,7 +110,7 @@ class MySQLInsertExecutor(BaseInsertExecutor):
                 for pk, index in pk_index_map:
                     pk_values = pk_values_map[pk]
                     if pk_values is None:
-                        pk_values_map[ColumnUtils.del_escape_by_colname_dbtype(pk, self.get_db_type())] = [row[index]]
+                        pk_values_map[ColumnUtils.del_escape_by_col_dbtype(pk, self.get_db_type())] = [row[index]]
                     else:
                         pk_values.append(row[index])
 
@@ -207,7 +207,7 @@ class MySQLInsertExecutor(BaseInsertExecutor):
             pk_index += 1
             if self.contains_pk([column_meta.column_name]):
                 pk_index_map[
-                    ColumnUtils.del_escape_by_colname_dbtype(column_meta.column_name, self.get_db_type())] = pk_index
+                    ColumnUtils.del_escape_by_col_dbtype(column_meta.column_name, self.get_db_type())] = pk_index
         return pk_index_map
 
     def get_pk_values_by_auto(self):

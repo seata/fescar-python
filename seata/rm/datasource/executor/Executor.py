@@ -103,7 +103,7 @@ class BaseTransactionalExecutor(Executor):
         return sql_undo_log
 
     def get_standard_pk_column_name(self, column_name):
-        new_column_name = ColumnUtils.del_escape_by_colname_dbtype(column_name, self.get_db_type())
+        new_column_name = ColumnUtils.del_escape_by_col_dbtype(column_name, self.get_db_type())
         pks = self.get_table_meta().get_primary_key_only_name()
         for i in range(len(pks)):
             cn = pks[i]
@@ -371,7 +371,7 @@ class UpdateExecutor(DMLBaseExecutor):
             for col_idx, column in enumerate(tm.all_columns.keys()):
                 if col_idx > 0:
                     column_str += ","
-                column_str += ColumnUtils.add_by_dbtype(column, self.get_db_type())
+                column_str += ColumnUtils.add_by_col_dbtype(column, self.get_db_type())
 
         return prefix + column_str + suffix
 
@@ -415,7 +415,7 @@ class UpdateExecutor(DMLBaseExecutor):
             for col_idx, column in enumerate(tm.all_columns.keys()):
                 if col_idx > 0:
                     column_str += ","
-                column_str += ColumnUtils.add_by_dbtype(column, self.get_db_type())
+                column_str += ColumnUtils.add_by_col_dbtype(column, self.get_db_type())
 
         return prefix + column_str + suffix
 
@@ -497,7 +497,7 @@ class DeleteExecutor(DMLBaseExecutor):
         suffix += " FOR UPDATE"
         columns = []
         for col_idx, column in enumerate(tm.all_columns.keys()):
-            columns.append(self.get_column_name_in_sql(ColumnUtils.add_by_dbtype(column, self.get_db_type())))
+            columns.append(self.get_column_name_in_sql(ColumnUtils.add_by_col_dbtype(column, self.get_db_type())))
         return "SELECT " + (', '.join(columns)) + suffix
 
     def after_image(self, before_image: TableRecords):
