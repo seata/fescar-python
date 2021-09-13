@@ -129,11 +129,12 @@ class BaseTransactionalExecutor(Executor):
                                                              param_list)
         else:
             where_condition = recognizer.get_where_condition()
-        if where_condition is not None and len(where_condition.strip()) == 0 and len(param_list) > 1:
-            where_str = " ( " + where_condition + " ) "
+        if where_condition is not None and param_list is not None and len(param_list) > 1:
+            where_str = " ( " + where_condition.replace(" WHERE", "") + " ) "
             for i in range(len(param_list)):
-                where_str += (" or ( " + where_condition + " ) ")
-            where_condition = where_str
+                if i > 0:
+                    where_str += (" or ( " + where_condition.replace(" WHERE", "") + " ) ")
+            where_condition = " WHERE" + where_str
         return where_condition
 
     def build_order_by_condition(self, recognizer, param_list):
@@ -154,11 +155,25 @@ class BaseTransactionalExecutor(Executor):
             params = {}
             for i in range(len(parameters)):
                 parameter = parameters[i]
-                for index, p in enumerate(parameter):
-                    if params.get(index, None) is None:
-                        params[index] = [p]
-                    else:
-                        params[index].append(p)
+                if isinstance(parameter, tuple):
+                    for index, p in enumerate(parameter):
+                        if params.get(index, None) is None:
+                            params[index] = [p]
+                        else:
+                            params[index].append(p)
+                elif isinstance(parameter, dict):
+                    for index, p in enumerate(parameter.items()):
+                        if params.get(index, None) is None:
+                            params[index] = [p[1]]
+                        else:
+                            params[index].append(p[1])
+                else:
+                    raise NotSupportYetException('parameter type error. ' + type(parameter).__name__)
+            return params
+        elif isinstance(parameters, dict):
+            params = {}
+            for index, kv in enumerate(parameters.items()):
+                params[index] = [kv[1]]
             return params
         else:
             raise NotSupportYetException('not support parameters type : {}'.format(type(parameters)))
@@ -266,7 +281,7 @@ class BaseInsertExecutor(DMLBaseExecutor, InsertExecutor):
 
     def after_image(self, before_image: TableRecords):
         pk_values = self.get_pk_values()
-        after_image = self.build_table_records(pk_values)
+        after_image = self.build_table_records_by_pk_values(pk_values)
         if after_image is None:
             raise SQLException("build table records error for insert")
         return after_image
@@ -284,7 +299,7 @@ class BaseInsertExecutor(DMLBaseExecutor, InsertExecutor):
         new_columns = ColumnUtils.del_escape_by_cols_dbtype(insert_columns, self.get_db_type())
         return self.get_table_meta().contains_pk(new_columns)
 
-    def build_table_records(self, pk_values_map):
+    def build_table_records_by_pk_values(self, pk_values_map):
         pk_column_name_list = self.get_table_meta().get_primary_key_only_name()
         sql = " SELECT * FROM "
         sql += self.get_from_table_in_sql()

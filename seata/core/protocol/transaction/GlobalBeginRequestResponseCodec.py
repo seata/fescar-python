@@ -34,7 +34,7 @@ class GlobalBeginRequestCodec(object):
         if transaction_name_len > 0:
             transaction_name_ba = bytearray(transaction_name_len)
             in_buffer.get(transaction_name_ba)
-            t.transaction_name = str(transaction_name_ba)
+            t.transaction_name = transaction_name_ba.decode(encoding="utf-8")
 
 
 class GlobalBeginResponseCodec(object):

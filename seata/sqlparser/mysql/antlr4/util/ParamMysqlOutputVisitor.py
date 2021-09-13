@@ -19,4 +19,4 @@ class ParamMysqlOutputVisitor(MysqlOutputVisitor):
         for i in range(len(param_values)):
             val = param_values[i]
             self.param_list[i].append(val)
-        super(ParamMysqlOutputVisitor, self).visitParameterMarker(parameter_marker, output)
+        output.append("%s")

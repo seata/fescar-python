@@ -22,7 +22,8 @@ class FunctionNameValue:
 
 
 class ParameterMarkerValue:
-    def __init__(self, value: str):
+    def __init__(self, name, value: str):
+        self.name = name
         self.value = value
 
 

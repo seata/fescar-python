@@ -132,8 +132,9 @@ class FunctionCall(PredicateAtom):
 
 
 class ParameterMarker(Constant):
-    def __init__(self, index, value):
+    def __init__(self, index, name, value):
         self.index = index
+        self.name = name
         self.value = value
 
 
@@ -599,7 +600,10 @@ class MysqlStatementVisitor(MySqlBaseParserVisitor):
     def visitParameterMarker(self, ctx: MySqlBaseParser.ParameterMarkerContext):
         log('visitParameterMarker')
         self.parameter_marker_index += 1
-        pm = ParameterMarker(self.parameter_marker_index, ctx.getText())
+        name = None
+        if ctx.PERCENT_NAME_() is not None:
+            name = ctx.PERCENT_NAME_().getText()[2:-2]
+        pm = ParameterMarker(self.parameter_marker_index, name, ctx.getText())
         return pm
 
 
