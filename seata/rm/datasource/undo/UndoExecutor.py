@@ -48,7 +48,7 @@ class UndoExecutor:
     def get_ordered_pk_list(self, table_records, row, db_type):
         pk_fields = []
         pk_column_name_list_by_order = table_records.table_meta.get_primary_key_only_name()
-        pk_column_name_list_no_order = [ColumnUtils.del_escape_by_colname_dbtype(x.name, db_type) for x in
+        pk_column_name_list_no_order = [ColumnUtils.del_escape_by_col_dbtype(x.name, db_type) for x in
                                         row.primary_keys()]
         for pk_name in pk_column_name_list_by_order:
             pk_index = pk_column_name_list_no_order.index(pk_name)
