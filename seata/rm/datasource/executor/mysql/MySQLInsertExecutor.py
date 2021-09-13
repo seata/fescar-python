@@ -225,7 +225,7 @@ class MySQLInsertExecutor(BaseInsertExecutor):
         values = []
         rowcount = self.cursor_proxy.rowcount
         if rowcount > 1 and self.can_auto_increment(pk_meta_map):
-            self.auto_generate_pks(rowid, auto_column_name, rowcount)
+            return self.auto_generate_pks(rowid, auto_column_name, rowcount)
         else:
             values.append(rowid)
 
@@ -235,19 +235,19 @@ class MySQLInsertExecutor(BaseInsertExecutor):
     def can_auto_increment(self, pk_meta_map):
         if len(pk_meta_map) > 1:
             return False
-        for k, v in pk_meta_map:
+        for k, v in pk_meta_map.items():
             return v.is_auto_increment()
         return False
 
     def auto_generate_pks(self, rowid, auto_column_name, rowcount):
         step = 1
         resource_id = self.cursor_proxy.connection_proxy.data_source_proxy.get_resource_id()
-        if self.RESOURCE_STEP_CACHE[resource_id] is not None:
+        if self.RESOURCE_STEP_CACHE.get(resource_id, None) is not None:
             step = self.RESOURCE_STEP_CACHE[resource_id]
         else:
             self.cursor_proxy.target_cursor.execute("SHOW VARIABLES LIKE 'auto_increment_increment'")
             one = self.cursor_proxy.target_cursor.fetchone()
-            step = one[1]
+            step = int(one[1])
             self.RESOURCE_STEP_CACHE[resource_id] = step
 
         pk_values = []

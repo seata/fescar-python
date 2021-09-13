@@ -135,6 +135,30 @@ def test_non_tx_insert():
     print('success')
 
 
+@GlobalTransactional()
+def test_var_name_insert():
+    cp = data_source_proxy.connection()
+    cursor = cp.cursor()
+    # cursor.executemany("insert into test(id, name, created) values(null, %(name)s, %(created)s)",
+    #                [{"name": "11", "created": datetime.datetime.now()},
+    #                 {"name": "12", "created": datetime.datetime.now()}])
+    # cursor.execute("insert into test(id, name, created) values(null, %(name)s, %(created)s)",
+    #                ({"name": "11", "created": datetime.datetime.now()}))
+
+    # cursor.execute("delete from test where id = %(id)s", ({"id": 33}))
+    # cursor.executemany("delete from test where id = %(id)s", [{"id": 33}, {"id": 34}])
+
+    # cursor.execute("update test set name = %(name)s, created = %(created)s where id = %(id)s",
+    #                ({"name": "11", "created": datetime.datetime.now(), "id": 34}))
+    cursor.executemany("update test set name = %(name)s, created = %(created)s where id = %(id)s",
+                       [{"name": "34", "created": datetime.datetime.now(), "id": 34},
+                        {"name": "35", "created": datetime.datetime.now(), "id": 35}])
+
+    cp.commit()
+    print('success')
+    raise RuntimeError()
+
+
 def test_get_table_meta():
     con = pool.connection()
     cursor = con.cursor()
@@ -181,13 +205,43 @@ def test_IntegrityError():
         print(e.__class__.mro())
 
 
+@GlobalTransactional()
+def test_dml():
+    cp = data_source_proxy.connection()
+    cursor = cp.cursor()
+    cursor.execute("insert into test values(999, %s, %s)", ("11", datetime.datetime.now()))
+    cp.commit()
+    cursor.close()
+    cp.close()
+
+    cp = data_source_proxy.connection()
+    cursor = cp.cursor()
+    cursor.execute("update test set name = %(name)s, created = %(created)s where id = %(id)s",
+                   {"name": "999", "created": datetime.datetime.now(), "id": 999})
+    cp.commit()
+    cursor.close()
+    cp.close()
+
+    cp = data_source_proxy.connection()
+    cursor = cp.cursor()
+    cursor.execute("delete from test where id = %s", (999,))
+    cp.commit()
+    cursor.close()
+    cp.close()
+
+    print("success")
+    raise RuntimeError('rollback')
+
+
 if __name__ == '__main__':
     init()
     # test_insert()
     # test_update()
     # test_delete()
     # test_select_for_update()
-    test_non_tx_insert()
+    # test_non_tx_insert()
+    # test_var_name_insert()
+    # test_dml()
     # test_get_table_meta()
     # test_get_low_case()
     # test_insert_lastrowid()
