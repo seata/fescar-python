@@ -51,10 +51,10 @@ class TableRecords(object):
     @classmethod
     def build_records(cls, table_meta, result, description):
         records = TableRecords(table_meta)
-        fields = []
         for idx in range(len(result)):
             res = result[idx]
             column_count = len(res)
+            fields = []
             for j in range(column_count):
                 column_name = description[j][0]
                 col = table_meta.get_column_meta(column_name)
