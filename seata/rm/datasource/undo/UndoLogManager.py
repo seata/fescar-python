@@ -2,6 +2,8 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+from loguru import logger
+
 from seata.config.Config import ConfigFactory
 from seata.core.compressor.CompressorType import CompressorType
 from seata.exception.ShouldNeverHappenException import ShouldNeverHappenException
@@ -24,7 +26,7 @@ from seata.sqlparser.util.CollectionUtil import CollectionUtil
 #     `log_created`   DATETIME(6)  NOT NULL COMMENT 'create datetime',
 #     `log_modified`  DATETIME(6)  NOT NULL COMMENT 'modify datetime',
 #     UNIQUE KEY `ux_undo_log` (`xid`, `branch_id`)
-# ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8 COMMENT ='AT transaction mode undo table';
+# ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COMMENT ='AT transaction mode undo table';
 
 
 class UndoLogManager(object):
@@ -96,7 +98,7 @@ class UndoLogManager(object):
                     exists = True
                     state = rs[col_map['log_status']]
                     if not self.can_undo(state):
-                        print("xid [{}] branch [{}], ignore [{}] undo_log".format(xid, branch_id, State(state)))
+                        logger.warning("xid [{}] branch [{}], ignore [{}] undo_log".format(xid, branch_id, State(state)))
                         return
                     context_string = rs[col_map['context']]
                     context_map = self.parse_context(context_string)
@@ -126,26 +128,26 @@ class UndoLogManager(object):
                 if exists:
                     self.delete_undo_log(xid, branch_id, con)
                     con.commit()
-                    print('xid [{}] branch [{}], undo_log deleted with [{}]'.format(xid, branch_id,
+                    logger.info('xid [{}] branch [{}], undo_log deleted with [{}]'.format(xid, branch_id,
                                                                                     State.GlobalFinished.name))
                 else:
                     self.insert_undo_log_with_global_finished(xid, branch_id, UndoLogParserFactory.get_instance(),
                                                               con)
                     con.commit()
-                    print('xid [{}] branch [{}], undo_log added with [{}]'.format(xid, branch_id,
+                    logger.info('xid [{}] branch [{}], undo_log added with [{}]'.format(xid, branch_id,
                                                                                   State.GlobalFinished.name))
                 return
             except Exception as e:
                 error_name = e.__class__.__name__
                 if error_name == 'IntegrityError':
-                    print('xid [{}] branch [{}], undo_log inserted, retry rollback'.format(xid, branch_id))
+                    logger.info('xid [{}] branch [{}], undo_log inserted, retry rollback'.format(xid, branch_id))
                 else:
-                    print(e)
+                    logger.error(e)
                     if cp is not None:
                         try:
                             con.rollback()
                         except Exception as e:
-                            print("close connection while undo", e)
+                            logger.error("close connection while undo", e)
                     raise BranchTransactionException(TransactionExceptionCode.BranchRollbackFailed_Retriable)
             finally:
                 if cursor is not None:

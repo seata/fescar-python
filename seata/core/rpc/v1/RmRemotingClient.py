@@ -4,6 +4,8 @@
 # @since 1.0
 import threading
 
+from loguru import logger
+
 from seata.core.protocol.RegisterRMRequestResponse import RegisterRMRequest
 from seata.core.rpc.v1.ChannelManager import ChannelManager
 from seata.core.rpc.v1.RemotingClient import RemotingClient
@@ -51,6 +53,6 @@ class RmRemotingClient(RemotingClient):
 
     def on_reg_response(self, request, response):
         if response.result:
-            print("rm register success. [{}] [{}]".format(request.transaction_service_group, request.resource_ids))
+            logger.info("rm register success. [{}] [{}]".format(request.transaction_service_group, request.resource_ids))
         else:
-            print("rm register failed. [{}] [{}]".format(request.transaction_service_group, request.resource_ids))
+            logger.error("rm register failed. [{}] [{}]".format(request.transaction_service_group, request.resource_ids))

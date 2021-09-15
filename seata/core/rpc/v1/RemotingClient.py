@@ -4,6 +4,8 @@
 # @since 1.0
 import time
 
+from loguru import logger
+
 from seata.core.c.Future import Future
 from seata.core.protocol.HeartbeatMessage import HeartbeatMessage
 from seata.core.protocol.ProtocolConstants import ProtocolConstants
@@ -24,7 +26,7 @@ class RemotingClient:
             try:
                 self.channel_manager.reconnect(self.transaction_service_group)
             except Exception as e:
-                print('reconnect error', e)
+                logger.error('reconnect error', e)
             finally:
                 try:
                     time.sleep(5)

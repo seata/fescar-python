@@ -2,6 +2,8 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+from loguru import logger
+
 from seata.core.context.RootContext import RootContext
 from seata.core.model.BranchStatus import BranchStatus
 from seata.core.model.BranchType import BranchType
@@ -114,9 +116,9 @@ class DataSourceResourceManager(object):
             UndoLogManagerFactory.get_undo_log_manager(data_source_proxy.db_type).undo(data_source_proxy, xid,
                                                                                        branch_id)
         except TransactionException as e:
-            print("branchRollback failed. branch_type:[{}], xid:[{}], branch_id:[{}], resource_id:[{}], "
-                  "application_data:[{}], reason:[{}]".format(branch_type, xid, branch_id, resource_id,
-                                                              application_data, e.message))
+            logger.error("branchRollback failed. branch_type:[{}], xid:[{}], branch_id:[{}], resource_id:[{}], "
+                         "application_data:[{}], reason:[{}]".format(branch_type, xid, branch_id, resource_id,
+                                                                     application_data, e.message))
             if e.code == TransactionExceptionCode.BranchRollbackFailed_Unretriable:
                 return BranchStatus.PhaseTwo_RollbackFailed_Unretryable
             else:

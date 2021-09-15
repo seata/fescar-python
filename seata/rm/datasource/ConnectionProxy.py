@@ -2,6 +2,8 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+from loguru import logger
+
 from seata.config.Config import ConfigFactory
 from seata.core.model.BranchStatus import BranchStatus
 from seata.core.model.BranchType import BranchType
@@ -124,7 +126,7 @@ class ConnectionProxy(object):
             UndoLogManagerFactory.get_undo_log_manager(self.get_db_type()).flush_undo_logs(self)
             self.target_connection.commit()
         except Exception as ex:
-            print("process connectionProxy commit error: {}".format(ex))
+            logger.error("process connectionProxy commit error: {}".format(ex))
             self.report(False)
             raise ex
         if self.IS_REPORT_SUCCESS_ENABLE:
@@ -164,9 +166,10 @@ class ConnectionProxy(object):
                                                            status, None)
                 return
             except Exception as e:
-                print("Failed to report [{}/{}]  commit done [{}] Retry Countdown: [{}]".format(self.context.branch_id,
-                                                                                                self.context.xid,
-                                                                                                commit_done, retry))
+                logger.error(
+                    "Failed to report [{}/{}]  commit done [{}] Retry Countdown: [{}]".format(self.context.branch_id,
+                                                                                              self.context.xid,
+                                                                                              commit_done, retry))
                 retry -= 1
                 if retry == 0:
                     raise RuntimeError("Failed to report branch status  {}, {}".format(commit_done, e))

@@ -2,6 +2,8 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+from loguru import logger
+
 from seata.core.context.RootContext import RootContext
 from seata.core.model.GlobalStatus import GlobalStatus
 from seata.tm.DefaultTransactionManager import DefaultTransactionManager
@@ -19,7 +21,7 @@ class DefaultGlobalTransaction(GlobalTransaction):
     def begin(self, timeout=60000, name="default"):
         if self.role != GlobalTransactionRole.Launcher:
             self.__assert_xid_not_null()
-            print('ignore begin, involved in global transaction xid : [{}]'.format(self.xid))
+            logger.debug('ignore begin, involved in global transaction xid : [{}]'.format(self.xid))
             return
         self.__assert_xid_null()
         current_xid = RootContext.get_xid()
@@ -29,23 +31,23 @@ class DefaultGlobalTransaction(GlobalTransaction):
         self.xid = self.transaction_manager.begin(None, None, name, timeout)
         self.status = GlobalStatus.Begin
         RootContext.bind(self.xid)
-        print('begin new global transaction [{}]'.format(self.xid))
+        logger.info('begin new global transaction [{}]'.format(self.xid))
 
     def commit(self):
         if self.role == GlobalTransactionRole.Participant:
-            print('ignore commit, involved in global transaction xid : [{}]'.format(self.xid))
+            logger.debug('ignore commit, involved in global transaction xid : [{}]'.format(self.xid))
             return
         self.__assert_xid_not_null()
         self.status = self.transaction_manager.commit(self.xid)
-        print('commit global transaction [{}] [{}]'.format(self.xid, self.status))
+        logger.info('commit global transaction [{}] [{}]'.format(self.xid, self.status))
 
     def rollback(self):
         if self.role == GlobalTransactionRole.Participant:
-            print('ignore rollback, involved in global transaction xid : [{}]'.format(self.xid))
+            logger.debug('ignore rollback, involved in global transaction xid : [{}]'.format(self.xid))
             return
         self.__assert_xid_not_null()
         self.status = self.transaction_manager.rollback(self.xid)
-        print('rollback global transaction [{}] [{}]'.format(self.xid, self.status))
+        logger.info('rollback global transaction [{}] [{}]'.format(self.xid, self.status))
 
     def get_status(self):
         if self.xid is None:
@@ -60,7 +62,7 @@ class DefaultGlobalTransaction(GlobalTransaction):
         if global_status is None:
             raise ValueError('global status is null')
         self.status = self.transaction_manager.global_report(self.xid, global_status)
-        print('report global transaction [{}] [{}]'.format(self.xid, global_status))
+        logger.info('report global transaction [{}] [{}]'.format(self.xid, global_status))
 
     def __assert_xid_null(self):
         if self.xid is not None:
