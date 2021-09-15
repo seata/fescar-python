@@ -2,6 +2,8 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+from loguru import logger
+
 from seata.core.ByteBuffer import ByteBuffer
 
 
@@ -25,7 +27,7 @@ class MergeResultMessageCodec(object):
         out_buffer.put_int16(len(msgs))
         out_buffer.put(msg_bb.array())
         if len(msgs) > 20:
-            print("msg in one services merge packet:[{}],buffer size:[{}]".format(len(msgs), length))
+            logger.info("msg in one services merge packet:[{}],buffer size:[{}]".format(len(msgs), length))
 
     def decode(self, t, in_buffer):
         if not isinstance(in_buffer, ByteBuffer):

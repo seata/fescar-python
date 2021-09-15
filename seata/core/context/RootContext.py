@@ -2,6 +2,8 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+from loguru import logger
+
 from seata.core.context.ContextCore import ContextCore
 from seata.core.model.BranchType import BranchType
 from seata.exception.ShouldNeverHappenException import ShouldNeverHappenException
@@ -22,8 +24,9 @@ class RootContext(object):
             raise TypeError("The default branch type must be [{}] or [{}]. the value of the argument is: [{}]"
                             .format(BranchType.AT, BranchType.XA, default_branch_type))
         if cls.DEFAULT_BRANCH_TYPE is not None and cls.DEFAULT_BRANCH_TYPE != default_branch_type:
-            print("The `RootContext.DEFAULT_BRANCH_TYPE` has been set repeatedly. The value changes from [{}] to [{}]"
-                  .format(cls.DEFAULT_BRANCH_TYPE, default_branch_type))
+            logger.warning(
+                "The `RootContext.DEFAULT_BRANCH_TYPE` has been set repeatedly. The value changes from [{}] to [{}]"
+                .format(cls.DEFAULT_BRANCH_TYPE, default_branch_type))
         cls.DEFAULT_BRANCH_TYPE = default_branch_type
 
     @classmethod
@@ -34,7 +37,7 @@ class RootContext(object):
     def bind(cls, xid=None):
         if xid is None or len(xid) == 0:
             xid = None
-        print("bind xid [{}]".format(xid))
+        logger.info("bind xid [{}]".format(xid))
         cls.CONTEXT_HOLDER.put(cls.KEY_XID, xid)
 
     @classmethod
@@ -44,13 +47,13 @@ class RootContext(object):
     @classmethod
     def unbind(cls):
         xid = cls.CONTEXT_HOLDER.get(cls.KEY_XID)
-        print("unbind xid [{}]".format(xid))
+        logger.info("unbind xid [{}]".format(xid))
         return xid
 
     @classmethod
     def unbind_global_lock_flag(cls):
         flag = cls.CONTEXT_HOLDER.get(cls.KEY_GLOBAL_LOCK_FLAG)
-        print("unbind global lock flag [{}]".format(flag))
+        logger.info("unbind global lock flag [{}]".format(flag))
         cls.CONTEXT_HOLDER.remove(cls.KEY_GLOBAL_LOCK_FLAG)
 
     @classmethod
@@ -88,7 +91,7 @@ class RootContext(object):
     @classmethod
     def unbind_branch_type(cls):
         branch_type = cls.CONTEXT_HOLDER.get(cls.KEY_BRANCH_TYPE)
-        print("unbind branch type [{}]".format(branch_type))
+        logger.info("unbind branch type [{}]".format(branch_type))
         cls.CONTEXT_HOLDER.remove(cls.KEY_BRANCH_TYPE)
         return branch_type
 

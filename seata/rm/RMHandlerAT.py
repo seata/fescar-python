@@ -4,6 +4,8 @@
 # @since 1.0
 import datetime
 
+from loguru import logger
+
 from seata.core.model.BranchType import BranchType
 from seata.core.protocol.MessageType import MessageType
 from seata.core.protocol.ResultCode import ResultCode
@@ -41,16 +43,16 @@ class RMHandlerAT:
             try:
                 self.__do_branch_commit(msg, response)
                 response.result_code = ResultCode.Success
-                print('commit branch xid : [{}] branch_id : [{}] branch_status : [{}]'.format(response.xid,
-                                                                                              response.branch_id,
-                                                                                              response.branch_status))
+                logger.info('commit branch xid : [{}] branch_id : [{}] branch_status : [{}]'.format(response.xid,
+                                                                                                    response.branch_id,
+                                                                                                    response.branch_status))
             except TransactionException as e:
-                print('do branch commit transaction exception error', e)
+                logger.error('do branch commit transaction exception error', e)
                 response.result_code = ResultCode.Failed
                 response.transaction_exception_code = e.code
                 response.msg = str(e)
             except Exception as e:
-                print('do branch commit error', e)
+                logger.error('do branch commit error', e)
                 response.result_code = ResultCode.Failed
                 response.msg = str(e)
             self.remote_client.send_async_response(rpc_message, response)
@@ -61,16 +63,16 @@ class RMHandlerAT:
             try:
                 self.__do_branch_rollback(msg, response)
                 response.result_code = ResultCode.Success
-                print('rollback branch xid : [{}] branch_id : [{}] : branch_status : [{}]'.format(response.xid,
-                                                                                                  response.branch_id,
-                                                                                                  response.branch_status))
+                logger.info('rollback branch xid : [{}] branch_id : [{}] : branch_status : [{}]'.format(response.xid,
+                                                                                                        response.branch_id,
+                                                                                                        response.branch_status))
             except TransactionException as e:
-                print('do branch rollback transaction exception error', e)
+                logger.error('do branch rollback transaction exception error', e)
                 response.result_code = ResultCode.Failed
                 response.transaction_exception_code = e.code
                 response.msg = str(e)
             except Exception as e:
-                print('do branch rollback error', e)
+                logger.error('do branch rollback error', e)
                 response.result_code = ResultCode.Failed
                 response.msg = str(e)
             self.remote_client.send_async_response(rpc_message, response)
@@ -84,28 +86,28 @@ class RMHandlerAT:
             if self.futures.get(rpc_message.id, None) is not None:
                 self.futures[rpc_message.id].set(msg)
             else:
-                print('BranchRegisterResponse', self.futures.get(rpc_message.id))
+                logger.info('BranchRegisterResponse', self.futures.get(rpc_message.id))
                 pass
         # BranchReportResponse
         elif msg_type == MessageType.TYPE_BRANCH_STATUS_REPORT_RESULT:
             if self.futures.get(rpc_message.id, None) is not None:
                 self.futures[rpc_message.id].set(msg)
             else:
-                print('BranchReportResponse', self.futures.get(rpc_message.id))
+                logger.info('BranchReportResponse', self.futures.get(rpc_message.id))
                 pass
         # GlobalLockQueryResponse
         elif msg_type == MessageType.TYPE_GLOBAL_LOCK_QUERY_RESULT:
             if self.futures.get(rpc_message.id, None) is not None:
                 self.futures[rpc_message.id].set(msg)
             else:
-                print('GlobalLockQueryResponse', self.futures.get(rpc_message.id))
+                logger.info('GlobalLockQueryResponse', self.futures.get(rpc_message.id))
                 pass
         # RegisterRMResponse
         elif msg_type == MessageType.TYPE_REG_RM_RESULT:
             if self.futures.get(rpc_message.id, None) is not None:
                 self.futures[rpc_message.id].set(msg)
             else:
-                print('RegisterRMResponse', self.futures.get(rpc_message.id))
+                logger.info('RegisterRMResponse', self.futures.get(rpc_message.id))
                 pass
 
     def __do_branch_commit(self, msg, response):
@@ -113,7 +115,7 @@ class RMHandlerAT:
         branch_id = msg.branch_id
         resource_id = msg.resource_id
         application_data = msg.application_data
-        print(
+        logger.info(
             'branch committing : xid=[{}] branch_id=[{}] resource_id=[{}] application_data=[{}]'.format(xid, branch_id,
                                                                                                         resource_id,
                                                                                                         application_data))
@@ -138,7 +140,7 @@ class RMHandlerAT:
         resource_manager = self.get_resource_manager()
         data_source_proxy = resource_manager.get_resource(msg.resource_id)
         if data_source_proxy is None:
-            print('failed get data source proxy for delete undo log on [{}]'.format(msg.resource_id))
+            logger.error('failed get data source proxy for delete undo log on [{}]'.format(msg.resource_id))
             return
         log_created = (datetime.datetime.now() + datetime.timedelta(days=-msg.save_days)).strftime('%Y-%m-%d')
         delete_rows = 0
@@ -160,7 +162,7 @@ class RMHandlerAT:
                 if delete_rows != self.LIMIT_ROWS:
                     break
         except Exception as e:
-            print('do_undo_log_delete error', e)
+            logger.error('do_undo_log_delete error', e)
         finally:
             if cp is not None:
                 try:

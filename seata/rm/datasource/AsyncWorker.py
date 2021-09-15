@@ -4,8 +4,9 @@
 # @since 1.0
 import queue
 import threading
-
 import time
+
+from loguru import logger
 
 from seata.rm.datasource.undo.UndoLogManagerFactory import UndoLogManagerFactory
 
@@ -49,14 +50,14 @@ class AsyncWorker:
     def deal_with_grouped_contexts(self, resource_id, contexts):
         data_source_proxy = self.data_source_manager.get_resource(resource_id)
         if data_source_proxy is None:
-            print('failed to find resource for [{}]'.format(resource_id))
+            logger.error('failed to find resource for [{}]'.format(resource_id))
             return
 
         cp = None
         try:
             cp = data_source_proxy.connection()
         except Exception as e:
-            print('failed to get connection for async committing on [{}] [{}]'.format(resource_id, e))
+            logger.error('failed to get connection for async committing on [{}] [{}]'.format(resource_id, e))
             return
         undo_log_manager = UndoLogManagerFactory.get_undo_log_manager(data_source_proxy.db_type)
         self.delete_undo_log(cp.target_connection, undo_log_manager, contexts)
@@ -72,11 +73,11 @@ class AsyncWorker:
             undo_log_manager.batch_delete_undo_log(xids, branch_ids, connection)
             connection.commit()
         except Exception as e:
-            print('failed to batch delete undo log', e)
+            logger.error('failed to batch delete undo log', e)
             try:
                 connection.rollback()
             except Exception as e:
-                print('failed to rollback resource after deleting undo log failed', e)
+                logger.error('failed to rollback resource after deleting undo log failed', e)
         finally:
             try:
                 connection.close()
