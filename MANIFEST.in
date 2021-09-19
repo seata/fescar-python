@@ -1,0 +1,3 @@
+include seata/script/client.yml
+exclude seata/test/pool_config.py
+exclude seata/test/*my_test.py

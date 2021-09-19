@@ -146,6 +146,9 @@ cython_debug/
 # vscode
 .vscode/
 
+# pyenv
+.python-version
+
 # my ignore
 seata/test/pool_config.py
 seata/test/*my_test.py

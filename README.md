@@ -38,14 +38,8 @@ seata-python是一个seata分布式事务python版本的客户端，什么是sea
 ## 项目依赖
 ```
 Python3.7
-DBUtils(PooledDB)==2.0
-antlr4-python3-runtime==4.9.2
-protobuf==3.17.3
-PyYAML==5.4.1
-loguru==0.5.3
 
 test:
-mariadb==1.0.5
 PyMySQL==1.0.2
 ```
 

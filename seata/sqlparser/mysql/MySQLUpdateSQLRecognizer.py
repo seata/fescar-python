@@ -2,8 +2,9 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+from am.mysql_base import UpdateStatement
+
 from seata.sqlparser.mysql.MySQLDmlRecognizer import MySQLUpdateRecognizer
-from seata.sqlparser.mysql.antlr4.parser.mysql_base import UpdateStatement
 from seata.sqlparser.mysql.antlr4.value import MySQLValue
 from seata.sqlparser.mysql.antlr4.visit.MySQLUpdateStatement import MySQLUpdateStatement
 

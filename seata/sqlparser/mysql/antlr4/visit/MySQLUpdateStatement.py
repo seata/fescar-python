@@ -2,7 +2,8 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-from seata.sqlparser.mysql.antlr4.parser.mysql_base import UpdateStatement, Default, Constant
+from am.mysql_base import UpdateStatement, Default, Constant
+
 from seata.sqlparser.mysql.antlr4.util.MySQLStatementUtil import MySQLStatementUtil
 from seata.sqlparser.mysql.antlr4.value import MySQLValue
 

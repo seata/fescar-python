@@ -1,0 +1,5 @@
+DBUtils==2.0
+antlr4-mysql==0.1.1
+protobuf==3.17.3
+PyYAML==5.4.1
+loguru==0.5.3
