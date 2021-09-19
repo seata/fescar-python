@@ -2,6 +2,8 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+from loguru import logger
+
 from seata.core.context.RootContext import RootContext
 from seata.exception.NotSupportYetException import NotSupportYetException
 from seata.exception.ShouldNeverHappenException import ShouldNeverHappenException
@@ -35,7 +37,7 @@ class TableMetaCache:
                 table_meta = self.fetch_schema(connection, table_name)
                 self.CACHE[cache_key] = table_meta
             except Exception as e:
-                print('get table meta error.', e)
+                logger.error('get table meta error.', e)
         if table_meta is None:
             raise ShouldNeverHappenException('xid:{}, get table meta error. check {} table whether exists.'.format(
                 RootContext.get_xid(), table_meta))
@@ -50,9 +52,9 @@ class TableMetaCache:
                     table_meta = self.fetch_schema(connection, v.table_name)
                     if table_meta != v:
                         self.CACHE[k] = table_meta
-                        print('table meta change was found. key:' + key)
+                        logger.warning('table meta change was found. key:' + key)
                 except Exception as e:
-                    print('table meta refresh error', e)
+                    logger.error('table meta refresh error', e)
 
     def get_cache_key(self, connection, table_name, resource_id):
         raise NotImplemented('need subclass implemented')
@@ -81,7 +83,7 @@ class MySQLTableMetaCache(TableMetaCache):
                 cache_key += default_table_name.lower()
             return cache_key
         except Exception as e:
-            print('fetch global variables error', e)
+            logger.error('fetch global variables error', e)
             cache_key += default_table_name
             return cache_key
 

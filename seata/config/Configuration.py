@@ -4,10 +4,13 @@
 # @since 1.0
 import os
 
+from seata.log.LogConfiguration import LogConfiguration
+
 
 class Configuration:
 
     def __init__(self, path):
+        LogConfiguration()
         os.environ['config.name'] = path
         # 1. 读取client.yml
         # 2. 从client.yml中读取config节点配置

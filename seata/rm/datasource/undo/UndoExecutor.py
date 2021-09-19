@@ -2,6 +2,8 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+from loguru import logger
+
 from seata.config.Config import ConfigFactory
 from seata.rm.datasource.ColumnUtils import ColumnUtils
 from seata.rm.datasource.DataCompareUtil import DataCompareUtil
@@ -71,18 +73,18 @@ class UndoExecutor:
 
         before_eq_after_result = DataCompareUtil.is_records_equals(before_image, after_image)
         if before_eq_after_result[0]:
-            print("stop rollback because there is no data change. before and after snapshot")
+            logger.error("stop rollback because there is no data change. before and after snapshot")
             return False
         current_image = self.query_current_records(connection)
         after_eq_current_result = DataCompareUtil.is_records_equals(after_image, current_image)
         if not after_eq_current_result[0]:
             before_eq_current_result = DataCompareUtil.is_records_equals(before_image, current_image)
             if before_eq_current_result[0]:
-                print("stop rollback because there is not data change. before and current snapshot")
+                logger.error("stop rollback because there is not data change. before and current snapshot")
                 return False
             else:
                 if after_eq_current_result[1] is not None:
-                    print(after_eq_current_result[1], after_eq_current_result[2])
+                    logger.error(after_eq_current_result[1], after_eq_current_result[2])
                 raise SQLException('Has dirty records when undo.')
         return True
 

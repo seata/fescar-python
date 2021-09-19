@@ -3,6 +3,7 @@
 # @author jsbxyyx
 # @since 1.0
 import yaml
+from loguru import logger
 
 from seata.config.Config import Config
 
@@ -14,8 +15,8 @@ class FileConfig(Config):
         with open(path, 'r') as stream:
             try:
                 yml_data = yaml.safe_load(stream)
-            except yaml.YAMLError as exc:
-                print(exc)
+            except yaml.YAMLError as ex:
+                logger.error('path : [' + path + '] parse error', ex)
                 raise ValueError('path : [' + path + '] parse error')
         self.data = yml_data
 

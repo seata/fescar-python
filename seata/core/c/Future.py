@@ -48,6 +48,6 @@ class Future:
                     else:
                         wait_time = seconds - (int(round(time.time())) - self.start / 1000)
                         if wait_time <= 0:
-                            raise TimeoutError()
+                            raise TimeoutError("timeout cost " + str(int(round(time.time())) - self.start / 1000) + "s")
         finally:
             self.lock.release()

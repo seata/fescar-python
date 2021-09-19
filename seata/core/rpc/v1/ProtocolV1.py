@@ -2,6 +2,8 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+from loguru import logger
+
 from seata.core.ByteBuffer import ByteBuffer
 from seata.core.compressor.CompressorFactory import CompressorFactory
 from seata.core.protocol.HeartbeatMessage import HeartbeatMessage
@@ -32,7 +34,7 @@ class ProtocolV1:
         magic = bytearray(len(ProtocolConstants.MAGIC_CODE_BYTES))
         bb.get(magic)
         if magic != ProtocolConstants.MAGIC_CODE_BYTES:
-            print("magic not 0xdada", magic)
+            logger.error("magic not 0xdada", magic)
             return
         # get version
         bb.get_int8()

@@ -4,6 +4,8 @@
 # @since 1.0
 import time
 
+from loguru import logger
+
 from seata.config.Config import ConfigFactory
 from seata.core.context.RootContext import RootContext
 from seata.exception.NotSupportYetException import NotSupportYetException
@@ -244,7 +246,7 @@ class DMLBaseExecutor(BaseTransactionalExecutor):
             cp.commit()
             return result
         except Exception as e:
-            print('rollback', e)
+            logger.error('rollback', e)
             cp.rollback()
         finally:
             cp.context.reset()

@@ -10,6 +10,8 @@ import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
 
+from loguru import logger
+
 from seata.core.ByteBuffer import ByteBuffer
 from seata.core.protocol.HeartbeatMessage import HeartbeatMessage
 from seata.core.protocol.ProtocolConstants import ProtocolConstants
@@ -17,8 +19,6 @@ from seata.core.protocol.RpcMessage import RpcMessage
 from seata.core.rpc.v1.ProtocolV1 import ProtocolV1
 from seata.core.util.ClassUtil import ClassUtil
 from seata.registry.Registry import RegistryFactory
-
-debug = False
 
 
 class Channel:
@@ -100,7 +100,7 @@ class ChannelManager:
                     for key, mask in events:
                         self.service_connection(key, mask)
         except KeyboardInterrupt:
-            print("caught keyboard interrupt, exiting")
+            logger.error("caught keyboard interrupt, exiting")
         finally:
             self.__sel.close()
 
@@ -117,7 +117,7 @@ class ChannelManager:
                 magic = bytearray(len(ProtocolConstants.MAGIC_CODE_BYTES))
                 t_bb.get(magic)
                 if magic != ProtocolConstants.MAGIC_CODE_BYTES:
-                    print("magic not 0xdada", magic)
+                    logger.error("magic not 0xdada", magic)
                     return
                 t_bb.get_int8()
                 full_length = t_bb.get_int32()
@@ -125,25 +125,25 @@ class ChannelManager:
                     buf = channel.get_in_data()[0:full_length]
                     channel.set_in_data(channel.get_in_data()[full_length:])
                     in_message = self.protocol.decode(ByteBuffer.wrap(bytearray(buf)))
-                    if not isinstance(in_message.body, HeartbeatMessage) or debug:
-                        print('in message : <{}> request_id : {} sock : {}'.format(
+                    if not isinstance(in_message.body, HeartbeatMessage):
+                        logger.debug('in message : <{}> request_id : {} sock : {}'.format(
                             ClassUtil.get_simple_name(in_message.body), in_message.id, sock.getpeername()))
                     self.executor.submit(self.remote_client.message_handler.process, in_message)
             else:
-                print('sock unregister...', sock.getpeername())
+                logger.info('sock unregister...', sock.getpeername())
                 self.__sel.unregister(sock)
                 sock.close()
         if mask & selectors.EVENT_WRITE:
             while not channel.out_data_is_empty():
                 out_message = channel.poll_out_data()
-                if not isinstance(out_message.body, HeartbeatMessage) or debug:
-                    print(
+                if not isinstance(out_message.body, HeartbeatMessage):
+                    logger.debug(
                         'out message : <{}> request_id : {} sock : {}'.format(
                             ClassUtil.get_simple_name(out_message.body), out_message.id, sock.getpeername()))
                 try:
                     sock.send(self.protocol.encode(out_message))
                 except ConnectionAbortedError as e:
-                    print(e)
+                    logger.error(e)
 
     def get_avail_list(self, tx_service_group):
         avail_list = RegistryFactory.get_registry().lookup(tx_service_group)
@@ -155,14 +155,14 @@ class ChannelManager:
             registry = RegistryFactory.get_registry()
             cluster_name = registry.get_service_group(tx_service_group)
             if cluster_name is None or len(cluster_name.strip()) == 0:
-                print(
+                logger.error(
                     'can not get cluster name in registry config [{}{}], please make sure registry config correct'.format(
                         'service.vgroupMapping.', tx_service_group))
                 return
 
             from seata.registry.FileRegistry import FileRegistry
             if not isinstance(registry, FileRegistry):
-                print(
+                logger.error(
                     'no available service found in cluster [{}], please make sure registry config correct and keep your seata server running'.format(
                         cluster_name))
             return
@@ -180,14 +180,13 @@ class ChannelManager:
     def do_heart(self):
         while True:
             try:
-                if debug:
-                    print('do heart channel size : [{}]'.format(len(self.channels.values())))
+                logger.debug('do heart channel size : [{}]'.format(len(self.channels.values())))
                 for idx, channel in enumerate(self.channels.values()):
                     hb = HeartbeatMessage(True)
                     rpc_message = RpcMessage.build_request_message(hb, ProtocolConstants.MSGTYPE_HEARTBEAT_REQUEST)
                     channel.write(rpc_message)
             except Exception as e:
-                print('heart error', e)
+                logger.error('heart error', e)
             finally:
                 try:
                     time.sleep(5)

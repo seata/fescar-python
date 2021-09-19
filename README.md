@@ -42,6 +42,7 @@ DBUtils(PooledDB)==2.0
 antlr4-python3-runtime==4.9.2
 protobuf==3.17.3
 PyYAML==5.4.1
+loguru==0.5.3
 
 test:
 mariadb==1.0.5
