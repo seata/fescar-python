@@ -3,8 +3,9 @@
 # @author jsbxyyx
 # @since 1.0
 
+from am.mysql_base import DeleteStatement
+
 from seata.sqlparser.mysql.MySQLWhereSQLRecognizer import MySQLWhereSQLRecognizer
-from seata.sqlparser.mysql.antlr4.parser.mysql_base import DeleteStatement
 from seata.sqlparser.mysql.antlr4.visit.MySQLDeleteStatement import MySQLDeleteStatement
 
 

@@ -2,8 +2,8 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+from am.mysql_base import MySqlBase, MysqlStatementVisitor, MysqlOutputVisitor
 
-from seata.sqlparser.mysql.antlr4.parser.mysql_base import MySqlBase, MysqlStatementVisitor, MysqlOutputVisitor
 from seata.sqlparser.mysql.antlr4.visit.MySQLDeleteStatement import MySQLDeleteStatement
 from seata.sqlparser.mysql.antlr4.visit.MySQLInsertStatement import MySQLInsertStatement
 from seata.sqlparser.mysql.antlr4.visit.MySQLUpdateStatement import MySQLUpdateStatement

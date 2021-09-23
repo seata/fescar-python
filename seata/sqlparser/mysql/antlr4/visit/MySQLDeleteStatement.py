@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-from seata.sqlparser.mysql.antlr4.parser.mysql_base import DeleteStatement
+from am.mysql_base import DeleteStatement
 
 
 class MySQLDeleteStatement:

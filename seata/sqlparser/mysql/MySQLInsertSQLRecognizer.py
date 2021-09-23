@@ -2,9 +2,10 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+from am.mysql_base import InsertStatement
+
 from seata.sqlparser.SQLParsingException import SQLParsingException
 from seata.sqlparser.mysql.MySQLDmlRecognizer import MySQLInsertRecognizer
-from seata.sqlparser.mysql.antlr4.parser.mysql_base import InsertStatement
 from seata.sqlparser.mysql.antlr4.value import MySQLValue
 from seata.sqlparser.mysql.antlr4.value.MySQLValue import NotPlaceholderValue
 from seata.sqlparser.mysql.antlr4.visit.MySQLInsertStatement import MySQLInsertStatement

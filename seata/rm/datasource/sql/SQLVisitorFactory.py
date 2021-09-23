@@ -10,7 +10,7 @@ from seata.sqlparser.mysql.MySQLInsertSQLRecognizer import MySQLInsertRecognizer
 from seata.sqlparser.mysql.MySQLSelectSQLRecognizer import MySQLSelectSQLRecognizer
 from seata.sqlparser.mysql.MySQLUpdateSQLRecognizer import MySQLUpdateSQLRecognizer
 
-from seata.sqlparser.mysql.antlr4.parser.mysql_base import MySqlBase, MysqlStatementVisitor, InsertStatement, \
+from am.mysql_base import MySqlBase, MysqlStatementVisitor, InsertStatement, \
     DeleteStatement, UpdateStatement, SelectStatement
 from seata.sqlparser.util.JdbcConstants import JdbcConstants
 

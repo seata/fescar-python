@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
-from seata.sqlparser.mysql.antlr4.parser.mysql_base import BitString, RealLiteral, DecimalLiteral, BooleanLiteral, \
+from am.mysql_base import BitString, RealLiteral, DecimalLiteral, BooleanLiteral, \
     ParameterMarker, StringLiteral, HexadecimalLiteral, NullLiteral
 from seata.sqlparser.mysql.antlr4.value import MySQLValue
 

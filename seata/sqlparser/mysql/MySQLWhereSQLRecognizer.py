@@ -2,8 +2,9 @@
 # -*- coding:utf-8 -*-
 # @author jsbxyyx
 # @since 1.0
+from am.mysql_base import MysqlOutputVisitor
+
 from seata.sqlparser.SQLRecognizer import SQLRecognizer
-from seata.sqlparser.mysql.antlr4.parser.mysql_base import MysqlOutputVisitor
 from seata.sqlparser.mysql.antlr4.util.ParamMysqlOutputVisitor import ParamMysqlOutputVisitor
 
 
