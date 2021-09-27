@@ -1,0 +1,43 @@
+application-id: applicationName
+tx-service-group: my_test_tx_group
+config:
+  type: file # file, nacos
+  nacos:
+    namespace: ""
+    server-addr: 127.0.0.1:8848
+    group: SEATA_GROUP
+    username: ""
+    password: ""
+    data-id: seata.properties
+registry:
+  type: file # file, nacos
+  nacos:
+    application: seata-server
+    server-addr: 127.0.0.1:8848
+    group: "SEATA_GROUP"
+    namespace: ""
+    username: ""
+    password: ""
+# file mode
+client:
+  rm:
+    report-retry-count: 5
+    table-meta-check-enable: false
+    report-success-enable: false
+    lock:
+      retry-interval: 0.01 # seconds
+      retry-times: 30
+      retry-policy-branch-rollback-on-conflict: true
+  tm:
+    commit-retry-count: 5
+    rollback-retry-count: 5
+    default-global-transaction-timeout: 60000
+  undo:
+    data-validation: true
+    log-table: undo_log
+    only-care-update-columns: true
+service:
+  vgroupMapping:
+    my_test_tx_group: default
+  grouplist:
+    default: "127.0.0.1:8091"
