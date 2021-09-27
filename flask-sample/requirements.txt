@@ -1,0 +1,4 @@
+PyYAML==5.4.1
+flask==2.0.1
+requests==2.26.0
+seata-python==0.1
