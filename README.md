@@ -1,50 +1,46 @@
-# seata-python
 
-seata-python是一个seata分布式事务python版本的客户端，什么是seata访问https://seata.io
+# Seata-python: Simple Extensible Autonomous Transaction Architecture(python version)
 
-## 项目介绍
-本人不是python开发者，主要是为了学习一下python才写的这个项目，目前项目基本完成，主要是完成seata AT模式
-项目里面有很多实现不合理的地方，欢迎各位大佬前来修改。谢谢！
+[![Build Status](https://github.com/seata/seata/workflows/build/badge.svg?branch=develop)](https://github.com/seata/seata/actions)
+[![license](https://img.shields.io/github/license/seata/seata.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
-## 项目完成度
-1. seata-server 网络协议模块
-  - [x] TCP协议
-  - [ ] socket优化
-2. 封装Connection, Cursor处理前后置镜像
-  - [x] insert
-  - [x] delete
-  - [x] update
-3. 解析 sql 模块
-  - [x] insert
-  - [x] delete
-  - [x] update
-  - [x] select for update
-4. undo 回滚模块
-  - [x] insert
-  - [x] delete
-  - [x] update
-5. 优化代码结构
-  - [ ] TMClient 结构
-  - [ ] RMClient 结构
-  - [ ] 项目整体结构
-6. 配置集成
-  - [x] file
-  - [ ] nacos
-7. 其他
-  - [ ] 其他数据库
-  - [ ] GRPC 协议
-  - [ ] 等等
+[中文 🇨🇳](./README_CN.md)
 
-## 项目依赖
-```
-Python3.7
+## What is seata-python?
 
-test:
-PyMySQL==1.0.2
-```
+Seata is a very mature distributed transaction framework, and is the de facto standard platform for distributed transaction technology in the Java field. Seata-python is the implementation version of python language in Seata multilingual ecosystem, which realizes the interoperability between Java and python, so that python developers can also use seata-python to realize distributed transactions. Please visit the [official website of Seata](https://seata.io/en-us) to view the quick start and documentation.
 
-## pip源配置
-```
-https://pypi.org/simple 默认
-https://pypi.tuna.tsinghua.edu.cn/simple/
-```
+The principle of seata-python is consistent with that of Seata-java, which is composed of TM, RM and TC. The functions of TC reuse Java, and the functions of TM and RM will be aligned with Seata-java later. The overall process is as follows:
+
+![](https://user-images.githubusercontent.com/68344696/145942191-7a2d469f-94c8-4cd2-8c7e-46ad75683636.png)
+
+## TODO list
+
+- [ ] TCC
+- [ ] XA
+- [x] AT
+- [ ] SAGA
+- [ ] TM
+- [x] RPC communication
+- [ ] Transaction anti suspension
+- [ ] Null compensation
+- [ ] Configuration center
+- [ ] Registration Center
+- [ ] Metric monitoring
+- [x] Examples
+
+
+## How to run？
+
+1. First download [**seata java**](https://github.com/seata/seata/tree/v1.5.2) and  Start the TC service. For the specific process, refer to  [**seata deployment guide**](https://seata.io/zh-cn/docs/ops/deploy-guide-beginner.ht ) Documentation
+2. Just execute the main function under samples/ in the root directory
+
+
+## How to join us？
+
+Seata-python is currently in the construction stage. Welcome colleagues in the industry to join the group and work with us to promote the construction of seata-python! If you want to contribute code to seata-python, you can refer to the  [**code contribution Specification**](./CONTRIBUTING.md)  document to understand the specifications of the community, or you can join our community DingTalk group: 44788121 and communicate together!
+
+
+## Licence
+
+Seata-python uses Apache license version 2.0. Please refer to the license file for more information.
