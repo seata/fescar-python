@@ -8,7 +8,7 @@
 
 ## 什么是 seata-python？
 
-Seata是一个非常成熟的分布式事务框架，在Java领域是事实上的分布式事务技术标准平台。Seata-python 是 seata 多语言生态中的Go语言实现版本，实现了 Java 和 Python 之间的互通，让 Go 开发者也能使用 seata-python 来实现分布式事务。请访问[Seata 官网](https://seata.io/zh-cn/)查看快速开始和文档。
+Seata是一个非常成熟的分布式事务框架，在Java领域是事实上的分布式事务技术标准平台。Seata-python 是 seata 多语言生态中的Go语言实现版本，实现了 Java 和 Python 之间的互通，让 Python 开发者也能使用 seata-python 来实现分布式事务。请访问[Seata 官网](https://seata.io/zh-cn/)查看快速开始和文档。
 
 Seata-python 的原理和 Seata-java 保持一致，都是由 TM、RM 和 TC 组成，其中 TC 的功能复用 Java 的，TM和RM功能后面会和 Seata-java对齐，整体流程如下：
 
